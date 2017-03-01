@@ -11,5 +11,5 @@ class GUI_Item(pygame.sprite.Sprite):
         self.rect.y = y
 
 
-++health_bar = GUI_Item(Animation.health_bar_anim, 0, 0)
+health_bar = GUI_Item(Animation.health_bar_anim, 0, 0)
 mana_bar = GUI_Item(Animation.mana_bar_anim, 65 * 2, 0)53+1541564965
