@@ -12,7 +12,7 @@ class Player(pygame.sprite.Sprite):
 
         self.current_health = 10
         self.speed = 5.0
-        self.random_value = 2.0
+
         self.idle_right_animation = Animation.player_idle_right
         self.idle_left_animation = Animation.player_idle_left
         self.walking_right_animation = Animation.player_walking_right
