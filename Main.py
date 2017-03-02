@@ -24,7 +24,7 @@ color_sky = 30, 144, 255
 size = width, height = 1280, 720
 # Create screen
 screen = pygame.display.set_mode(size)
-background = pygame.image.load("Resources/Single photos/forest_background.png")
+background = pygame.image.load("Resources/SinglePhotos/ForestBackground.png")
 # Add sprites to corresponding sprite group-----------------------------
 enemy_sprites = pygame.sprite.Group(squid, dragon_hatchling)
 
@@ -38,19 +38,17 @@ all_sprites = pygame.sprite.Group(enemy_sprites, player_sprite, platform_objects
 #------------------------------------------------------------------------
 # Background music
 backsound_sound = pygame.mixer.music
-backsound_sound.load("Resources/Audio/ambientSounds.mp3")
+backsound_sound.load("Resources/Audio/Ambient.mp3")
 
 clock = pygame.time.Clock()
 
 screen_rect = screen.get_rect()
 
-tmx_file = "Resources/test.tmx"
+tmx_file = "Resources/Test.tmx"
 tile_renderer = tilerender.Renderer(tmx_file)
 
 map_surface = tile_renderer.make_map()
 map_rect = map_surface.get_rect()
-background = pygame.image.load("Resources/Single photos/background.png")
-
 
 done = False
 while not done:
