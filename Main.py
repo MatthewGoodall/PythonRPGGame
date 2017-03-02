@@ -29,7 +29,9 @@ background = pygame.image.load("Resources/SinglePhotos/ForestBackground.png")
 # Add sprites to corresponding sprite group-----------------------------
 enemy_sprites = pygame.sprite.Group(squid,
                                     dragon_hatchling)
+
 player_sprite = pygame.sprite.GroupSingle(player)
+
 platform_objects = pygame.sprite.Group(platform1,
                                        platform2,
                                        platform3,
@@ -37,8 +39,10 @@ platform_objects = pygame.sprite.Group(platform1,
                                        ground)
 gui_sprites = pygame.sprite.Group(health_bar,
                                   mana_bar)
+
 collidables = pygame.sprite.Group(enemy_sprites,
                                   platform_objects)
+
 game_objects = pygame.sprite.Group(enemy_sprites,
                                    player_sprite,
                                    platform_objects)
