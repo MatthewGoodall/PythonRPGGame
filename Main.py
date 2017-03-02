@@ -68,6 +68,9 @@ while not done:
     # Check for player attacking
     if keys[pygame.K_SPACE]:
         player.Jump()
+    if keys[pygame.K_i]:
+        for item in player.items:
+            print(item)
 
     # Checks if living things are alive if not then kill them
     for being in game_objects:

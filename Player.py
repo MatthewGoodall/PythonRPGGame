@@ -36,6 +36,7 @@ class Player(pygame.sprite.Sprite):
         self.world_shift = 0
         self.level_limit = -1000
         self.attack_damage = 5
+        self.items = []
 
     def TakeDamage(self, damage):
         # Take Damage
@@ -51,6 +52,8 @@ class Player(pygame.sprite.Sprite):
         for enemy in enemy_list:
             if f.collidepoint(enemy.rect.x, enemy.rect.y):
                 enemy.TakeDamage(self.attack_damage)
+            if not enemy.alive:
+                self.items.append(enemy.typeOfReward)
 
     def UpdateAnimation(self, time):
         if self.current_animation.needsUpdate(time):
