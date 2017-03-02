@@ -8,7 +8,7 @@ from CollisionObject import *
 from GUI import *
 from Camera import *
 import pytmx
-import tilerender
+import TileRender
 import math
 
 pygame.init()
@@ -44,8 +44,8 @@ clock = pygame.time.Clock()
 
 screen_rect = screen.get_rect()
 
-tmx_file = "Resources/Test.tmx"
-tile_renderer = tilerender.Renderer(tmx_file)
+tmx_file = "Resources/TileMaps/Test.tmx"
+tile_renderer = TileRender.Renderer(tmx_file)
 
 map_surface = tile_renderer.make_map()
 map_rect = map_surface.get_rect()
