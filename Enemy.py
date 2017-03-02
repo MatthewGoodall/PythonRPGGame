@@ -1,5 +1,3 @@
-import pygame
-import Animation
 from Player import *
 
 
