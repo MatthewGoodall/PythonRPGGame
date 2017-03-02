@@ -5,7 +5,9 @@ class Camera(pygame.sprite.Sprite):
         self.camera_func = camera_func
         self.rect = pygame.Rect(0, 0, width, height)
 
-    def Apply(self, target):
+    def Apply(self, target, passed_type="normal"):
+        if passed_type == "rect":
+            return target.move(self.rect.topleft)
         return target.rect.move(self.rect.topleft)
 
     def Update(self, target):

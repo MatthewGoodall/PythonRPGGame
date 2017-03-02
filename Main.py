@@ -80,6 +80,7 @@ while not done:
     for enemy in enemy_sprites:
         if enemy.alive:
             enemy.updateAnimation(pygame.time.get_ticks())
+            if not abs(player.rect.centerx - enemy.rect.centerx) < 300.0:
                 enemy.walkPath()
             else:
                 enemy.chasePlayer(player_sprite)
@@ -87,6 +88,7 @@ while not done:
     # Clear the screen
     screen.fill(color_sky)
     camera.Update(player)
+    screen.blit(map_surface, camera.Apply(map_rect, "rect"))
     # Draw sprites
     for sprite in game_objects:
         screen.blit(sprite.image, camera.Apply(sprite))
