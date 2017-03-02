@@ -35,7 +35,7 @@ collidables = pygame.sprite.Group(enemy_sprites, platform_objects)
 game_objects = pygame.sprite.Group(enemy_sprites, player_sprite, platform_objects)
 # Every single sprite
 all_sprites = pygame.sprite.Group(enemy_sprites, player_sprite, platform_objects, gui_sprites)
-#------------------------------------------------------------------------
+# ------------------------------------------------------------------------
 # Background music
 backsound_sound = pygame.mixer.music
 backsound_sound.load("Resources/Audio/Ambient.mp3")
@@ -49,6 +49,8 @@ tile_renderer = TileRender.Renderer(tmx_file)
 
 map_surface = tile_renderer.make_map()
 map_rect = map_surface.get_rect()
+
+items = []
 
 done = False
 while not done:
@@ -68,11 +70,16 @@ while not done:
     # Check for player attacking
     if keys[pygame.K_SPACE]:
         player.Jump()
+    if keys[pygame.K_i]:
+        for item in items:
+            print(items[items])
 
     # Checks if living things are alive if not then kill them
     for being in game_objects:
         if not being.alive:
             game_objects.remove(being)
+            items.append(enemy.typeOfReward)
+
 
     # Update player location and animation------------------
     player.Update(pygame.time.get_ticks(), collidables)
