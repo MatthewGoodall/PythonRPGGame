@@ -25,16 +25,29 @@ size = width, height = 1280, 720
 # Create screen
 screen = pygame.display.set_mode(size)
 background = pygame.image.load("Resources/SinglePhotos/ForestBackground.png")
-# Add sprites to corresponding sprite group-----------------------------
-enemy_sprites = pygame.sprite.Group(squid, dragon_hatchling)
 
+# Add sprites to corresponding sprite group-----------------------------
+enemy_sprites = pygame.sprite.Group(squid,
+                                    dragon_hatchling)
 player_sprite = pygame.sprite.GroupSingle(player)
-platform_objects = pygame.sprite.Group(platform1, platform2, platform3, platform4, ground)
-gui_sprites = pygame.sprite.Group(health_bar, mana_bar)
-collidables = pygame.sprite.Group(enemy_sprites, platform_objects)
-game_objects = pygame.sprite.Group(enemy_sprites, player_sprite, platform_objects)
+platform_objects = pygame.sprite.Group(platform1,
+                                       platform2,
+                                       platform3,
+                                       platform4,
+                                       ground)
+gui_sprites = pygame.sprite.Group(health_bar,
+                                  mana_bar)
+collidables = pygame.sprite.Group(enemy_sprites,
+                                  platform_objects)
+game_objects = pygame.sprite.Group(enemy_sprites,
+                                   player_sprite,
+                                   platform_objects)
 # Every single sprite
-all_sprites = pygame.sprite.Group(enemy_sprites, player_sprite, platform_objects, gui_sprites)
+all_sprites = pygame.sprite.Group(enemy_sprites,
+                                  player_sprite,
+                                  platform_objects,
+                                  gui_sprites)
+
 #------------------------------------------------------------------------
 # Background music
 backsound_sound = pygame.mixer.music
@@ -76,6 +89,7 @@ while not done:
     for being in game_objects:
         if not being.alive:
             game_objects.remove(being)
+            collidables.remove(being)
 
     # Update player location and animation------------------
     player.Update(pygame.time.get_ticks(), collidables)
