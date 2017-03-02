@@ -4,12 +4,14 @@ from Player import *
 
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, health, damage, numberOfLoot, typeOfReward, spawnPos_X, spawnPos_Y, spawn_animation, walkLoop_start, walkLoop_end):
+    def __init__(self, health, damage, numberOfLoot, typeOfReward, spawnPos_X, spawnPos_Y, spawn_animation,
+                 walkLoop_start, walkLoop_end):
         super().__init__()
         self.damage = damage
         self.health = health
         self.damage = 1
         self.spawning = True
+        self.alive = True
         self.numberOfLoot = numberOfLoot
         self.typeOfReward = typeOfReward
         self.spawn_animation = spawn_animation
@@ -32,6 +34,7 @@ class Enemy(pygame.sprite.Sprite):
         if self.health <= 0:
             self.health = 0
             self.alive = False
+
     def updateAnimation(self, time):
         if self.current_animation.type == "spawning":
             if self.current_animation.current_frame == self.current_animation.number_of_frames - 1:
@@ -75,7 +78,6 @@ class Enemy(pygame.sprite.Sprite):
                 elif move_y < 0:
                     self.rect.top = collision_object.rect.bottom
 
-
     def walkPath(self, speed=1):
         if not self.spawning:
             move_x, move_y = 0, 0
@@ -90,10 +92,10 @@ class Enemy(pygame.sprite.Sprite):
                     self.donePath = False
             print(move_y)
             self.rect.y += move_y
-            
 
-#health, damage, numberOfLoot, typeOfReward, spawnPos_X, spawnPos_Y, spawn_animation, walkLoop_start, walkLoop_end
+
+# health, damage, numberOfLoot, typeOfReward, spawnPos_X, spawnPos_Y, spawn_animation, walkLoop_start, walkLoop_end
 squid = Enemy(10, 5, 1, "Sword", 100, 650, Animation.squid_spawning, 0, 650)
-dragon_hatchling = Enemy(10, 1, 1, "Gold", 150, 650, Animation.dragon_spawning, 0, 650) 
+dragon_hatchling = Enemy(10, 1, 1, "Gold", 150, 650, Animation.dragon_spawning, 0, 650)
 squid.idle_animation = Animation.squid_idle
 dragon_hatchling.idle_animation = Animation.dragon_idle
