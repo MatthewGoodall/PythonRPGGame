@@ -1,6 +1,7 @@
 import pygame
 import pytmx
 from pytmx.util_pygame import load_pygame
+from CollisionObject import*
 from Player import *
 
 
@@ -29,11 +30,11 @@ class Renderer(object):
                         surface.blit(tile, (x * tw, y * th))
 
             if isinstance(layer, pytmx.TiledObjectGroup):
-                if layer.name == "hit block":
+                if layer.name == "objects":
+                    print("yes")
                     for obj in layer:
-                        if pygame.Rect(obj.x, obj.y, obj.width, obj.height).colliderect(player.rect):
-                            player.rect.x = player.rect.x
-                            player.rect.y = player.rect.y
+                        collision_object = CollisionObject(obj.x, obj.y, obj.width, obj.height)
+                        self.walls.append(collision_object)
 
             elif isinstance(layer, pytmx.TiledImageLayer):
                 image = gt(layer.gid)

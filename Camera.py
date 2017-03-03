@@ -17,9 +17,9 @@ class Camera(pygame.sprite.Sprite):
 
 def complex_camera(camera, target_rect):
     width_of_screen = 1280
-    half_width_of_screen = 1280 / 2
+    half_width_of_screen = width_of_screen / 2
     height_of_screen = 720
-    half_height_of_screen = 720 / 2
+    half_height_of_screen = height_of_screen / 2
 
     l, t, _, _ = target_rect
     _, _, w, h = camera
@@ -32,4 +32,4 @@ def complex_camera(camera, target_rect):
     return pygame.Rect(l, t, w, h)
 
 
-camera = Camera(complex_camera, 3000, 1000)
+camera = Camera(complex_camera, 3000, 32*35)

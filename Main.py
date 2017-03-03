@@ -29,7 +29,7 @@ background = pygame.image.load("Resources/SinglePhotos/ForestBackground.png")
 # Add sprites to corresponding list-----------------------------
 enemy_sprites = [Enemy.squid, Enemy.dragon_hatchling]
 player_sprite = [player]
-platform_sprites = [CollisionObject.ground]
+platform_sprites = []
 
 gui_sprites = [GUI.health_bar,
                GUI.mana_bar]
@@ -85,7 +85,7 @@ while not done:
                 enemy_sprites.remove(being)
 
     # Update player location and animation------------------
-    player.Update(pygame.time.get_ticks(), collision_sprites)
+    player.Update(pygame.time.get_ticks(), tile_renderer.walls)
 
     for enemy in enemy_sprites:
         if enemy.alive:
@@ -108,6 +108,7 @@ while not done:
     # Update the display
     pygame.display.toggle_fullscreen()
     pygame.display.flip()
+    print(str(player.rect.y))
     clock.tick(60)
 
 # Now exit the program
