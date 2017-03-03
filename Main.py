@@ -29,11 +29,7 @@ background = pygame.image.load("Resources/SinglePhotos/ForestBackground.png")
 # Add sprites to corresponding list-----------------------------
 enemy_sprites = [Enemy.squid, Enemy.dragon_hatchling]
 player_sprite = [player]
-platform_sprites = [CollisionObject.platform1,
-                    CollisionObject.platform2,
-                    CollisionObject.platform3,
-                    CollisionObject.platform4,
-                    CollisionObject.ground]
+platform_sprites = [CollisionObject.ground]
 
 gui_sprites = [GUI.health_bar,
                GUI.mana_bar]
