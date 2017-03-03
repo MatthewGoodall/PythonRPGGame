@@ -1,12 +1,12 @@
 import sys, pygame
 import time  # i'm almost out of thyme (Gul'dan)
-from Enemy import *  # has been slain
+import Enemy  # has been slain
 from Player import *
-from Animation import *
-from Item import *
-from CollisionObject import *
-from GUI import *
 from Camera import *
+import Animation
+import Item
+import CollisionObject
+import GUI
 import pytmx
 import TileRender
 import math
@@ -26,32 +26,23 @@ size = width, height = 1280, 720
 screen = pygame.display.set_mode(size)
 background = pygame.image.load("Resources/SinglePhotos/ForestBackground.png")
 
-# Add sprites to corresponding sprite group-----------------------------
-enemy_sprites = pygame.sprite.Group(squid,
-                                    dragon_hatchling)
+# Add sprites to corresponding list-----------------------------
+enemy_sprites = [Enemy.squid, Enemy.dragon_hatchling]
+player_sprite = [player]
+platform_sprites = [CollisionObject.platform1,
+                    CollisionObject.platform2,
+                    CollisionObject.platform3,
+                    CollisionObject.platform4,
+                    CollisionObject.ground]
 
-player_sprite = pygame.sprite.GroupSingle(player)
+gui_sprites = [GUI.health_bar,
+               GUI.mana_bar]
 
-platform_objects = pygame.sprite.Group(platform1,
-                                       platform2,
-                                       platform3,
-                                       platform4,
-                                       ground)
-gui_sprites = pygame.sprite.Group(health_bar,
-                                  mana_bar)
+collision_sprites = enemy_sprites + platform_sprites
 
-collidables = pygame.sprite.Group(enemy_sprites,
-                                  platform_objects)
-
-game_objects = pygame.sprite.Group(enemy_sprites,
-                                   player_sprite,
-                                   platform_objects)
+game_sprites = enemy_sprites + player_sprite + platform_sprites
 # Every single sprite
-all_sprites = pygame.sprite.Group(enemy_sprites,
-                                  player_sprite,
-                                  platform_objects,
-                                  gui_sprites)
-
+all_sprites = enemy_sprites + platform_sprites + gui_sprites + player_sprite
 #------------------------------------------------------------------------
 # Background music
 backsound_sound = pygame.mixer.music
@@ -75,7 +66,6 @@ while not done:
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_e:
                 player.Attack(screen, enemy_sprites)
-                print(str(squid.health))
 
     # Update player movement--------------------------------
     keys = pygame.key.get_pressed()
@@ -90,13 +80,13 @@ while not done:
             print(item)
 
     # Checks if living things are alive if not then kill them
-    for being in game_objects:
+    for being in game_sprites:
         if not being.alive:
-            game_objects.remove(being)
-            collidables.remove(being)
+            game_sprites.remove(being)
+            collision_sprites.remove(being)
 
     # Update player location and animation------------------
-    player.Update(pygame.time.get_ticks(), collidables)
+    player.Update(pygame.time.get_ticks(), collision_sprites)
 
     for enemy in enemy_sprites:
         if enemy.alive:
@@ -111,7 +101,7 @@ while not done:
     camera.Update(player)
     screen.blit(map_surface, camera.Apply(map_rect, "rect"))
     # Draw sprites
-    for sprite in game_objects:
+    for sprite in game_sprites:
         screen.blit(sprite.image, camera.Apply(sprite))
     for sprite in gui_sprites:
         screen.blit(sprite.image, (sprite.rect.x, sprite.rect.y))
