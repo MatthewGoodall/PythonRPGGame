@@ -66,24 +66,27 @@ while not done:
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_e:
                 player.Attack(screen, enemy_sprites)
+            elif event.key == pygame.K_i:
+                for item in player.items:
+                    print(item)
+                print("------")
 
     # Update player movement--------------------------------
     keys = pygame.key.get_pressed()
     player.moving_right = keys[pygame.K_d]
     player.moving_left = keys[pygame.K_a]
-
-    # Check for player attacking
     if keys[pygame.K_SPACE]:
         player.Jump()
-    if keys[pygame.K_i]:
-        for item in player.items:
-            print(item)
-
+        
     # Checks if living things are alive if not then kill them
     for being in game_sprites:
         if not being.alive:
             game_sprites.remove(being)
-            collision_sprites.remove(being)
+            if isinstance(being, Player):
+                player_sprite.remove(being)
+            else:
+                collision_sprites.remove(being)
+                enemy_sprites.remove(being)
 
     # Update player location and animation------------------
     player.Update(pygame.time.get_ticks(), collision_sprites)

@@ -62,8 +62,6 @@ class Enemy(pygame.sprite.Sprite):
             for collision_object in collision_list:
                 if move_x > 0:
                     self.rect.right = collision_object.rect.left
-                    squid.doDamage()
-                    print(player.current_health)
 
                 elif move_x < 0:
                     self.rect.left = collision_object.rect.right
@@ -88,7 +86,6 @@ class Enemy(pygame.sprite.Sprite):
                 move_y += speed
                 if self.rect.y >= self.walkLoop_end:
                     self.donePath = False
-            print(move_y)
             self.rect.y += move_y
 
 
