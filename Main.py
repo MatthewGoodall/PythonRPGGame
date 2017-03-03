@@ -77,7 +77,7 @@ while not done:
     player.moving_left = keys[pygame.K_a]
     if keys[pygame.K_SPACE]:
         player.Jump()
-        
+
     # Checks if living things are alive if not then kill them
     for being in game_sprites:
         if not being.alive:

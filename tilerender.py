@@ -1,6 +1,8 @@
-import pygame 
+import pygame
 import pytmx
 from pytmx.util_pygame import load_pygame
+from Player import *
+
 
 class Renderer(object):
     """
@@ -8,9 +10,10 @@ class Renderer(object):
     """
 
     def __init__(self, filename):
-        tm = load_pygame(filename, pixelalpha=True)
+        tm = load_pygame(filename)
         self.size = tm.width * tm.tilewidth, tm.height * tm.tileheight
         self.tmx_data = tm
+        self.walls = list()
 
     def render(self, surface):
 
@@ -25,8 +28,12 @@ class Renderer(object):
                     if tile:
                         surface.blit(tile, (x * tw, y * th))
 
-            elif isinstance(layer, pytmx.TiledObjectGroup):
-                pass
+            if isinstance(layer, pytmx.TiledObjectGroup):
+                if layer.name == "hit block":
+                    for obj in layer:
+                        if pygame.Rect(obj.x, obj.y, obj.width, obj.height).colliderect(player.rect):
+                            player.rect.x = player.rect.x
+                            player.rect.y = player.rect.y
 
             elif isinstance(layer, pytmx.TiledImageLayer):
                 image = gt(layer.gid)
