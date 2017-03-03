@@ -32,4 +32,4 @@ def complex_camera(camera, target_rect):
     return pygame.Rect(l, t, w, h)
 
 
-camera = Camera(complex_camera, 3000, 32*35)
+camera = Camera(complex_camera, 32*64, 32*32)
