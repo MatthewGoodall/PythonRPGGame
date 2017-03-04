@@ -11,6 +11,7 @@ import pytmx
 import TileRender
 import math
 
+
 pygame.init()
 pygame.mixer.init()
 
@@ -39,7 +40,7 @@ collision_sprites = enemy_sprites + platform_sprites
 game_sprites = enemy_sprites + player_sprite + platform_sprites
 # Every single sprite
 all_sprites = enemy_sprites + platform_sprites + gui_sprites + player_sprite
-#------------------------------------------------------------------------
+# ------------------------------------------------------------------------
 # Background music
 backsound_sound = pygame.mixer.music
 backsound_sound.load("Resources/Audio/Ambient.mp3")
