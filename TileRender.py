@@ -1,7 +1,7 @@
-import pygame
 import pytmx
 from pytmx.util_pygame import load_pygame
-from CollisionObject import*
+
+from CollisionObject import *
 from Player import *
 
 
@@ -11,7 +11,7 @@ class Renderer(object):
     """
 
     def __init__(self, filename):
-        tm = load_pygame(filename)
+        tm = load_pygame(filename, pixelAlpha=True)
         self.size = tm.width * tm.tilewidth, tm.height * tm.tileheight
         self.tmx_data = tm
         self.walls = list()
@@ -21,6 +21,9 @@ class Renderer(object):
         tw = self.tmx_data.tilewidth
         th = self.tmx_data.tileheight
         gt = self.tmx_data.get_tile_image_by_gid
+
+        if self.tmx_data.background_color:
+            surface.fill(pygame.Color(self.tmx_data.background_color))
 
         for layer in self.tmx_data.visible_layers:
             if isinstance(layer, pytmx.TiledTileLayer):
