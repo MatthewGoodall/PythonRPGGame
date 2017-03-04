@@ -21,15 +21,3 @@ class HealingPotion(Potion):
 #Create Items
 sword = Weapon("Excaliber", 5, 7)
 health = HealingPotion("Health Potion", 5, 10)
-    
-"""
-class Item():
-
-def __init__(self):
-
-def Weapon(self, damage, worth, name, weaponType):
-
-def Potion(self, worth, potionType, description, name, doesDamage = false):
-
-def Misc(self):
-"""

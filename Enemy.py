@@ -40,7 +40,6 @@ class Enemy(pygame.sprite.Sprite):
                 self.current_animation = self.idle_animation
                 self.spawning = False
 
-        print(str(self.current_animation))
         if self.current_animation.needsUpdate(time):
             self.image = self.current_animation.update()
 
