@@ -81,7 +81,7 @@ class Player(pygame.sprite.Sprite):
         elif move_x < 0.0:
             self.ChangeCurrentAnimation(self.walking_left_animation)
             self.last_direction = "left"
-        elif (move_x == 0.0):
+        elif move_x == 0.0:
             if self.last_direction == "right":
                 self.ChangeCurrentAnimation(self.idle_right_animation)
             elif self.last_direction == "left":

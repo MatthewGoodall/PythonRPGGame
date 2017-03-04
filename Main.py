@@ -27,7 +27,7 @@ screen = pygame.display.set_mode(size)
 background = pygame.image.load("Resources/SinglePhotos/ForestBackground.png")
 
 # Add sprites to corresponding list-----------------------------
-enemy_sprites = [Enemy.squid, Enemy.dragon_hatchling]
+enemy_sprites = [Enemy.squid, Enemy.dragon_hatchling, Enemy.henery]
 player_sprite = [player]
 platform_sprites = []
 
