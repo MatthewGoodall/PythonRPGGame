@@ -1,5 +1,5 @@
 from Player import *
-
+import Animation
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, health, damage, numberOfLoot, typeOfReward, spawnPos_X, spawnPos_Y, spawn_animation,
@@ -40,6 +40,7 @@ class Enemy(pygame.sprite.Sprite):
                 self.current_animation = self.idle_animation
                 self.spawning = False
 
+        print(str(self.current_animation))
         if self.current_animation.needsUpdate(time):
             self.image = self.current_animation.update()
 
@@ -95,4 +96,4 @@ dragon_hatchling = Enemy(10, 1, 1, "Gold", 150, 650, Animation.dragon_spawning, 
 henery = Enemy(10, 5, 1, "Gold", 150, 650, Animation.hen_spawning, 0, 650)
 squid.idle_animation = Animation.squid_idle
 dragon_hatchling.idle_animation = Animation.dragon_idle
-hen_idle_animation = Animation.hen_idle
+henery.idle_animation = Animation.hen_idle

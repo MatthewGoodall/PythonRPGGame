@@ -58,9 +58,9 @@ dragon_idle = Animation("Resources/Spritesheets/DragonLeft.png", 20, 20, 1, 8)
 dragon_spawning = Animation("Resources/Spritesheets/DragonLeft.png", 20, 20, 1, 8)
 dragon_spawning.type = "spawning"
 
+hen_idle = Animation("Resources/Spritesheets/Henrey.png", 18, 18, 1, 1)
 hen_spawning = Animation("Resources/Spritesheets/Henrey.png", 18, 18, 1, 1)
 hen_spawning.type = "spawning"
-hen_idle = Animation("Resources/Spritesheets/Henrey.png", 18, 18, 1, 1)
 
 health_bar_anim = Animation("Resources/Spritesheets/HealthBar.png", 66, 66, 2, 3)
 mana_bar_anim = Animation("Resources/Spritesheets/ManaBar.png", 66, 66, 1, 3)

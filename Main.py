@@ -108,7 +108,6 @@ while not done:
     # Update the display
     pygame.display.toggle_fullscreen()
     pygame.display.flip()
-    print(str(player.rect.y))
     clock.tick(120)
 
 # Now exit the program
