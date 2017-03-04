@@ -1,6 +1,5 @@
 import pygame
 import pytmx
-from pytmx.util_pygame import load_pygame
 from CollisionObject import*
 from Player import *
 
@@ -11,7 +10,7 @@ class Renderer(object):
     """
 
     def __init__(self, filename):
-        tm = load_pygame(filename)
+        tm = pytmx.util_pygame.load_pygame(filename, pixel_alpha=True)
         self.size = tm.width * tm.tilewidth, tm.height * tm.tileheight
         self.tmx_data = tm
         self.walls = list()

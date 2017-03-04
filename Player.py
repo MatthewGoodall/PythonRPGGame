@@ -11,7 +11,7 @@ class Player(pygame.sprite.Sprite):
         super().__init__()
 
         self.current_health = 10
-        self.speed = 5.0
+        self.attack_damage = 5
 
         self.idle_right_animation = Animation.player_idle_right
         self.idle_left_animation = Animation.player_idle_left
@@ -24,16 +24,16 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = 500
         self.rect.y = 0
-
+        
+        self.speed = 5.0
+        self.y_speed = 0.0
         self.moving_right = False
         self.moving_left = False
         self.touching_ground = True
         self.jumping = False
         self.can_jump = True
-        self.y_speed = 0.0
         self.last_direction = "right"
 
-        self.attack_damage = 5
         self.items = []
 
     def TakeDamage(self, damage):
@@ -57,6 +57,10 @@ class Player(pygame.sprite.Sprite):
         if self.current_animation.needsUpdate(time):
             self.image = self.current_animation.update()
 
+    def ChangeCurrentAnimation(self, new_animation):
+        if self.current_animation != new_animation:
+            self.current_animation = new_animation
+
     def Jump(self):
         upward_speed = -8.0
         if self.can_jump:
@@ -71,18 +75,17 @@ class Player(pygame.sprite.Sprite):
         if self.moving_left:
             move_x -= self.speed
 
-        if move_x > 0.0 and self.current_animation != self.walking_right_animation:
-            self.current_animation = self.walking_right_animation
+        if move_x > 0.0:
+            self.ChangeCurrentAnimation(self.walking_right_animation)
             self.last_direction = "right"
-        elif move_x < 0.0 and self.current_animation != self.walking_left_animation:
-            self.current_animation = self.walking_left_animation
+        elif move_x < 0.0:
+            self.ChangeCurrentAnimation(self.walking_left_animation)
             self.last_direction = "left"
-        elif (move_x == 0.0) and (
-                        self.current_animation != self.idle_right_animation or self.current_animation != self.idle_left_animation):
+        elif (move_x == 0.0):
             if self.last_direction == "right":
-                self.current_animation = self.idle_right_animation
+                self.ChangeCurrentAnimation(self.idle_right_animation)
             elif self.last_direction == "left":
-                self.current_animation = self.idle_left_animation
+                self.ChangeCurrentAnimation(self.idle_left_animation)
 
         self.UpdateCollisions(move_x, move_y, collisions)
         self.y_speed += 0.3
