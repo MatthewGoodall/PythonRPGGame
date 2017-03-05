@@ -1,5 +1,6 @@
 import pygame
 import Animation
+import CollisionObject
 from Enemy import *
 from Camera import *
 from NPC import *
@@ -104,21 +105,30 @@ class Player(pygame.sprite.Sprite):
         self.rect.x += x_movement
         collision_list = pygame.sprite.spritecollide(self, collisions, False)
         for collision_object in collision_list:
-            if x_movement > 0.0:
-                self.rect.right = collision_object.rect.left
-            elif x_movement < 0.0:
-                self.rect.left = collision_object.rect.right
+            if not isinstance(collision_object, CollisionObject.Platform) and not isinstance(collision_object, CollisionObject.Ladder):
+                if x_movement > 0.0:
+                    self.rect.right = collision_object.rect.left
+                elif x_movement < 0.0:
+                    self.rect.left = collision_object.rect.right
 
         self.rect.y += y_movement
         collision_list = pygame.sprite.spritecollide(self, collisions, False)
         for collision_object in collision_list:
-            if y_movement > 0.0:
+            prob_not_falling_through_floor = False
+            if isinstance(collision_object, CollisionObject.Platform) or isinstance(collision_object, CollisionObject.Ladder):
+                if self.rect.bottom > collision_object.rect.bottom:
+                    prob_not_falling_through_floor = True
+                    print("below half")
+                elif isinstance(collision_object, CollisionObject.Ladder):
+                    prob_not_falling_through_floor = True
+            if y_movement > 0.0 and not prob_not_falling_through_floor:
                 self.rect.bottom = collision_object.rect.top
                 self.y_speed = 0
                 self.can_jump = True
             elif y_movement < 0.0:
-                self.rect.top = collision_object.rect.bottom
-                self.y_speed = 0
+                if not isinstance(collision_object, CollisionObject.Platform) and not isinstance(collision_object, CollisionObject.Ladder):
+                    self.rect.top = collision_object.rect.bottom
+                    self.y_speed = 0
 
     def Update(self, time, collisions_for_player):
         if self.alive:
