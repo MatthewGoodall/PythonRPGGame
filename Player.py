@@ -1,7 +1,7 @@
 import pygame
 import Animation
 from Enemy import *
-
+from Camera import *
 pygame.mixer.init()
 pygame.display.init()
 
@@ -47,16 +47,17 @@ class Player(pygame.sprite.Sprite):
 
     def Attack(self, game_screen, enemy_list):
         f = None
+        player_rect = camera.Apply(self)
         if self.last_direction == "right":
-            f = pygame.draw.rect(game_screen, (0, 0, 255), (self.rect.x, self.rect.y, 100 + self.rect.width, self.rect.height))
+            f = pygame.draw.rect(game_screen, (0, 0, 255), (player_rect.x, player_rect.y, 100 + player_rect.width, player_rect.height))
         elif self.last_direction == "left":
-            f = pygame.draw.rect(game_screen, (0, 0, 255), (self.rect.x - 100 - self.rect.width, self.rect.y, 100 + self.rect.width, self.rect.height))
+            f = pygame.draw.rect(game_screen, (0, 0, 255), (player_rect.x - 100 - player_rect.width, player_rect.y, 100 + player_rect.width, player_rect.height))
         for enemy in enemy_list:
-            if f.colliderect(enemy.rect):
+            enemy_rect = camera.Apply(enemy)
+            rects_colliding = f.colliderect(enemy_rect)
+            if rects_colliding:
                 enemy.TakeDamage(self.attack_damage)
-                print("enemy took damage")
                 if not enemy.alive:
-                    print("enemy died")
                     self.items.append(enemy.typeOfReward)
 
     def UpdateAnimation(self, time):

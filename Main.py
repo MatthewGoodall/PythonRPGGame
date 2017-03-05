@@ -96,14 +96,6 @@ while not done:
     screen.fill(color_sky)
     camera.Update(player)
     screen.blit(map_surface, camera.Apply(map_rect, "rect"))
-    x_pos, y_pos, _, _ = camera.Apply(player)
-    if player.last_direction == "right":
-        f = CollisionObject(x_pos, y_pos, 100 + player.rect.width, player.rect.height)
-        screen.blit(f.image, (f.rect.x, f.rect.y))
-    elif player.last_direction == "left":
-        f = CollisionObject(x_pos - 100, y_pos, 100+player.rect.width, player.rect.height)
-        screen.blit(f.image, (f.rect.x, f.rect.y))
-        
     # Draw sprites
     for sprite in game_sprites:
         screen.blit(sprite.image, camera.Apply(sprite))
