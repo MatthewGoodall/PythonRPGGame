@@ -462,7 +462,14 @@
       <option name="project" value="LOCAL" />
       <updated>1488696925376</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Working with json files">
+      <created>1488735531745</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1488735531745</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -519,7 +526,8 @@
     <MESSAGE value="Updated And Formated Enemy file" />
     <MESSAGE value="Inventory not yet working but almost" />
     <MESSAGE value="Merge branch 'master' of https://github.com/MatthewGoodall/PythonRPGGame&#10;&#10;# Conflicts:&#10;#&#9;Main.py&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge branch 'master' of https://github.com/MatthewGoodall/PythonRPGGame&#10;&#10;# Conflicts:&#10;#&#9;Main.py&#10;" />
+    <MESSAGE value="Working with json files" />
+    <option name="LAST_COMMIT_MESSAGE" value="Working with json files" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
