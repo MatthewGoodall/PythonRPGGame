@@ -1,5 +1,5 @@
 from Player import *
-
+import Animation
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, health, damage, numberOfLoot, typeOfReward, spawnPos_X, spawnPos_Y, spawn_animation,

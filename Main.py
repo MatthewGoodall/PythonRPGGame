@@ -5,7 +5,7 @@ from Player import *
 from Camera import *
 import Animation
 import Item
-import CollisionObject
+from CollisionObject import *
 import GUI
 import pytmx
 import TileRender
@@ -19,6 +19,7 @@ pygame.mixer.init()
 color_black = 0, 0, 0
 color_red = 255, 0, 0
 color_green = 0, 255, 0
+color_blue = 0, 0, 255
 color_sky = 30, 144, 255
 
 # Set screen dimensions
@@ -30,17 +31,19 @@ background = pygame.image.load("Resources/SinglePhotos/ForestBackground.png")
 # Add sprites to corresponding list-----------------------------
 enemy_sprites = [Enemy.squid, Enemy.dragon_hatchling, Enemy.henery]
 player_sprite = [player]
-platform_sprites = []
 
 gui_sprites = [GUI.health_bar,
                GUI.mana_bar]
 
-collision_sprites = enemy_sprites + platform_sprites
-
-game_sprites = enemy_sprites + player_sprite + platform_sprites
+game_sprites = enemy_sprites + player_sprite
 # Every single sprite
+<<<<<<< HEAD
 all_sprites = enemy_sprites + platform_sprites + gui_sprites + player_sprite
 # ------------------------------------------------------------------------
+=======
+all_sprites = enemy_sprites + gui_sprites + player_sprite
+#------------------------------------------------------------------------
+>>>>>>> ce6ad9569ae8c427f3251f9042f865c5a11ced67
 # Background music
 backsound_sound = pygame.mixer.music
 backsound_sound.load("Resources/Audio/Ambient.mp3")
@@ -82,7 +85,6 @@ while not done:
             if isinstance(being, Player):
                 player_sprite.remove(being)
             else:
-                collision_sprites.remove(being)
                 enemy_sprites.remove(being)
 
     # Update player location and animation------------------
@@ -94,12 +96,20 @@ while not done:
             if not abs(player.rect.centerx - enemy.rect.centerx) < 300.0:
                 enemy.walkPath()
             else:
-                enemy.chasePlayer(player_sprite)
+                enemy.chasePlayer(collisions = tile_renderer.walls)
 
     # Clear the screen
     screen.fill(color_sky)
     camera.Update(player)
     screen.blit(map_surface, camera.Apply(map_rect, "rect"))
+    x_pos, y_pos, _, _ = camera.Apply(player)
+    if player.last_direction == "right":
+        f = CollisionObject(x_pos, y_pos, 100 + player.rect.width, player.rect.height)
+        screen.blit(f.image, (f.rect.x, f.rect.y))
+    elif player.last_direction == "left":
+        f = CollisionObject(x_pos - 100, y_pos, 100+player.rect.width, player.rect.height)
+        screen.blit(f.image, (f.rect.x, f.rect.y))
+        
     # Draw sprites
     for sprite in game_sprites:
         screen.blit(sprite.image, camera.Apply(sprite))
@@ -109,7 +119,6 @@ while not done:
     # Update the display
     pygame.display.toggle_fullscreen()
     pygame.display.flip()
-    print(str(player.rect.y))
     clock.tick(120)
 
 # Now exit the program

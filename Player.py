@@ -47,11 +47,17 @@ class Player(pygame.sprite.Sprite):
             self.alive = False
 
     def Attack(self, game_screen, enemy_list):
-        f = pygame.draw.rect(game_screen, (0, 0, 255), (self.rect.x - 50, self.rect.y, 100, 50))
+        f = None
+        if self.last_direction == "right":
+            f = pygame.draw.rect(game_screen, (0, 0, 255), (self.rect.x, self.rect.y, 100 + self.rect.width, self.rect.height))
+        elif self.last_direction == "left":
+            f = pygame.draw.rect(game_screen, (0, 0, 255), (self.rect.x - 100 - self.rect.width, self.rect.y, 100 + self.rect.width, self.rect.height))
         for enemy in enemy_list:
-            if f.collidepoint(enemy.rect.x, enemy.rect.y):
+            if f.colliderect(enemy.rect):
                 enemy.TakeDamage(self.attack_damage)
+                print("enemy took damage")
                 if not enemy.alive:
+                    print("enemy died")
                     self.items.append(enemy.typeOfReward)
 
     def UpdateAnimation(self, time):
