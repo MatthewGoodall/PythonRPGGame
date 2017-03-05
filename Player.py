@@ -25,7 +25,9 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = 500
         self.rect.y = 0
-        
+
+        self.alive = True
+
         self.speed = 5.0
         self.y_speed = 0.0
         self.moving_right = False
@@ -49,9 +51,11 @@ class Player(pygame.sprite.Sprite):
     def Attack(self, game_screen, enemy_list):
         f = None
         if self.last_direction == "right":
-            f = pygame.draw.rect(game_screen, (0, 0, 255), (self.rect.x, self.rect.y, 100 + self.rect.width, self.rect.height))
+            f = pygame.draw.rect(game_screen, (0, 0, 255),
+                                 (self.rect.x, self.rect.y, 100 + self.rect.width, self.rect.height))
         elif self.last_direction == "left":
-            f = pygame.draw.rect(game_screen, (0, 0, 255), (self.rect.x - 100 - self.rect.width, self.rect.y, 100 + self.rect.width, self.rect.height))
+            f = pygame.draw.rect(game_screen, (0, 0, 255), (
+                self.rect.x - 100 - self.rect.width, self.rect.y, 100 + self.rect.width, self.rect.height))
         for enemy in enemy_list:
             if f.colliderect(enemy.rect):
                 enemy.TakeDamage(self.attack_damage)
@@ -117,14 +121,16 @@ class Player(pygame.sprite.Sprite):
                 self.rect.top = collision_object.rect.bottom
                 self.y_speed = 0
 
+    def NPCCollision(self, collision):
+        interact = pygame.sprite.spritecollide(self, collision, False)
+        if interact:
+            hello = "Hello"
+            print(hello)
+
     def Update(self, time, collisions_for_player):
         if self.alive:
             self.UpdateMovement(collisions_for_player)
             self.UpdateAnimation(time)
-
-    def NPCCollision(self, collision):
-        if pygame.sprite.spritecollide(self, collision, True):
-            print("Hello")
 
 
 player = Player()
