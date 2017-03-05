@@ -38,15 +38,12 @@ gui_sprites = [GUI.health_bar,
 
 game_sprites = enemy_sprites + player_sprite + npc_sprites
 # Every single sprite
-<<<<<<< HEAD
-
 
 all_sprites = enemy_sprites + gui_sprites + player_sprite
 
-=======
 all_sprites = enemy_sprites + gui_sprites + player_sprite
-#------------------------------------------------------------------------
->>>>>>> origin/master
+# ------------------------------------------------------------------------
+
 # Background music
 backsound_sound = pygame.mixer.music
 backsound_sound.load("Resources/Audio/Ambient.mp3")
@@ -60,8 +57,6 @@ tile_renderer = TileRender.Renderer(tmx_file)
 
 map_surface = tile_renderer.make_map()
 map_rect = map_surface.get_rect()
-
-JSON_Reader("Resources\JSON Data\JSON_DATA.json")
 
 done = False
 while not done:
@@ -106,17 +101,13 @@ while not done:
             if not abs(player.rect.centerx - enemy.rect.centerx) < 300.0:
                 enemy.walkPath()
             else:
-<<<<<<< HEAD
-                enemy.chasePlayer(collisions=tile_renderer.walls)
-=======
-                enemy.chasePlayer(collisions = tile_renderer.ground + tile_renderer.platforms)
->>>>>>> origin/master
+                enemy.chasePlayer(collisions=tile_renderer.ground + tile_renderer.platforms)
 
     # Clear the screen
     screen.fill(color_sky)
     camera.Update(player)
     screen.blit(map_surface, camera.Apply(map_rect, "rect"))
-<<<<<<< HEAD
+
     x_pos, y_pos, _, _ = camera.Apply(player)
     if player.last_direction == "right":
         f = CollisionObject(x_pos, y_pos, 100 + player.rect.width, player.rect.height)
@@ -125,8 +116,6 @@ while not done:
         f = CollisionObject(x_pos - 100, y_pos, 100 + player.rect.width, player.rect.height)
         screen.blit(f.image, (f.rect.x, f.rect.y))
 
-=======
->>>>>>> origin/master
     # Draw sprites
     for sprite in game_sprites:
         screen.blit(sprite.image, camera.Apply(sprite))
