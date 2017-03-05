@@ -69,7 +69,10 @@ while not done:
 
     # Update player movement--------------------------------
     keys = pygame.key.get_pressed()
+    player.jump_pressed = keys[pygame.K_SPACE]
+    player.moving_up = keys[pygame.K_w]
     player.moving_right = keys[pygame.K_d]
+    player.moving_down = keys[pygame.K_s]
     player.moving_left = keys[pygame.K_a]
 
     # Checks if living things are alive if not then kill them
@@ -82,7 +85,7 @@ while not done:
                 enemy_sprites.remove(being)
 
     # Update player location and animation------------------
-    player.Update(pygame.time.get_ticks(), tile_renderer.objects)
+    player.Update(pygame.time.get_ticks(), tile_renderer.ground, tile_renderer.platforms, tile_renderer.ladders)
 
     for enemy in enemy_sprites:
         if enemy.alive:
@@ -90,7 +93,7 @@ while not done:
             if not abs(player.rect.centerx - enemy.rect.centerx) < 300.0:
                 enemy.walkPath()
             else:
-                enemy.chasePlayer(collisions = tile_renderer.objects)
+                enemy.chasePlayer(collisions = tile_renderer.ground + tile_renderer.platforms)
 
     # Clear the screen
     screen.fill(color_sky)

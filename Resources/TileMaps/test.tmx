@@ -220,7 +220,7 @@
 </data>
  </layer>
  <objectgroup name="objects">
-  <object id="27" x="2" y="928" width="2046" height="30"/>
+  <object id="27" name="Ground" x="2" y="928" width="2046" height="30"/>
   <object id="28" name="Platform" x="128" y="895.5" width="128.5" height="12.5"/>
   <object id="29" name="Platform" x="256" y="864" width="128" height="11"/>
   <object id="30" name="Platform" x="384.5" y="831" width="383.5" height="13"/>
