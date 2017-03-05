@@ -1,7 +1,10 @@
 import pygame
 import Animation
+import CollisionObject
 from Enemy import *
+from Camera import *
 from NPC import *
+
 
 pygame.mixer.init()
 pygame.display.init()
@@ -26,14 +29,20 @@ class Player(pygame.sprite.Sprite):
         self.rect.x = 500
         self.rect.y = 0
 
+<<<<<<< HEAD
         self.alive = True
 
+=======
+>>>>>>> origin/master
         self.speed = 5.0
         self.y_speed = 0.0
+        self.jump_pressed = False
+        self.moving_up = False
         self.moving_right = False
+        self.moving_down = False
         self.moving_left = False
+        self.on_ladder = False
         self.touching_ground = True
-        self.jumping = False
         self.can_jump = True
         self.last_direction = "right"
 
@@ -50,18 +59,25 @@ class Player(pygame.sprite.Sprite):
 
     def Attack(self, game_screen, enemy_list):
         f = None
+        player_rect = camera.Apply(self)
         if self.last_direction == "right":
+<<<<<<< HEAD
             f = pygame.draw.rect(game_screen, (0, 0, 255),
                                  (self.rect.x, self.rect.y, 100 + self.rect.width, self.rect.height))
         elif self.last_direction == "left":
             f = pygame.draw.rect(game_screen, (0, 0, 255), (
                 self.rect.x - 100 - self.rect.width, self.rect.y, 100 + self.rect.width, self.rect.height))
+=======
+            f = pygame.draw.rect(game_screen, (0, 0, 255), (player_rect.x, player_rect.y, 100 + player_rect.width, player_rect.height))
+        elif self.last_direction == "left":
+            f = pygame.draw.rect(game_screen, (0, 0, 255), (player_rect.x - 100 - player_rect.width, player_rect.y, 100 + player_rect.width, player_rect.height))
+>>>>>>> origin/master
         for enemy in enemy_list:
-            if f.colliderect(enemy.rect):
+            enemy_rect = camera.Apply(enemy)
+            rects_colliding = f.colliderect(enemy_rect)
+            if rects_colliding:
                 enemy.TakeDamage(self.attack_damage)
-                print("enemy took damage")
                 if not enemy.alive:
-                    print("enemy died")
                     self.items.append(enemy.typeOfReward)
 
     def UpdateAnimation(self, time):
@@ -78,7 +94,7 @@ class Player(pygame.sprite.Sprite):
             self.y_speed = upward_speed
             self.can_jump = False
 
-    def UpdateMovement(self, collisions):
+    def UpdateMovement(self, ground = [], platforms = [], ladders = []):
         move_x, move_y = 0.0, self.y_speed
 
         if self.moving_right:
@@ -98,29 +114,60 @@ class Player(pygame.sprite.Sprite):
             elif self.last_direction == "left":
                 self.ChangeCurrentAnimation(self.idle_left_animation)
 
-        self.UpdateCollisions(move_x, move_y, collisions)
-        self.y_speed += 0.3
+        if self.on_ladder:
+            move_y = 0.0
+            if self.moving_up or self.jump_pressed:
+                move_y -= self.speed/2
+            if self.moving_down:
+                move_y += self.speed/2
+        else:
+            self.y_speed += 0.3
+        self.UpdateCollisions(move_x, move_y, ground, platforms, ladders)
 
-    def UpdateCollisions(self, x_movement, y_movement, collisions):
+    def UpdateCollisions(self, x_movement, y_movement, ground = [], platforms = [], ladders = []):
+        collisions = ground + platforms + ladders
+
         self.rect.x += x_movement
         collision_list = pygame.sprite.spritecollide(self, collisions, False)
+
+        self.on_ladder = False
+        for ladder in ladders:
+            if ladder in collision_list:
+                self.on_ladder = True
+
         for collision_object in collision_list:
-            if x_movement > 0.0:
-                self.rect.right = collision_object.rect.left
-            elif x_movement < 0.0:
-                self.rect.left = collision_object.rect.right
+            if collision_object in ground:
+                if x_movement > 0.0:
+                    self.rect.right = collision_object.rect.left
+                elif x_movement < 0.0:
+                    self.rect.left = collision_object.rect.right
 
         self.rect.y += y_movement
         collision_list = pygame.sprite.spritecollide(self, collisions, False)
         for collision_object in collision_list:
-            if y_movement > 0.0:
-                self.rect.bottom = collision_object.rect.top
-                self.y_speed = 0
-                self.can_jump = True
+            prob_not_falling_through_floor = False
+            if collision_object in platforms:
+                if self.rect.bottom > collision_object.rect.bottom:
+                    prob_not_falling_through_floor = True
+            if collision_object in ladders:
+                prob_not_falling_through_floor = True
+
+            if y_movement > 0.0 and not prob_not_falling_through_floor:
+                falling_through = False
+                if collision_object in platforms:
+                    if self.moving_down: falling_through = True
+                if not falling_through:
+                    self.rect.bottom = collision_object.rect.top
+                    self.y_speed = 0
+                    self.can_jump = True
             elif y_movement < 0.0:
-                self.rect.top = collision_object.rect.bottom
+                if collision_object in ground:
+                    self.rect.top = collision_object.rect.bottom
+                    self.y_speed = 0
+            if collision_object in ladders:
                 self.y_speed = 0
 
+<<<<<<< HEAD
     def NPCCollision(self, collision):
         interact = pygame.sprite.spritecollide(self, collision, False)
         if interact:
@@ -128,8 +175,11 @@ class Player(pygame.sprite.Sprite):
             print(hello)
 
     def Update(self, time, collisions_for_player):
+=======
+    def Update(self, time, ground = [], platforms = [], ladders = []):
+>>>>>>> origin/master
         if self.alive:
-            self.UpdateMovement(collisions_for_player)
+            self.UpdateMovement(ground, platforms, ladders)
             self.UpdateAnimation(time)
 
 

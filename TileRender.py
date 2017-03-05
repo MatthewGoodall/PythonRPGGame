@@ -1,6 +1,6 @@
 import pytmx
 from pytmx.util_pygame import load_pygame
-from CollisionObject import*
+import CollisionObject
 from Player import *
 
 
@@ -13,7 +13,9 @@ class Renderer(object):
         tm = pytmx.util_pygame.load_pygame(filename, pixel_alpha=True)
         self.size = tm.width * tm.tilewidth, tm.height * tm.tileheight
         self.tmx_data = tm
-        self.walls = list()
+        self.ground = []
+        self.platforms = []
+        self.ladders = []
 
     def render(self, surface):
 
@@ -33,10 +35,16 @@ class Renderer(object):
 
             if isinstance(layer, pytmx.TiledObjectGroup):
                 if layer.name == "objects":
-                    print("yes")
                     for obj in layer:
-                        collision_object = CollisionObject(obj.x, obj.y, obj.width, obj.height)
-                        self.walls.append(collision_object)
+                        if obj.name == "Platform":
+                            a_platform = CollisionObject.Platform(obj.x, obj.y, obj.width, obj.height)
+                            self.platforms.append(a_platform)
+                        elif obj.name == "Ladder":
+                            a_ladder = CollisionObject.Ladder(obj.x, obj.y, obj.width, obj.height)
+                            self.ladders.append(a_ladder)
+                        elif obj.name == "Ground":
+                            ground_piece = CollisionObject.CollisionObject(obj.x, obj.y, obj.width, obj.height)
+                            self.ground.append(ground_piece)
 
             elif isinstance(layer, pytmx.TiledImageLayer):
                 image = gt(layer.gid)

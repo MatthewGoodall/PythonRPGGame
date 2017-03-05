@@ -9,3 +9,11 @@ class CollisionObject(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x_pos
         self.rect.y = y_pos
+
+class Platform(CollisionObject):
+    def __init__(self, x_pos, y_pos, width, height):
+        super().__init__(x_pos, y_pos, width, height)
+
+class Ladder(CollisionObject):
+    def __init__(self, x_pos, y_pos, width, height):
+        super().__init__(x_pos, y_pos, width, height)

@@ -27,7 +27,6 @@ color_sky = 30, 144, 255
 size = width, height = 1280, 720
 # Create screen
 screen = pygame.display.set_mode(size)
-background = pygame.image.load("Resources/SinglePhotos/ForestBackground.png")
 
 # Add sprites to corresponding list-----------------------------
 enemy_sprites = [Enemy.squid, Enemy.dragon_hatchling, Enemy.henery]
@@ -39,10 +38,15 @@ gui_sprites = [GUI.health_bar,
 
 game_sprites = enemy_sprites + player_sprite + npc_sprites
 # Every single sprite
+<<<<<<< HEAD
 
 
 all_sprites = enemy_sprites + gui_sprites + player_sprite
 
+=======
+all_sprites = enemy_sprites + gui_sprites + player_sprite
+#------------------------------------------------------------------------
+>>>>>>> origin/master
 # Background music
 backsound_sound = pygame.mixer.music
 backsound_sound.load("Resources/Audio/Ambient.mp3")
@@ -67,6 +71,8 @@ while not done:
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_e:
                 player.Attack(screen, enemy_sprites)
+            elif event.key == pygame.K_SPACE:
+                player.Jump()
             elif event.key == pygame.K_i:
                 for item in player.items:
                     print(item)
@@ -76,10 +82,11 @@ while not done:
 
     # Update player movement--------------------------------
     keys = pygame.key.get_pressed()
+    player.jump_pressed = keys[pygame.K_SPACE]
+    player.moving_up = keys[pygame.K_w]
     player.moving_right = keys[pygame.K_d]
+    player.moving_down = keys[pygame.K_s]
     player.moving_left = keys[pygame.K_a]
-    if keys[pygame.K_SPACE]:
-        player.Jump()
 
     # Checks if living things are alive if not then kill them
     for being in game_sprites:
@@ -91,7 +98,7 @@ while not done:
                 enemy_sprites.remove(being)
 
     # Update player location and animation------------------
-    player.Update(pygame.time.get_ticks(), tile_renderer.walls)
+    player.Update(pygame.time.get_ticks(), tile_renderer.ground, tile_renderer.platforms, tile_renderer.ladders)
 
     for enemy in enemy_sprites:
         if enemy.alive:
@@ -99,12 +106,17 @@ while not done:
             if not abs(player.rect.centerx - enemy.rect.centerx) < 300.0:
                 enemy.walkPath()
             else:
+<<<<<<< HEAD
                 enemy.chasePlayer(collisions=tile_renderer.walls)
+=======
+                enemy.chasePlayer(collisions = tile_renderer.ground + tile_renderer.platforms)
+>>>>>>> origin/master
 
     # Clear the screen
     screen.fill(color_sky)
     camera.Update(player)
     screen.blit(map_surface, camera.Apply(map_rect, "rect"))
+<<<<<<< HEAD
     x_pos, y_pos, _, _ = camera.Apply(player)
     if player.last_direction == "right":
         f = CollisionObject(x_pos, y_pos, 100 + player.rect.width, player.rect.height)
@@ -113,6 +125,8 @@ while not done:
         f = CollisionObject(x_pos - 100, y_pos, 100 + player.rect.width, player.rect.height)
         screen.blit(f.image, (f.rect.x, f.rect.y))
 
+=======
+>>>>>>> origin/master
     # Draw sprites
     for sprite in game_sprites:
         screen.blit(sprite.image, camera.Apply(sprite))
