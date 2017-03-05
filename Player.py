@@ -2,6 +2,9 @@ import pygame
 import Animation
 from Enemy import *
 from Camera import *
+from NPC import *
+
+
 pygame.mixer.init()
 pygame.display.init()
 
@@ -24,7 +27,7 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = 500
         self.rect.y = 0
-        
+
         self.speed = 5.0
         self.y_speed = 0.0
         self.moving_right = False
@@ -121,6 +124,10 @@ class Player(pygame.sprite.Sprite):
         if self.alive:
             self.UpdateMovement(collisions_for_player)
             self.UpdateAnimation(time)
+
+    def NPCCollision(self, collision):
+        if pygame.sprite.spritecollide(self, collision, True):
+            print("Hello")
 
 
 player = Player()

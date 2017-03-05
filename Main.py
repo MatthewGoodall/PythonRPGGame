@@ -11,6 +11,7 @@ import pytmx
 import TileRender
 import math
 
+
 pygame.init()
 pygame.mixer.init()
 
@@ -36,8 +37,13 @@ gui_sprites = [GUI.health_bar,
 
 game_sprites = enemy_sprites + player_sprite
 # Every single sprite
+<<<<<<< HEAD
+all_sprites = enemy_sprites + platform_sprites + gui_sprites + player_sprite
+# ------------------------------------------------------------------------
+=======
 all_sprites = enemy_sprites + gui_sprites + player_sprite
 #------------------------------------------------------------------------
+>>>>>>> ce6ad9569ae8c427f3251f9042f865c5a11ced67
 # Background music
 backsound_sound = pygame.mixer.music
 backsound_sound.load("Resources/Audio/Ambient.mp3")
