@@ -11,7 +11,7 @@ import pytmx
 import TileRender
 import math
 import NPC
-import JSON_Reader
+from JSON_Reader import *
 
 pygame.init()
 pygame.mixer.init()
@@ -57,7 +57,7 @@ tile_renderer = TileRender.Renderer(tmx_file)
 map_surface = tile_renderer.make_map()
 map_rect = map_surface.get_rect()
 
-JSON_Reader.JSON_Reader("Resources\JSON Data\JSON_DATA.json")
+JSON_Reader("Resources\JSON Data\JSON_DATA.json")
 
 done = False
 while not done:
