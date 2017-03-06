@@ -58,11 +58,6 @@ class Player(pygame.sprite.Sprite):
         player_rect = camera.Apply(self)
         if self.last_direction == "right":
             f = pygame.draw.rect(game_screen, (0, 0, 255),
-                                 (self.rect.x, self.rect.y, 100 + self.rect.width, self.rect.height))
-        elif self.last_direction == "left":
-            f = pygame.draw.rect(game_screen, (0, 0, 255), (
-                self.rect.x - 100 - self.rect.width, self.rect.y, 100 + self.rect.width, self.rect.height))
-            f = pygame.draw.rect(game_screen, (0, 0, 255),
                                  (player_rect.x, player_rect.y, 100 + player_rect.width, player_rect.height))
         elif self.last_direction == "left":
             f = pygame.draw.rect(game_screen, (0, 0, 255), (
@@ -72,6 +67,7 @@ class Player(pygame.sprite.Sprite):
             rects_colliding = f.colliderect(enemy_rect)
             if rects_colliding:
                 enemy.TakeDamage(self.attack_damage)
+                print("enemy took damage")
                 if not enemy.alive:
                     self.items.append(enemy.typeOfReward)
 
@@ -116,7 +112,8 @@ class Player(pygame.sprite.Sprite):
             if self.moving_down:
                 move_y += self.speed / 2
         else:
-            self.y_speed += 0.3
+            if self.y_speed <= 10.0:
+                self.y_speed += 0.3
         self.UpdateCollisions(move_x, move_y, ground, platforms, ladders)
 
     def UpdateCollisions(self, x_movement, y_movement, ground=[], platforms=[], ladders=[]):

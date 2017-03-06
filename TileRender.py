@@ -34,15 +34,15 @@ class Renderer(object):
                         surface.blit(tile, (x * tw, y * th))
 
             if isinstance(layer, pytmx.TiledObjectGroup):
-                if layer.name == "objects":
+                if layer.name == "Collisions":
                     for obj in layer:
-                        if obj.name == "Platform":
+                        if obj.type == "Platform":
                             a_platform = CollisionObject.Platform(obj.x, obj.y, obj.width, obj.height)
                             self.platforms.append(a_platform)
-                        elif obj.name == "Ladder":
+                        elif obj.type == "Ladder":
                             a_ladder = CollisionObject.Ladder(obj.x, obj.y, obj.width, obj.height)
                             self.ladders.append(a_ladder)
-                        elif obj.name == "Ground":
+                        elif obj.type == "Solid":
                             ground_piece = CollisionObject.CollisionObject(obj.x, obj.y, obj.width, obj.height)
                             self.ground.append(ground_piece)
 

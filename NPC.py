@@ -13,4 +13,4 @@ class NPC(pygame.sprite.Sprite):
         self.rect.y = y
 
 
-npc = NPC(450, 767)
+npc = NPC(450, 1350)

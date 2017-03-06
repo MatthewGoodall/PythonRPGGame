@@ -52,7 +52,7 @@ clock = pygame.time.Clock()
 
 screen_rect = screen.get_rect()
 
-tmx_file = "Resources/TileMaps/Test.tmx"
+tmx_file = "Resources/TileMaps/Town.tmx"
 tile_renderer = TileRender.Renderer(tmx_file)
 
 map_surface = tile_renderer.make_map()
