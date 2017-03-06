@@ -30,9 +30,9 @@ size = width, height = 1280, 720
 screen = pygame.display.set_mode(size)
 
 # Add sprites to corresponding list-----------------------------
-enemy_sprites = [Enemy.squid, Enemy.dragon_hatchling, Enemy.henery]
+enemy_sprites = Level.current_location.enemies
 player_sprite = [player]
-npc_sprites = [NPC.npc]
+npc_sprites = Level.current_location.NPCs
 
 gui_sprites = [GUI.health_bar,
                GUI.mana_bar]
@@ -61,8 +61,8 @@ while not done:
             done = True
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_e:
-                player.Attack(screen, enemy_sprites)
-            elif event.key == pygame.K_SPACE:
+                player.Attack(screen)
+            elif event.key == pygame.K_w:
                 player.Jump()
             elif event.key == pygame.K_i:
                 for item in player.items:
@@ -70,13 +70,10 @@ while not done:
                 print("------")
             elif event.key == pygame.K_SPACE:
                 player.Interact()
-                """
-                player.NPCCollision(npc_sprites)
                 text = str(var).strip("[]""'")
                 font = pygame.font.Font(None, 100)
                 text = font.render(text, True, (50, 58, 50))
                 screen.blit(text, [400, 300])
-                """
             elif event.key == pygame.K_ESCAPE:
                 Level.ChangeLevel(Level.level_2)
                 Level.current_level = Level.level_2
