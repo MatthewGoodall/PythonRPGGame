@@ -99,7 +99,7 @@ while not done:
                 enemy_sprites.remove(being)
 
     # Update player location and animation------------------
-    player.Update(pygame.time.get_ticks(), Level.current_level.solids, Level.current_level.platforms, Level.current_level.ladders)
+    player.Update(pygame.time.get_ticks())
 
     for enemy in enemy_sprites:
         if enemy.alive:
