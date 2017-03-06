@@ -1,6 +1,7 @@
 import pygame
 import Animation
 import CollisionObject
+import Level
 from Enemy import *
 from Camera import *
 from NPC import *
@@ -117,7 +118,10 @@ class Player(pygame.sprite.Sprite):
         self.UpdateCollisions(move_x, move_y)
 
     def UpdateCollisions(self, x_movement, y_movement):
-        collisions = Level.current_level.solids + Level.current_level.platforms + Level.current_level.ladders
+        solids = Level.current_level.solids
+        platforms = Level.current_level.platforms
+        ladders = Level.current_level.ladders
+        collisions = solids + platforms + ladders
         self.rect.x += x_movement
         collision_list = pygame.sprite.spritecollide(self, collisions, False)
 
@@ -157,19 +161,19 @@ class Player(pygame.sprite.Sprite):
                     self.y_speed = 0
             if collision_object in ladders:
                 self.y_speed = 0.0
-                
+
     def Interact(self):
         self.NPCCollision()
         self.GatewayCollision()
-        
+
     def NPCCollision(self):
         interact = pygame.sprite.spritecollide(self, Level.current_level.NPCs, False)
         if interact:
             Read_JSON("Resources\JSON Data\JSON_DATA.json", "Bad Guy", "dialogue")
-            
+
     def GatewayCollision(self):
         pass
-    
+
     def Update(self, time):
         if self.alive:
             self.UpdateMovement()
