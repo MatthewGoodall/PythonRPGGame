@@ -30,9 +30,9 @@ size = width, height = 1280, 720
 screen = pygame.display.set_mode(size)
 
 # Add sprites to corresponding list-----------------------------
-enemy_sprites = Level.current_location.enemies
+enemy_sprites = Level.current_level.enemies
 player_sprite = [player]
-npc_sprites = Level.current_location.NPCs
+npc_sprites = Level.current_level.NPCs
 
 gui_sprites = [GUI.health_bar,
                GUI.mana_bar]
