@@ -68,19 +68,22 @@ while not done:
                 for item in player.items:
                     print(item)
                 print("------")
-            elif event.key == pygame.K_f:
+            elif event.key == pygame.K_SPACE:
+                player.Interact()
+                """
                 player.NPCCollision(npc_sprites)
                 text = str(var).strip("[]""'")
                 font = pygame.font.Font(None, 100)
                 text = font.render(text, True, (50, 58, 50))
                 screen.blit(text, [400, 300])
+                """
             elif event.key == pygame.K_ESCAPE:
                 Level.ChangeLevel(Level.level_2)
                 Level.current_level = Level.level_2
 
     # Update player movement--------------------------------
     keys = pygame.key.get_pressed()
-    player.jump_pressed = keys[pygame.K_SPACE]
+    player.jump_pressed = keys[pygame.K_w]
     player.moving_up = keys[pygame.K_w]
     player.moving_right = keys[pygame.K_d]
     player.moving_down = keys[pygame.K_s]
