@@ -52,6 +52,8 @@ backsound_sound.load("Resources/Audio/Ambient.mp3")
 clock = pygame.time.Clock()
 Level.level_1.CreateMap()
 Level.level_2.CreateMap()
+font = pygame.font.Font(None, 100)
+text = font.render('', True, (50, 58, 50))
 done = False
 while not done:
     for event in pygame.event.get():
@@ -68,6 +70,10 @@ while not done:
                 print("------")
             elif event.key == pygame.K_f:
                 player.NPCCollision(npc_sprites)
+                text = str(var).strip("[]""'")
+                font = pygame.font.Font(None, 100)
+                text = font.render(text, True, (50, 58, 50))
+                screen.blit(text, [400, 300])
             elif event.key == pygame.K_ESCAPE:
                 Level.ChangeLevel(Level.level_2)
                 Level.current_level = Level.level_2
@@ -110,6 +116,7 @@ while not done:
         screen.blit(sprite.image, camera.Apply(sprite))
     for sprite in gui_sprites:
         screen.blit(sprite.image, (sprite.rect.x, sprite.rect.y))
+    screen.blit(text, [400, 300])
     # Update the display
 
     pygame.display.toggle_fullscreen()
