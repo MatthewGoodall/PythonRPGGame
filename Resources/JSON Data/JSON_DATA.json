@@ -1,6 +1,12 @@
 {
-    "a": [1,3,"asdf",true],
-    "b": {
-        "Hello": "Hello i am a test to see if it is working"
+  "NPC": {
+    "Mother": {
+      "name": "Mother The Baker",
+      "dialogue": "Hello son how are you its such a nice day today don’t you think also-"
+    },
+    "Bad Guy": {
+      "name": "Bad Guy McGee",
+      "dialogue": "Yes it is me the bad guy of this game the one who killed your parents muhahaha"
     }
+  }
 }
