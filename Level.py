@@ -1,8 +1,11 @@
 import TileRender
 import Camera
+import NPC
+import Enemy
 class Level():
     def __init__(self, level_tmx_map_path):
         self.enemies = []
+        self.NPCs = []
         self.tmx_map_path = level_tmx_map_path
         self.tile_renderer = None
         self.map_surface = None
@@ -32,5 +35,7 @@ def ChangeLevel(new_level):
     Camera.camera.change_level_size(new_level.width, new_level.height)
 
 level_1 = Level("Resources/TileMaps/town.tmx")
+level_1.NPCs = [egg]
+level_1.enemies = []
 level_2 = Level("Resources/TileMaps/test.tmx")
 current_level = level_1
