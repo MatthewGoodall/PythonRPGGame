@@ -162,7 +162,7 @@ class Player(pygame.sprite.Sprite):
     def NPCCollision(self, collision):
         interact = pygame.sprite.spritecollide(self, collision, False)
         if interact:
-            JSON_Reader("Resources\JSON Data\JSON_DATA.json", "Bad Guy", "dialogue")
+            Read_JSON("Resources\JSON Data\JSON_DATA.json", "Bad Guy", "dialogue")
 
     def Update(self, time, ground=[], platforms=[], ladders=[]):
         if self.alive:

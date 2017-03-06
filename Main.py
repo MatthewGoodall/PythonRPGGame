@@ -36,6 +36,8 @@ npc_sprites = [NPC.npc]
 gui_sprites = [GUI.health_bar,
                GUI.mana_bar]
 
+whatNPC = ''
+
 game_sprites = enemy_sprites + player_sprite + npc_sprites
 # Every single sprite
 
@@ -58,6 +60,7 @@ tile_renderer = TileRender.Renderer(tmx_file)
 map_surface = tile_renderer.make_map()
 map_rect = map_surface.get_rect()
 
+
 done = False
 while not done:
     for event in pygame.event.get():
@@ -74,6 +77,7 @@ while not done:
                 print("------")
             elif event.key == pygame.K_f:
                 player.NPCCollision(npc_sprites)
+                print(whatNPC)
 
     # Update player movement--------------------------------
     keys = pygame.key.get_pressed()
