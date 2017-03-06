@@ -131,7 +131,7 @@ class Player(pygame.sprite.Sprite):
                 self.on_ladder = True
 
         for collision_object in collision_list:
-            if collision_object in ground:
+            if collision_object in solids:
                 if x_movement > 0.0:
                     self.rect.right = collision_object.rect.left
                 elif x_movement < 0.0:
@@ -156,7 +156,7 @@ class Player(pygame.sprite.Sprite):
                     self.y_speed = 0
                     self.can_jump = True
             elif y_movement < 0.0:
-                if collision_object in ground:
+                if collision_object in solids:
                     self.rect.top = collision_object.rect.bottom
                     self.y_speed = 0
             if collision_object in ladders:
