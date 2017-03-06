@@ -36,8 +36,6 @@ npc_sprites = [NPC.npc]
 gui_sprites = [GUI.health_bar,
                GUI.mana_bar]
 
-whatNPC = ''
-
 game_sprites = enemy_sprites + player_sprite + npc_sprites
 # Every single sprite
 
@@ -59,8 +57,8 @@ tile_renderer = TileRender.Renderer(tmx_file)
 
 map_surface = tile_renderer.make_map()
 map_rect = map_surface.get_rect()
-
-
+font = pygame.font.Font(None, 100)
+text = font.render('', True, (50, 58, 50))
 done = False
 while not done:
     for event in pygame.event.get():
@@ -77,7 +75,10 @@ while not done:
                 print("------")
             elif event.key == pygame.K_f:
                 player.NPCCollision(npc_sprites)
-                print(whatNPC)
+                text = str(var).strip("[]""'")
+                font = pygame.font.Font(None, 100)
+                text = font.render(text, True, (50, 58, 50))
+                screen.blit(text, [400, 300])
 
     # Update player movement--------------------------------
     keys = pygame.key.get_pressed()
@@ -117,6 +118,7 @@ while not done:
         screen.blit(sprite.image, camera.Apply(sprite))
     for sprite in gui_sprites:
         screen.blit(sprite.image, (sprite.rect.x, sprite.rect.y))
+    screen.blit(text, [400, 300])
     # Update the display
 
     pygame.display.toggle_fullscreen()
