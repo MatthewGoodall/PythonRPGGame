@@ -9,6 +9,7 @@ from CollisionObject import *
 import GUI
 import pytmx
 import TileRender
+import Level
 import math
 import NPC
 from JSON_Reader import *
@@ -49,15 +50,8 @@ backsound_sound = pygame.mixer.music
 backsound_sound.load("Resources/Audio/Ambient.mp3")
 
 clock = pygame.time.Clock()
-
-screen_rect = screen.get_rect()
-
-tmx_file = "Resources/TileMaps/Town.tmx"
-tile_renderer = TileRender.Renderer(tmx_file)
-
-map_surface = tile_renderer.make_map()
-map_rect = map_surface.get_rect()
-
+Level.level_1.CreateMap()
+Level.level_2.CreateMap()
 done = False
 while not done:
     for event in pygame.event.get():
@@ -74,6 +68,9 @@ while not done:
                 print("------")
             elif event.key == pygame.K_f:
                 player.NPCCollision(npc_sprites)
+            elif event.key == pygame.K_ESCAPE:
+                Level.ChangeLevel(Level.level_2)
+                Level.current_level = Level.level_2
 
     # Update player movement--------------------------------
     keys = pygame.key.get_pressed()
@@ -93,7 +90,7 @@ while not done:
                 enemy_sprites.remove(being)
 
     # Update player location and animation------------------
-    player.Update(pygame.time.get_ticks(), tile_renderer.ground, tile_renderer.platforms, tile_renderer.ladders)
+    player.Update(pygame.time.get_ticks(), Level.current_level.solids, Level.current_level.platforms, Level.current_level.ladders)
 
     for enemy in enemy_sprites:
         if enemy.alive:
@@ -101,12 +98,12 @@ while not done:
             if not abs(player.rect.centerx - enemy.rect.centerx) < 300.0:
                 enemy.walkPath()
             else:
-                enemy.chasePlayer(collisions=tile_renderer.ground + tile_renderer.platforms)
+                enemy.chasePlayer(collisions=Level.current_level.solids + Level.current_level.platforms)
 
     # Clear the screen
     screen.fill(color_sky)
     camera.Update(player)
-    screen.blit(map_surface, camera.Apply(map_rect, "rect"))
+    screen.blit(Level.current_level.map_surface, camera.Apply(Level.current_level.map_rect, "rect"))
 
     # Draw sprites
     for sprite in game_sprites:

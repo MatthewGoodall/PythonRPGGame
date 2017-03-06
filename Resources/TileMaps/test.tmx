@@ -219,18 +219,18 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup name="objects">
-  <object id="27" name="Ground" x="2" y="928" width="2046" height="30"/>
-  <object id="28" name="Platform" x="128" y="895.5" width="128.5" height="12.5"/>
-  <object id="29" name="Platform" x="256" y="864" width="128" height="11"/>
-  <object id="30" name="Platform" x="384.5" y="831" width="383.5" height="13"/>
-  <object id="31" name="Platform" x="768" y="863.5" width="127.5" height="11"/>
-  <object id="32" name="Platform" x="896" y="895.5" width="128" height="11"/>
-  <object id="33" name="Platform" x="1408" y="896.5" width="127" height="11"/>
-  <object id="34" name="Platform" x="1536" y="863" width="127" height="12"/>
-  <object id="35" name="Platform" x="1665" y="832.5" width="126.5" height="10.5"/>
-  <object id="36" name="Platform" x="1792.5" y="863.5" width="126.5" height="12"/>
-  <object id="37" name="Platform" x="1920.5" y="895.5" width="128.5" height="11"/>
-  <object id="38" name="Ladder" x="672" y="831" width="31" height="97"/>
+ <objectgroup name="Collisions">
+  <object id="27" type="Solid" x="2" y="928" width="2046" height="30"/>
+  <object id="28" type="Platform" x="128" y="895.5" width="128.5" height="12.5"/>
+  <object id="29" type="Platform" x="256" y="864" width="128" height="11"/>
+  <object id="30" type="Platform" x="384.5" y="831" width="383.5" height="13"/>
+  <object id="31" type="Platform" x="768" y="863.5" width="127.5" height="11"/>
+  <object id="32" type="Platform" x="896" y="895.5" width="128" height="11"/>
+  <object id="33" type="Platform" x="1408" y="896.5" width="127" height="11"/>
+  <object id="34" type="Platform" x="1536" y="863" width="127" height="12"/>
+  <object id="35" type="Platform" x="1665" y="832.5" width="126.5" height="10.5"/>
+  <object id="36" type="Platform" x="1792.5" y="863.5" width="126.5" height="12"/>
+  <object id="37" type="Platform" x="1920.5" y="895.5" width="128.5" height="11"/>
+  <object id="38" type="Ladder" x="672" y="831" width="31" height="97"/>
  </objectgroup>
 </map>

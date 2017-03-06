@@ -11,13 +11,15 @@ class Renderer(object):
 
     def __init__(self, filename):
         tm = pytmx.util_pygame.load_pygame(filename, pixel_alpha=True)
-        self.size = tm.width * tm.tilewidth, tm.height * tm.tileheight
+        self.width = tm.width * tm.tilewidth
+        self.height = tm.height * tm.tileheight
+        self.size = self.width, self.height
         self.tmx_data = tm
-        self.ground = []
+        self.solids = []
         self.platforms = []
         self.ladders = []
 
-    def render(self, surface):
+    def Render(self, surface):
 
         tw = self.tmx_data.tilewidth
         th = self.tmx_data.tileheight
@@ -43,15 +45,15 @@ class Renderer(object):
                             a_ladder = CollisionObject.Ladder(obj.x, obj.y, obj.width, obj.height)
                             self.ladders.append(a_ladder)
                         elif obj.type == "Solid":
-                            ground_piece = CollisionObject.CollisionObject(obj.x, obj.y, obj.width, obj.height)
-                            self.ground.append(ground_piece)
+                            solid_piece = CollisionObject.CollisionObject(obj.x, obj.y, obj.width, obj.height)
+                            self.solids.append(solid_piece)
 
             elif isinstance(layer, pytmx.TiledImageLayer):
                 image = gt(layer.gid)
                 if image:
                     surface.blit(image, (0, 0))
 
-    def make_map(self):
+    def MakeMap(self):
         temp_surface = pygame.Surface(self.size)
-        self.render(temp_surface)
+        self.Render(temp_surface)
         return temp_surface
