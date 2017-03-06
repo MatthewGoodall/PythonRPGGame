@@ -53,7 +53,7 @@ class Player(pygame.sprite.Sprite):
             self.current_health = 0
             self.alive = False
 
-    def Attack(self, game_screen, enemy_list):
+    def Attack(self, game_screen):
         f = None
         player_rect = camera.Apply(self)
         if self.last_direction == "right":
@@ -62,7 +62,7 @@ class Player(pygame.sprite.Sprite):
         elif self.last_direction == "left":
             f = pygame.draw.rect(game_screen, (0, 0, 255), (
                 player_rect.x - 100 - player_rect.width, player_rect.y, 100 + player_rect.width, player_rect.height))
-        for enemy in enemy_list:
+        for enemy in Level.current_level.enemies:
             enemy_rect = camera.Apply(enemy)
             rects_colliding = f.colliderect(enemy_rect)
             if rects_colliding:
@@ -85,7 +85,7 @@ class Player(pygame.sprite.Sprite):
             self.y_speed = upward_speed
             self.can_jump = False
 
-    def UpdateMovement(self, ground=[], platforms=[], ladders=[]):
+    def UpdateMovement(self):
         move_x, move_y = 0.0, self.y_speed
 
         if self.moving_right:
@@ -114,11 +114,10 @@ class Player(pygame.sprite.Sprite):
         else:
             if self.y_speed <= 10.0:
                 self.y_speed += 0.3
-        self.UpdateCollisions(move_x, move_y, ground, platforms, ladders)
+        self.UpdateCollisions(move_x, move_y)
 
-    def UpdateCollisions(self, x_movement, y_movement, ground=[], platforms=[], ladders=[]):
-        collisions = ground + platforms + ladders
-
+    def UpdateCollisions(self, x_movement, y_movement):
+        collisions = Level.current_level.solids + Level.current_level.platforms + Level.current_level.ladders
         self.rect.x += x_movement
         collision_list = pygame.sprite.spritecollide(self, collisions, False)
 
@@ -157,16 +156,23 @@ class Player(pygame.sprite.Sprite):
                     self.rect.top = collision_object.rect.bottom
                     self.y_speed = 0
             if collision_object in ladders:
-                self.y_speed = 0
-
-    def NPCCollision(self, collision):
-        interact = pygame.sprite.spritecollide(self, collision, False)
+                self.y_speed = 0.0
+                
+    def Interact(self):
+        self.NPCCollision()
+        self.GatewayCollision()
+        
+    def NPCCollision(self):
+        interact = pygame.sprite.spritecollide(self, Level.current_level.NPCs, False)
         if interact:
             Read_JSON("Resources\JSON Data\JSON_DATA.json", "Bad Guy", "dialogue")
-
-    def Update(self, time, ground=[], platforms=[], ladders=[]):
+            
+    def GatewayCollision(self):
+        pass
+    
+    def Update(self, time):
         if self.alive:
-            self.UpdateMovement(ground, platforms, ladders)
+            self.UpdateMovement()
             self.UpdateAnimation(time)
 
 
