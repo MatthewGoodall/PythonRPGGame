@@ -22,18 +22,18 @@ class Animation:
                 (i * self.frame_width, self.height, self.frame_width, self.frame_height))
             self.frames.append(new_image)
 
-    def get_first_frame(self):
+    def GetFirstFrame(self):
         frame_1 = self.sprite_sheet.subsurface((0, self.height, self.frame_width, self.frame_height))
         return frame_1
 
-    def needsUpdate(self, current_time):
+    def NeedsUpdate(self, current_time):
         if current_time - self.time_counter > self.ms_delay:
             self.time_counter = current_time
             return True
         else:
             return False
 
-    def update(self):
+    def Update(self):
         self.current_frame += 1
         if self.current_frame > self.number_of_frames - 1:
             self.current_frame = 0

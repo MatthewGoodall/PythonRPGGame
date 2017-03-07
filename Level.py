@@ -4,7 +4,7 @@ import NPC
 import Enemy
 
 
-class Level():
+class Location():
     def __init__(self, level_tmx_map_path):
         self.enemies = []
         self.NPCs = []
@@ -33,14 +33,3 @@ class Level():
 
     def Render(self, screen):
         self.tile_renderer.Render(screen)
-
-
-def ChangeLevel(new_level):
-    Camera.camera.change_level_size(new_level.width, new_level.height)
-
-
-level_1 = Level("Resources/TileMaps/town.tmx")
-level_1.NPCs.append(NPC.egg)
-level_1.enemies.append(Enemy.henery)
-level_2 = Level("Resources/TileMaps/test.tmx")
-current_level = level_1

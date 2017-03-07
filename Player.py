@@ -179,6 +179,3 @@ class Player(pygame.sprite.Sprite):
         if self.alive:
             self.UpdateMovement()
             self.UpdateAnimation(time)
-
-
-player = Player()

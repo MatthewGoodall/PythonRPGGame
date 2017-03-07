@@ -5,12 +5,13 @@ class Camera(pygame.sprite.Sprite):
     def __init__(self, width_of_level, height_of_level):
         self.rect = pygame.Rect(0, 0, width_of_level, height_of_level)
 
-    def Apply(self, target, passed_type="normal"):
-        if passed_type == "rect":
-            return target.move(self.rect.topleft)
-        return target.rect.move(self.rect.topleft)
+    def ApplyToSprite(self, target_sprite):
+        return target_sprite.rect.move(self.rect.topleft)
 
-    def change_level_size(self, new_width, new_height):
+    def ApplyToRect(self, target_rect):
+        return target_rect.move(self.rect.topleft)
+
+    def change_location_size(self, new_width, new_height):
         self.rect.width = new_width
         self.rect.height = new_height
 
@@ -32,6 +33,3 @@ class Camera(pygame.sprite.Sprite):
         t = max(-(camera.height - height_of_screen), t)
         t = min(0, t)
         return pygame.Rect(l, t, w, h)
-
-
-camera = Camera(32*64, 32*48)

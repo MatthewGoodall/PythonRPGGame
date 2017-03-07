@@ -25,7 +25,7 @@ class Enemy(pygame.sprite.Sprite):
         self.walkLoop_start = walkLoop_start
         self.walkLoop_end = walkLoop_end
 
-    def doDamage(self):
+    def DoDamage(self):
         player.TakeDamage(self.damage)
         return self.damage
 
@@ -35,7 +35,7 @@ class Enemy(pygame.sprite.Sprite):
             self.health = 0
             self.alive = False
 
-    def updateAnimation(self, time):
+    def UpdateAnimation(self, time):
         if self.current_animation.type == "spawning":
             if self.current_animation.current_frame == self.current_animation.number_of_frames - 1:
                 self.current_animation.update()
@@ -45,7 +45,7 @@ class Enemy(pygame.sprite.Sprite):
         if self.current_animation.needsUpdate(time):
             self.image = self.current_animation.update()
 
-    def chasePlayer(self, collisions, speed=1):
+    def ChasePlayer(self, collisions, speed=1):
         if not self.spawning:
             move_x, move_y = 0, 0
             # Movement along x direction
@@ -76,7 +76,7 @@ class Enemy(pygame.sprite.Sprite):
                 elif move_y < 0:
                     self.rect.top = collision_object.rect.bottom
 
-    def walkPath(self, speed=1):
+    def WalkPath(self, speed=1):
         if not self.spawning:
             move_x, move_y = 0, 0
 
