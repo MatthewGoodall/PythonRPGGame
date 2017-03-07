@@ -43,7 +43,7 @@ class Player(pygame.sprite.Sprite):
 
         self.items = []
 
-    def SetPlayer(self):
+    def Load(self):
         self.current_animation = self.idle_right_animation
         self.current_image = self.current_animation
         self.image = self.current_image.GetFirstFrame()

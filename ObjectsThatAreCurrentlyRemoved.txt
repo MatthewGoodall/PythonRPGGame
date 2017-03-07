@@ -1,0 +1,33 @@
+self.player.walking_right_animation = Animation.Animation("Resources/Spritesheets/PlayerWalkingRight.png", 8, 16, 4, 4)
+        self.player.walking_right_animation.ms_delay = 125
+        self.player.walking_left_animation = Animation.Animation("Resources/Spritesheets/PlayerWalkingLeft.png", 8, 16, 4, 4)
+        self.player.walking_left_animation.ms_delay = 125
+        self.player.idle_right_animation = Animation.Animation("Resources/Spritesheets/PlayerIdleRight.png", 8, 16, 2, 4)
+        self.player.idle_left_animation = Animation.Animation("Resources/Spritesheets/PlayerIdleLeft.png", 8, 16, 2, 4)
+        self.player.Load()
+        self.squid_spawning = Animation.Animation("Resources/Spritesheets/Squid.png", 19, 23, 1, 1)
+        self.squid_spawning.type = "spawning"
+        self.squid_idle = Animation.Animation("Resources/SinglePhotos/Squid.png", 19, 23, 1, 1)
+
+        self.dragon_idle = Animation.Animation("Resources/Spritesheets/DragonLeft.png", 20, 20, 1, 8)
+        self.dragon_spawning = Animation.Animation("Resources/Spritesheets/DragonLeft.png", 20, 20, 1, 8)
+        self.dragon_spawning.type = "spawning"
+
+        self.hen_idle = Animation.Animation("Resources/Spritesheets/Henrey.png", 18, 18, 1, 1)
+        self.hen_spawning = Animation.Animation("Resources/Spritesheets/Henrey.png", 18, 18, 1, 1)
+        self.hen_spawning.type = "spawning"
+
+        self.health_bar_anim = Animation.Animation("Resources/Spritesheets/HealthBar.png", 66, 66, 2, 3)
+        self.mana_bar_anim = Animation.Animation("Resources/Spritesheets/ManaBar.png", 66, 66, 1, 3)
+        # health, damage, numberOfLoot, typeOfReward, spawnPos_X, spawnPos_Y, spawn_animation, walkLoop_start, walkLoop_end
+        self.squid = Enemy.Enemy(10, 5, 1, "Sword", 100, 650, self.squid_spawning, 0, 650)
+        self.dragon_hatchling = Enemy.Enemy(10, 1, 1, "Gold", 150, 650, self.dragon_spawning, 0, 650)
+        self.henery = Enemy.Enemy(10, 5, 1, "Gold", 150, 650, self.hen_spawning, 0, 650)
+        self.squid.idle_animation = self.squid_idle
+        self.dragon_hatchling.idle_animation = self.dragon_idle
+        self.henery.idle_animation = self.hen_idle
+        self.camera = Camera.Camera(32*64, 32*48)
+        self.clock = pygame.time.Clock()
+        self.a_town = Location.Location("Resources/TileMaps/town.tmx")
+        self.other_location = Location.Location("Resources/TileMaps/test.tmx")
+        self.a_town.CreateMap()
