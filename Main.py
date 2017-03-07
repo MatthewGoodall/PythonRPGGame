@@ -1,7 +1,7 @@
 import Game
 
 def PlayGame():
-    game = Game()
+    game = Game.Game()
     game.Setup()
     game.GameLoop()
     game.Quit()

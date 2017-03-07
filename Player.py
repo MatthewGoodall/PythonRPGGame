@@ -1,12 +1,11 @@
 import pygame
 import Animation
 import CollisionObject
-import Level
+import Location
 import Enemy
-from Camera import *
-from NPC import *
-from JSON_Reader import *
-import Level
+import Camera
+import NPC
+import JSON_Reader
 
 pygame.mixer.init()
 pygame.display.init()
@@ -19,26 +18,23 @@ class Player(pygame.sprite.Sprite):
         self.current_health = 10
         self.attack_damage = 5
 
-        self.idle_right_animation = Animation.player_idle_right
-        self.idle_left_animation = Animation.player_idle_left
-        self.walking_right_animation = Animation.player_walking_right
-        self.walking_left_animation = Animation.player_walking_left
-        self.current_animation = self.idle_right_animation
+        self.idle_right_animation = None
+        self.idle_left_animation = None
+        self.walking_right_animation = None
+        self.walking_left_animation = None
+        self.current_animation = None
 
-        self.image = self.current_animation.get_first_frame()
+        self.image = None
 
-        self.rect = self.image.get_rect()
-        self.rect.x = 500
-        self.rect.y = 0
+        self.rect = None
 
         self.alive = True
         self.speed = 5.0
         self.y_speed = 0.0
         self.jump_pressed = False
-        self.moving_up = False
-        self.moving_right = False
-        self.moving_down = False
-        self.moving_left = False
+        self.right_pressed = False
+        self.down_pressed = False
+        self.left_pressed = False
         self.on_ladder = False
         self.touching_ground = True
         self.can_jump = True
@@ -46,6 +42,13 @@ class Player(pygame.sprite.Sprite):
 
         self.items = []
 
+    def SetPlayer(self):
+        self.current_animation = self.idle_right_animation
+        self.current_image = self.current_animation
+        self.image = self.current_image.GetFirstFrame()
+        self.rect = self.image.get_rect()
+        self.rect.x = 500
+        self.rect.y = 0
     def TakeDamage(self, damage):
         # Take Damage
         self.current_health -= damage
@@ -55,7 +58,7 @@ class Player(pygame.sprite.Sprite):
             self.current_health = 0
             self.alive = False
 
-    def Attack(self, game_screen):
+    def Attack(self, game_screen, camera):
         f = None
         player_rect = camera.Apply(self)
         if self.last_direction == "right":
@@ -74,8 +77,8 @@ class Player(pygame.sprite.Sprite):
                     self.items.append(enemy.typeOfReward)
 
     def UpdateAnimation(self, time):
-        if self.current_animation.needsUpdate(time):
-            self.image = self.current_animation.update()
+        if self.current_animation.NeedsUpdate(time):
+            self.image = self.current_animation.Update()
 
     def ChangeCurrentAnimation(self, new_animation):
         if self.current_animation != new_animation:
@@ -87,12 +90,11 @@ class Player(pygame.sprite.Sprite):
             self.y_speed = upward_speed
             self.can_jump = False
 
-    def UpdateMovement(self):
+    def UpdateMovement(self, current_location):
         move_x, move_y = 0.0, self.y_speed
-
-        if self.moving_right:
+        if self.right_pressed:
             move_x += self.speed
-        if self.moving_left:
+        if self.left_pressed:
             move_x -= self.speed
 
         if move_x > 0.0:
@@ -116,12 +118,12 @@ class Player(pygame.sprite.Sprite):
         else:
             if self.y_speed <= 10.0:
                 self.y_speed += 0.3
-        self.UpdateCollisions(move_x, move_y)
+        self.UpdateCollisions(move_x, move_y, current_location)
 
-    def UpdateCollisions(self, x_movement, y_movement):
-        solids = Level.current_level.solids
-        platforms = Level.current_level.platforms
-        ladders = Level.current_level.ladders
+    def UpdateCollisions(self, x_movement, y_movement, current_location):
+        solids = current_location.solids
+        platforms = current_location.platforms
+        ladders = current_location.ladders
         collisions = solids + platforms + ladders
         self.rect.x += x_movement
         collision_list = pygame.sprite.spritecollide(self, collisions, False)
@@ -175,7 +177,7 @@ class Player(pygame.sprite.Sprite):
     def GatewayCollision(self):
         pass
 
-    def Update(self, time):
+    def Update(self, time, current_location):
         if self.alive:
-            self.UpdateMovement()
+            self.UpdateMovement(current_location)
             self.UpdateAnimation(time)

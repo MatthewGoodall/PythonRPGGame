@@ -39,28 +39,3 @@ class Animation:
             self.current_frame = 0
         image_to_return = self.frames[self.current_frame]
         return image_to_return
-
-
-# name_of_animation = Animation("File path", frame_w, frame_h, # of frames, (scale)
-# ms delay defaults to 500ms
-player_walking_right = Animation("Resources/Spritesheets/PlayerWalkingRight.png", 8, 16, 4, 4)
-player_walking_right.ms_delay = 125
-player_walking_left = Animation("Resources/Spritesheets/PlayerWalkingLeft.png", 8, 16, 4, 4)
-player_walking_left.ms_delay = 125
-player_idle_right = Animation("Resources/Spritesheets/PlayerIdleRight.png", 8, 16, 2, 4)
-player_idle_left = Animation("Resources/Spritesheets/PlayerIdleLeft.png", 8, 16, 2, 4)
-
-squid_spawning = Animation("Resources/Spritesheets/Squid.png", 19, 23, 1, 1)
-squid_spawning.type = "spawning"
-squid_idle = Animation("Resources/SinglePhotos/Squid.png", 19, 23, 1, 1)
-
-dragon_idle = Animation("Resources/Spritesheets/DragonLeft.png", 20, 20, 1, 8)
-dragon_spawning = Animation("Resources/Spritesheets/DragonLeft.png", 20, 20, 1, 8)
-dragon_spawning.type = "spawning"
-
-hen_idle = Animation("Resources/Spritesheets/Henrey.png", 18, 18, 1, 1)
-hen_spawning = Animation("Resources/Spritesheets/Henrey.png", 18, 18, 1, 1)
-hen_spawning.type = "spawning"
-
-health_bar_anim = Animation("Resources/Spritesheets/HealthBar.png", 66, 66, 2, 3)
-mana_bar_anim = Animation("Resources/Spritesheets/ManaBar.png", 66, 66, 1, 3)

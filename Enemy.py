@@ -17,7 +17,7 @@ class Enemy(pygame.sprite.Sprite):
         self.spawn_animation = spawn_animation
         self.idle_animation = None
         self.current_animation = spawn_animation
-        self.image = self.current_animation.get_first_frame()
+        self.image = self.current_animation.GetFirstFrame()
         self.rect = self.image.get_rect()
         self.rect.x = spawnPos_X
         self.rect.y = spawnPos_Y
@@ -89,12 +89,3 @@ class Enemy(pygame.sprite.Sprite):
                 if self.rect.y >= self.walkLoop_end:
                     self.donePath = False
             self.rect.y += move_y
-
-
-# health, damage, numberOfLoot, typeOfReward, spawnPos_X, spawnPos_Y, spawn_animation, walkLoop_start, walkLoop_end
-squid = Enemy(10, 5, 1, "Sword", 100, 650, Animation.squid_spawning, 0, 650)
-dragon_hatchling = Enemy(10, 1, 1, "Gold", 150, 650, Animation.dragon_spawning, 0, 650)
-henery = Enemy(10, 5, 1, "Gold", 150, 650, Animation.hen_spawning, 0, 650)
-squid.idle_animation = Animation.squid_idle
-dragon_hatchling.idle_animation = Animation.dragon_idle
-henery.idle_animation = Animation.hen_idle
