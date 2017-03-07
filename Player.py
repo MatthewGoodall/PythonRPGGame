@@ -31,6 +31,7 @@ class Player(pygame.sprite.Sprite):
         self.alive = True
         self.speed = 5.0
         self.y_speed = 0.0
+        self.up_pressed = False
         self.jump_pressed = False
         self.right_pressed = False
         self.down_pressed = False
@@ -111,9 +112,9 @@ class Player(pygame.sprite.Sprite):
 
         if self.on_ladder:
             move_y = 0.0
-            if self.moving_up or self.jump_pressed:
+            if self.jump_pressed or self.up_pressed:
                 move_y -= self.speed / 2
-            if self.moving_down:
+            if self.down_pressed:
                 move_y += self.speed / 2
         else:
             if self.y_speed <= 10.0:
@@ -153,7 +154,7 @@ class Player(pygame.sprite.Sprite):
             if y_movement > 0.0 and not prob_not_falling_through_floor:
                 falling_through = False
                 if collision_object in platforms:
-                    if self.moving_down: falling_through = True
+                    if self.down_pressed: falling_through = True
                 if not falling_through:
                     self.rect.bottom = collision_object.rect.top
                     self.y_speed = 0

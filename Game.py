@@ -53,7 +53,7 @@ class Game:
         self.squid.idle_animation = self.squid_idle
         self.dragon_hatchling.idle_animation = self.dragon_idle
         self.henery.idle_animation = self.hen_idle
-        self.camera = Camera.Camera(32*64, 64*64)
+        self.camera = Camera.Camera(32*64, 32*48)
         self.clock = pygame.time.Clock()
         self.a_town = Location.Location("Resources/TileMaps/town.tmx")
         self.other_location = Location.Location("Resources/TileMaps/test.tmx")
@@ -86,13 +86,13 @@ class Game:
             if event.type == pygame.QUIT:
                 self.running = False
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_e:
+                if event.key == pygame.K_q:
                     self.player.Attack(self.screen)
                 elif event.key == pygame.K_i:
                     for item in self.player.items:
                         print(item)
                     print("------")
-                elif event.key == pygame.K_SPACE:
+                elif event.key == pygame.K_e:
                     self.player.Interact()
                     """
                     text = str(var).strip("[]""'")
@@ -107,11 +107,13 @@ class Game:
     def GetInput(self):
         # Update player movement--------------------------------
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_w]:
-            self.player.Jump()
+        self.player.up_pressed = keys[pygame.K_w]
         self.player.right_pressed = keys[pygame.K_d]
         self.player.down_pressed = keys[pygame.K_s]
         self.player.left_pressed = keys[pygame.K_a]
+        self.player.jump_pressed = keys[pygame.K_SPACE]
+        if self.player.jump_pressed:
+            self.player.Jump()
 
     def UpdateSprites(self):
         self.UpdatePlayer()
@@ -148,7 +150,7 @@ class Game:
 
     def DrawScreen(self):
         self.camera.Update(self.player)
-        self.current_location.Render(self.screen)
+        self.screen.blit(self.current_location.map_surface, self.camera.ApplyToRect(self.current_location.map_rect))
 
         self.screen.blit(self.player.image, self.camera.ApplyToSprite(self.player))
 
