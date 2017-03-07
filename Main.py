@@ -41,8 +41,6 @@ game_sprites = enemy_sprites + player_sprite + npc_sprites
 # Every single sprite
 
 all_sprites = enemy_sprites + gui_sprites + player_sprite
-
-all_sprites = enemy_sprites + gui_sprites + player_sprite
 # ------------------------------------------------------------------------
 
 # Background music

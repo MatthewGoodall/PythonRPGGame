@@ -6,6 +6,7 @@ import Enemy
 from Camera import *
 import NPC
 from JSON_Reader import *
+import Level
 
 pygame.mixer.init()
 pygame.display.init()
