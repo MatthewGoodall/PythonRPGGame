@@ -86,8 +86,8 @@ class Player(pygame.sprite.Sprite):
             self.current_animation = new_animation
 
     def Jump(self):
-        upward_speed = -8.0
         if self.can_jump:
+            upward_speed = -8.0
             self.y_speed = upward_speed
             self.can_jump = False
 
@@ -177,8 +177,3 @@ class Player(pygame.sprite.Sprite):
 
     def GatewayCollision(self):
         pass
-
-    def Update(self, time, current_location):
-        if self.alive:
-            self.UpdateMovement(current_location)
-            self.UpdateAnimation(time)

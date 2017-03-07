@@ -23,10 +23,14 @@ class Game:
         self.screen_height = 780
         self.screen_size = self.screen_width, self.screen_height
         self.screen = pygame.display.set_mode(self.screen_size)
+        self.locations = []
+        self.current_location = None
+        self.GUI = []
+        self.camera = Camera.Camera(32*32, 32*48)
         self.player = Player.Player()
 
     def Setup(self):
-        self.camera.Update(self.player)
+        self.player.Load()
 
     def GameLoop(self):
         self.running = True
@@ -49,7 +53,7 @@ class Game:
                 self.running = False
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_q:
-                    self.player.Attack(self.screen)
+                    self.player.Attack(self.current_location)
                 elif event.key == pygame.K_i:
                     for item in self.player.items:
                         print(item)
@@ -64,7 +68,7 @@ class Game:
                     """
                 elif event.key == pygame.K_ESCAPE:
                     Level.ChangeLevel(Level.level_2)
-                    Level.current_level = Level.level_2
+                    Level.current_location = Level.level_2
 
     def GetInput(self):
         # Update player movement--------------------------------
@@ -80,6 +84,7 @@ class Game:
     def UpdateSprites(self):
         self.UpdatePlayer()
         self.UpdateEnemies()
+        self.UpdateGUI()
 
     def UpdatePlayer(self):
         if self.player.alive:
@@ -99,12 +104,16 @@ class Game:
             else:
                 self.KillEnemy()
 
+    def UpdateGUI(self):
+        for gui_element in self.GUI:
+            gui_element.UpdateAnimation()
+
     def KillPlayer(self):
-        #Game over(TO BE IMPLEMENTED)
+        # Game over(TO BE IMPLEMENTED)
         pass
 
     def KillEnemy(self, enemy_to_kill):
-        current_enemies.remove(enemy_to_kill)
+        self.current_location.current_enemies.remove(enemy_to_kill)
 
     def ClearScreen(self):
         color_of_sky = 30, 144, 255
