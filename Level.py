@@ -35,6 +35,7 @@ def ChangeLevel(new_level):
     Camera.camera.change_level_size(new_level.width, new_level.height)
 
 level_1 = Level("Resources/TileMaps/town.tmx")
-level_1.NPCs.append(egg)
+level_1.NPCs.append(NPC.egg)
+level_1.enemies.append(Enemy.dragon_hatchling, Enemy.squid, Enemy.henrey)
 level_2 = Level("Resources/TileMaps/test.tmx")
 current_level = level_1

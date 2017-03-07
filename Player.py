@@ -2,9 +2,9 @@ import pygame
 import Animation
 import CollisionObject
 import Level
-from Enemy import *
+import Enemy
 from Camera import *
-from NPC import *
+import NPC
 from JSON_Reader import *
 
 pygame.mixer.init()

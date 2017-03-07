@@ -92,7 +92,7 @@ class Enemy(pygame.sprite.Sprite):
 # health, damage, numberOfLoot, typeOfReward, spawnPos_X, spawnPos_Y, spawn_animation, walkLoop_start, walkLoop_end
 squid = Enemy(10, 5, 1, "Sword", 100, 650, Animation.squid_spawning, 0, 650)
 dragon_hatchling = Enemy(10, 1, 1, "Gold", 150, 650, Animation.dragon_spawning, 0, 650)
-henery = Enemy(10, 5, 1, "Gold", 150, 650, Animation.hen_spawning, 0, 650)
+henrey = Enemy(10, 5, 1, "Gold", 150, 650, Animation.hen_spawning, 0, 650)
 squid.idle_animation = Animation.squid_idle
 dragon_hatchling.idle_animation = Animation.dragon_idle
-henery.idle_animation = Animation.hen_idle
+henrey.idle_animation = Animation.hen_idle
