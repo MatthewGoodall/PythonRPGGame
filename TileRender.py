@@ -1,7 +1,6 @@
 import pytmx
 from pytmx.util_pygame import load_pygame
 import CollisionObject
-from Player import *
 
 
 class Renderer(object):
@@ -45,7 +44,7 @@ class Renderer(object):
                             a_ladder = CollisionObject.Ladder(obj.x, obj.y, obj.width, obj.height)
                             self.ladders.append(a_ladder)
                         elif obj.type == "Solid":
-                            solid_piece = CollisionObject.CollisionObject(obj.x, obj.y, obj.width, obj.height)
+                            solid_piece = CollisionObject.SolidObject(obj.x, obj.y, obj.width, obj.height)
                             self.solids.append(solid_piece)
 
             elif isinstance(layer, pytmx.TiledImageLayer):

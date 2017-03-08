@@ -13,6 +13,7 @@ class Location():
         self.map_surface = None
         self.map_rect = None
 
+        self.collisions = None
         self.platforms = None
         self.solids = None
         self.ladders = None
@@ -27,6 +28,7 @@ class Location():
         self.platforms = self.tile_renderer.platforms
         self.solids = self.tile_renderer.solids
         self.ladders = self.tile_renderer.ladders
+        self.collisions = self.platforms + self.solids + self.ladders
 
         self.width = self.tile_renderer.width
         self.height = self.tile_renderer.height

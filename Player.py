@@ -3,6 +3,7 @@ import Animation
 import CollisionObject
 import Location
 import Enemy
+import Inventory
 import Camera
 import NPC
 import JSON_Reader
@@ -10,76 +11,61 @@ import JSON_Reader
 pygame.mixer.init()
 pygame.display.init()
 
-
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-
-        self.current_health = 10
-        self.attack_damage = 5
-
-        self.idle_right_animation = None
-        self.idle_left_animation = None
-        self.walking_right_animation = None
-        self.walking_left_animation = None
-        self.current_animation = None
-
-        self.image = None
-
-        self.rect = None
-
         self.alive = True
-        self.speed = 5.0
-        self.y_speed = 0.0
-        self.up_pressed = False
+        self.maximum_health = 10
+        self.current_health = self.maximum_health
+        self.inventory = Inventory.Inventory()
+
+        self.idle_right_animation = JSONData.find("idle_right_animation")
+        self.idle_left_animation = JSONData.find("idle_right_animation")
+        self.walking_right_animation = JSONData.find("idle_right_animation")
+        self.walking_left_animation = JSONData.find("idle_right_animation")
+        self.current_animation = self.idle_right_animation
+
+        self.image = current_animation.GetFirstFrame
+        self.rect = self.image.get_rect()
+
+        self.movement_speed = 5.0
+        self.vertical_speed = 0.0
+        self.move_x = 0.0
+        self.move_y = 0.0
+
         self.jump_pressed = False
+        self.up_pressed = False
         self.right_pressed = False
         self.down_pressed = False
         self.left_pressed = False
-        self.on_ladder = False
-        self.touching_ground = True
-        self.can_jump = True
-        self.last_direction = "right"
 
-        self.items = []
+        self.can_jump = False
+        self.facing_direction = "right"
 
-    def Load(self):
-        self.current_animation = self.idle_right_animation
-        self.current_image = self.current_animation
-        self.image = self.current_image.GetFirstFrame()
-        self.rect = self.image.get_rect()
-        self.rect.x = 500
-        self.rect.y = 0
-    def TakeDamage(self, damage):
-        # Take Damage
+    def TakeDamge(self, amount_of_damage):
         self.current_health -= damage
-
         if self.current_health <= 0:
-            # Player has died
             self.current_health = 0
             self.alive = False
 
-    def Attack(self, game_screen, camera):
-        f = None
-        player_rect = camera.Apply(self)
+    def Attack(self, enemies):
+        attack_box = pygame.Rect(0, 0, 150, 50) # create a rect that has a width of 150, height of 50
+        attack_box.y = self.rect.y
+
         if self.last_direction == "right":
-            f = pygame.draw.rect(game_screen, (0, 0, 255),
-                                 (player_rect.x, player_rect.y, 100 + player_rect.width, player_rect.height))
+            attack_box.x = self.rect.x
+
         elif self.last_direction == "left":
-            f = pygame.draw.rect(game_screen, (0, 0, 255), (
-                player_rect.x - 100 - player_rect.width, player_rect.y, 100 + player_rect.width, player_rect.height))
-        for enemy in Level.current_level.enemies:
-            enemy_rect = camera.Apply(enemy)
-            rects_colliding = f.colliderect(enemy_rect)
-            if rects_colliding:
-                enemy.TakeDamage(self.attack_damage)
-                print("enemy took damage")
-                if not enemy.alive:
-                    self.items.append(enemy.typeOfReward)
+            attack_box.x = self.rect.x - (150 - self.rect.width)
+
+        for enemy in enemies:
+            if attack_box.colliderect(enemy.rect):
+                print("Enemy took damage") # Just until we know for sure that the attack box is in the correct position / is correct size
+                enemy.TakeDamage(5) # Amount of damage will eventually be dependent on weapon and stats
 
     def UpdateAnimation(self, time):
         if self.current_animation.NeedsUpdate(time):
-            self.image = self.current_animation.Update()
+            self.current_animation.Update(time)
 
     def ChangeCurrentAnimation(self, new_animation):
         if self.current_animation != new_animation:
@@ -88,83 +74,60 @@ class Player(pygame.sprite.Sprite):
     def Jump(self):
         if self.can_jump:
             upward_speed = -8.0
-            self.y_speed = upward_speed
+            self.vertical_speed = upward_speed
             self.can_jump = False
 
     def UpdateMovement(self, current_location):
-        move_x, move_y = 0.0, self.y_speed
+        # Horizontal Movement
+        self.move_x = 0.0
         if self.right_pressed:
-            move_x += self.speed
+            self.move_x += self.movement_speed
         if self.left_pressed:
-            move_x -= self.speed
+            self.move_x -= self.movement_speed
 
-        if move_x > 0.0:
+        if self.move_x > 0.0:  # Moving right
             self.ChangeCurrentAnimation(self.walking_right_animation)
             self.last_direction = "right"
-        elif move_x < 0.0:
+        elif self.move_x < 0.0:  # Moving left
             self.ChangeCurrentAnimation(self.walking_left_animation)
             self.last_direction = "left"
-        elif move_x == 0.0:
+        elif self.move_x == 0.0:  # Standing still
             if self.last_direction == "right":
                 self.ChangeCurrentAnimation(self.idle_right_animation)
             elif self.last_direction == "left":
                 self.ChangeCurrentAnimation(self.idle_left_animation)
 
-        if self.on_ladder:
-            move_y = 0.0
+        # Vertical Movement
+        if not self.CheckForLadderMovement(current_location):
+            self.UpdateGravity()
+
+        self.UpdateCollisions(current_location)
+
+    def CheckForLadderMovement(self, current_location):
+        ladder_collision = pygame.sprite.spritecollide(self, current_location.ladders, False)
+        if ladder_collisions:
+            self.move_y = 0.0
             if self.jump_pressed or self.up_pressed:
-                move_y -= self.speed / 2
+                self.move_y -= self.movement_speed/2
             if self.down_pressed:
-                move_y += self.speed / 2
-        else:
-            if self.y_speed <= 10.0:
-                self.y_speed += 0.3
-        self.UpdateCollisions(move_x, move_y, current_location)
+                self.move_y += self.movement_speed/2
+            return True
+
+    def UpdateGravity():
+        if self.y_speed <= 10.0:
+            self.y_speed += 0.3
+        self.move_y = self.y_speed
 
     def UpdateCollisions(self, x_movement, y_movement, current_location):
-        solids = current_location.solids
-        platforms = current_location.platforms
-        ladders = current_location.ladders
-        collisions = solids + platforms + ladders
-        self.rect.x += x_movement
-        collision_list = pygame.sprite.spritecollide(self, collisions, False)
-
-        self.on_ladder = False
-        for ladder in ladders:
-            if ladder in collision_list:
-                self.on_ladder = True
-
+        self.rect.x += self.move_x
+        collision_list = pygame.sprite.spritecollide(self, current_location.collisions, False)
         for collision_object in collision_list:
-            if collision_object in solids:
-                if x_movement > 0.0:
-                    self.rect.right = collision_object.rect.left
-                elif x_movement < 0.0:
-                    self.rect.left = collision_object.rect.right
+            collision_object.HorizontalCollide(self)
 
-        self.rect.y += y_movement
-        collision_list = pygame.sprite.spritecollide(self, collisions, False)
+        self.rect.y += self.move_y
+        collision_list = pygame.sprite.spritecollide(self, current_location.collisions, False)
         for collision_object in collision_list:
-            prob_not_falling_through_floor = False
-            if collision_object in platforms:
-                if self.rect.bottom > collision_object.rect.bottom:
-                    prob_not_falling_through_floor = True
-            if collision_object in ladders:
-                prob_not_falling_through_floor = True
-
-            if y_movement > 0.0 and not prob_not_falling_through_floor:
-                falling_through = False
-                if collision_object in platforms:
-                    if self.down_pressed: falling_through = True
-                if not falling_through:
-                    self.rect.bottom = collision_object.rect.top
-                    self.y_speed = 0
-                    self.can_jump = True
-            elif y_movement < 0.0:
-                if collision_object in solids:
-                    self.rect.top = collision_object.rect.bottom
-                    self.y_speed = 0
-            if collision_object in ladders:
-                self.y_speed = 0.0
+            collision_object.VerticalCollide(self)
 
     def Interact(self):
         self.NPCCollision()
