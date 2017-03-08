@@ -1,0 +1,12 @@
+1) get tiled working for collision/camera ^
+2) better enemies
+- attacking
+- walk paths ^
+- dropping loot ^
+3) interacting
+- picking up items
+- "talking" to npcs
+- maybe even something involving switching levels
+4) abilities
+fire lots of fire
+me... :3
