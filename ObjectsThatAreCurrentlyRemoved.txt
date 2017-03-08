@@ -31,3 +31,6 @@ self.player.walking_right_animation = Animation.Animation("Resources/Spritesheet
         self.a_town = Location.Location("Resources/TileMaps/town.tmx")
         self.other_location = Location.Location("Resources/TileMaps/test.tmx")
         self.a_town.CreateMap()
+self.current_location = self.a_town
+        self.current_enemies = self.current_location.enemies
+        self.GUI = []
