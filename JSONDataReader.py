@@ -1,9 +1,19 @@
 import json
 
+
 class NPC:
     def __init__(self, name, dialogue):
         self.name = name
         self.dialogue = dialogue
+
+
+class Enemy:
+    def __init__(self, damage, location_name, spawn_x, spawn_y):
+        self.damage = damage
+        self.location_name = location_name
+        self.spawn_x = spawn_x
+        self.spawn_y = spawn_y
+
 
 class JSONDataReader:
     def __init__(self):
@@ -33,10 +43,18 @@ class JSONDataReader:
         pass
 
     def MakeEnemies(self, file_path):
-        pass
         # Read JSON data
         # Make enemy from each section of json data
         # Add each enemy to self.Enemies
+        with open(file_path) as data_file:
+            data = json.load(data_file)
+            for enemy in data:
+                damage_of_enemy = data[enemy]["damage"]
+                location_of_enemy = data[enemy]["location_name"]
+                spawn_x_of_enemy = data[enemy]["spawn_x"]
+                spawn_y_of_enemy = data[enemy]["spawn_y"]
+                a_enemy = Enemy(damage_of_enemy, location_of_enemy, spawn_x_of_enemy, spawn_y_of_enemy)
+                self.Enemies.append(a_enemy)
 
     def MakeLocations(self, file_path):
         # Read JSON data
@@ -67,6 +85,11 @@ class JSONDataReader:
 
 
 json_reader = JSONDataReader()
-json_reader.MakeNPCs("Resources/JSON Data/JSON_DATA.json")
-for npc in json_reader.NPCs:
-    print(npc.name)
+json_reader.MakeNPCs("Resources/JSON Data/NPC_DATA.json")
+
+for poop in json_reader.NPCs:
+    print(poop.name)
+
+json_reader.MakeEnemies("Resources/JSON Data/ENEMY_DATA.json")
+for poops in json_reader.Enemies:
+    print(poops.damage)
