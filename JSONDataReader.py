@@ -1,5 +1,9 @@
 import json
 
+class NPC:
+    def __init__(self, name, dialogue):
+        self.name = name
+        self.dialogue = dialogue
 
 class JSONDataReader:
     def __init__(self):
@@ -17,9 +21,10 @@ class JSONDataReader:
         with open(file_path) as data_file:
             data = json.load(data_file)
             for npc in data:
-                print(str(data[npc]).strip('{}'), str(data[npc]).strip('{}'))
-                NPCData = str(data[npc]).strip(self.bad_characters)
-                self.NPCs.append(NPCData)
+                name_of_npc = data[npc]["name"]
+                dialogue_of_npc = data[npc]["dialogue"]
+                a_npc = NPC(name_of_npc, dialogue_of_npc)
+                self.NPCs.append(a_npc)
 
     def MakeAnimations(self, file_path):
         # Read JSON data
@@ -62,5 +67,6 @@ class JSONDataReader:
 
 
 json_reader = JSONDataReader()
-
 json_reader.MakeNPCs("Resources/JSON Data/JSON_DATA.json")
+for npc in json_reader.NPCs:
+    print(npc.name)
