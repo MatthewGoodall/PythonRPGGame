@@ -6,7 +6,7 @@ import Enemy
 import Inventory
 import Camera
 import NPC
-import JSON_Reader
+import JSONDataReader
 
 pygame.mixer.init()
 pygame.display.init()

@@ -1,3 +1,6 @@
+import json
+
+
 class JSONDataReader:
     def __init__(self):
         self.NPCs = []
@@ -5,17 +8,27 @@ class JSONDataReader:
         self.Enemies = []
         self.Locations = []
 
+        self.bad_characters = '{}[]""'
+
     def MakeNPCs(self, file_path):
         # Read JSON data
         # Make NPC from each section of json data
         # Add each NPC to self.NPCs
+        with open(file_path) as data_file:
+            data = json.load(data_file)
+            for npc in data:
+                print(str(data[npc]).strip('{}'), str(data[npc]).strip('{}'))
+                NPCData = str(data[npc]).strip(self.bad_characters)
+                self.NPCs.append(NPCData)
 
     def MakeAnimations(self, file_path):
         # Read JSON data
         # Make animation from each section of json data
         # Add each animation to self.Animations
+        pass
 
     def MakeEnemies(self, file_path):
+        pass
         # Read JSON data
         # Make enemy from each section of json data
         # Add each enemy to self.Enemies
@@ -24,6 +37,7 @@ class JSONDataReader:
         # Read JSON data
         # Make location from each section of json data
         # Add each location to self.Locations
+        pass
 
     def PopulateLocations(self):
         """
@@ -45,3 +59,8 @@ class JSONDataReader:
                 return animation
         print("No animation found with the name of: " + animation_name)
         """
+
+
+json_reader = JSONDataReader()
+
+json_reader.MakeNPCs("Resources/JSON Data/JSON_DATA.json")
