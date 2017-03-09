@@ -33,5 +33,12 @@
 	  "location_name": "town",
 	  "spawn_x": "100",
 	  "spawn_y": "1375"
+    },
+	"Super Tinairasouaris": {
+	  "name": "Super Tinairasouaris",
+      "damage": "100000",
+	  "location_name": "space",
+	  "spawn_x": "100",
+	  "spawn_y": "1375"
     }
 }
