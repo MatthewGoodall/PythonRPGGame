@@ -1,17 +1,34 @@
 {
     "Dragon": {
+	  "name": "Dragon",
       "damage": "5",
 	  "location_name": "town",
 	  "spawn_x": "200",
 	  "spawn_y": "1375"
     },
     "Ghost": {
+	  "name": "Ghost",
       "damage": "5",
 	  "location_name": "town",
 	  "spawn_x": "150",
 	  "spawn_y": "1375"
     },
 	"Henery": {
+	  "name": "Henery",
+      "damage": "5",
+	  "location_name": "town",
+	  "spawn_x": "100",
+	  "spawn_y": "1375"
+    },
+	"Aeghar": {
+	  "name": "Aeghar",
+      "damage": "25",
+	  "location_name": "cave",
+	  "spawn_x": "100",
+	  "spawn_y": "1375"
+    },
+	"Captain Boopers": {
+	  "name": "Boopers",
       "damage": "5",
 	  "location_name": "town",
 	  "spawn_x": "100",
