@@ -19,10 +19,10 @@ class Player(pygame.sprite.Sprite):
         self.current_health = self.maximum_health
         self.inventory = Inventory.Inventory()
 
-        self.idle_right_animation = JSONData.find("idle_right_animation")
-        self.idle_left_animation = JSONData.find("idle_right_animation")
-        self.walking_right_animation = JSONData.find("idle_right_animation")
-        self.walking_left_animation = JSONData.find("idle_right_animation")
+        self.idle_right_animation = JSONData.GetAnimation("idle_right_animation")
+        self.idle_left_animation = JSONData.GetAnimation("idle_right_animation")
+        self.walking_right_animation = JSONData.GetAnimation("idle_right_animation")
+        self.walking_left_animation = JSONData.GetAnimation("idle_right_animation")
         self.current_animation = self.idle_right_animation
 
         self.image = current_animation.GetFirstFrame
