@@ -108,7 +108,7 @@ class Game:
             if enemy.alive:
                 enemy.UpdateAnimation(pygame.time.get_ticks())
                 if abs(self.player.rect.centerx - enemy.rect.centerx) < 300.0:
-                    enemy.ChasePlayer(self.current_location.collisions)
+                    enemy.ChasePlayer(self.current_location.collisions, self.player)
                 else:
                     enemy.WalkPath()
             else:
@@ -123,6 +123,7 @@ class Game:
         pass
 
     def KillEnemy(self, enemy_to_kill):
+        self.enemies.remove(enemy_to_kill)
         self.current_location.enemies.remove(enemy_to_kill)
 
     def ClearScreen(self):

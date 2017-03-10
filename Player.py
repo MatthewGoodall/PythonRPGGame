@@ -64,11 +64,10 @@ class Player(pygame.sprite.Sprite):
 
     def UpdateAnimation(self, time):
         if self.current_animation.NeedsUpdate(time):
-            self.current_animation.Update()
+            self.image = self.current_animation.Update()
 
     def ChangeCurrentAnimation(self, new_animation):
         if self.current_animation != new_animation:
-            print("changing animation")
             self.current_animation = new_animation
 
     def Jump(self):

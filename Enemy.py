@@ -48,39 +48,37 @@ class Enemy(pygame.sprite.Sprite):
         if self.current_animation.NeedsUpdate(time):
             self.image = self.current_animation.Update()
 
-    def ChasePlayer(self, collisions, speed=1):
-        if not self.spawning:
-            move_x, move_y = 0, 0
-            # Movement along x direction
-            if self.rect.x > player.rect.x:
-                move_x -= speed
-            elif self.rect.x < player.rect.x:
-                move_x += speed
-            # Movement along y direction
-            if self.rect.y < player.rect.y:
-                move_y += speed
-            elif self.rect.y > player.rect.y:
-                move_y -= speed
+    def ChasePlayer(self, collisions, player, speed=1):
+        move_x, move_y = 0, 0
+        # Movement along x direction
+        if self.rect.x > player.rect.x:
+            move_x -= speed
+        elif self.rect.x < player.rect.x:
+            move_x += speed
+        # Movement along y direction
+        if self.rect.y < player.rect.y:
+            move_y += speed
+        elif self.rect.y > player.rect.y:
+            move_y -= speed
 
-            self.rect.x += move_x
-            collision_list = pygame.sprite.spritecollide(self, collisions, False)
-            for collision_object in collision_list:
-                if move_x > 0:
-                    self.rect.right = collision_object.rect.left
+        self.rect.x += move_x
+        collision_list = pygame.sprite.spritecollide(self, collisions, False)
+        for collision_object in collision_list:
+            if move_x > 0:
+                self.rect.right = collision_object.rect.left
 
-                elif move_x < 0:
-                    self.rect.left = collision_object.rect.right
+            elif move_x < 0:
+                self.rect.left = collision_object.rect.right
 
-            self.rect.y += move_y
-            collision_list = pygame.sprite.spritecollide(self, collisions, False)
-            for collision_object in collision_list:
-                if move_y > 0:
-                    self.rect.bottom = collision_object.rect.top
-                elif move_y < 0:
-                    self.rect.top = collision_object.rect.bottom
+        self.rect.y += move_y
+        collision_list = pygame.sprite.spritecollide(self, collisions, False)
+        for collision_object in collision_list:
+            if move_y > 0:
+                self.rect.bottom = collision_object.rect.top
+            elif move_y < 0:
+                self.rect.top = collision_object.rect.bottom
 
     def WalkPath(self, speed=1):
-        if not self.spawning:
             move_x, move_y = 0, 0
 
             if not self.donePath:
