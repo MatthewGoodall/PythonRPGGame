@@ -3,7 +3,7 @@
     "health": "10",
     "damage": "5",
     "location_name": "town",
-    "spawn x": "200",
+    "spawn x": "1650",
     "spawn y": "1200",
     "spawn animation": "dragon_spawning",
     "idle animation": "dragon_idle",

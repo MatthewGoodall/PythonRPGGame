@@ -13,8 +13,9 @@ class CollisionObject(pygame.sprite.Sprite):
     # No Downward Collision If Down Key Is Pressed
     def CanFallThroughIfDownPressed(self, the_player):
         if the_player.move_y > 0.0 and not the_player.down_pressed:
-            the_player.rect.bottom = self.rect.top
-            the_player.HitGround()
+            if not the_player.rect.bottom > self.rect.bottom:
+                the_player.rect.bottom = self.rect.top
+                the_player.HitGround()
 
     # Downward Collision
     def CanNotFallThrough(self, the_player):
