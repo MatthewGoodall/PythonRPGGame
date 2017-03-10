@@ -68,6 +68,7 @@ class Player(pygame.sprite.Sprite):
 
     def ChangeCurrentAnimation(self, new_animation):
         if self.current_animation != new_animation:
+            print("changing animation")
             self.current_animation = new_animation
 
     def Jump(self):
@@ -132,14 +133,14 @@ class Player(pygame.sprite.Sprite):
         for collision_object in collision_list:
             collision_object.VerticalCollision(self)
 
-    def Interact(self):
-        self.NPCCollision()
+    def Interact(self, current_location):
+        self.NPCCollision(current_location)
         self.GatewayCollision()
 
-    def NPCCollision(self):
-        interact = pygame.sprite.spritecollide(self, Level.current_level.NPCs, False)
-        if interact:
-            Read_JSON("Resources\JSON Data\JSON_DATA.json", "Bad Guy", "dialogue")
+    def NPCCollision(self, current_location):
+        interacts = pygame.sprite.spritecollide(self, current_location.NPCs, False)
+        for npc in interacts:
+            print(npc.dialogue)
 
     def GatewayCollision(self):
         pass

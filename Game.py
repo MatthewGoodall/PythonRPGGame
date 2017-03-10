@@ -37,7 +37,7 @@ class Game:
         self.enemies = self.json_reader.enemies
         self.NPCs = self.json_reader.NPCs
         self.GUI = []
-        self.camera = Camera.Camera(32*32, 32*48)
+        self.camera = Camera.Camera(32*64, 32*48, self.screen_width, self.screen_height)
         self.player = Player.Player(self.json_reader)
 
     def Setup(self):
@@ -64,13 +64,13 @@ class Game:
                 self.running = False
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_q:
-                    self.player.Attack(self.current_location)
+                    self.player.Attack(self.current_location.enemies)
                 elif event.key == pygame.K_i:
                     for item in self.player.items:
                         print(item)
                     print("------")
                 elif event.key == pygame.K_e:
-                    self.player.Interact()
+                    self.player.Interact(self.current_location)
                     """
                     text = str(var).strip("[]""'")
                     font = pygame.font.Font(None, 100)
@@ -78,8 +78,7 @@ class Game:
                     screen.blit(text, [400, 300])
                     """
                 elif event.key == pygame.K_ESCAPE:
-                    Level.ChangeLevel(Level.level_2)
-                    Level.current_location = Level.level_2
+                    pass
 
     def GetInput(self):
         # Update player movement--------------------------------
@@ -113,7 +112,7 @@ class Game:
                 else:
                     enemy.WalkPath()
             else:
-                self.KillEnemy()
+                self.KillEnemy(enemy)
 
     def UpdateGUI(self):
         for gui_element in self.GUI:
@@ -141,7 +140,7 @@ class Game:
 
         for npc in self.NPCs:
             self.screen.blit(npc.image, self.camera.ApplyToSprite(npc))
-            
+
         for gui_element in self.GUI:
             self.screen.blit(gui_element.image, (gui_element.x, gui_element.y))
 

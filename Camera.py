@@ -2,8 +2,12 @@ import pygame
 
 
 class Camera(pygame.sprite.Sprite):
-    def __init__(self, width_of_level, height_of_level):
+    def __init__(self, width_of_level, height_of_level, width_of_screen, height_of_screen):
         self.rect = pygame.Rect(0, 0, width_of_level, height_of_level)
+        self.screen_width = width_of_screen
+        self.half_screen_width = self.screen_width / 2
+        self.screen_height = height_of_screen
+        self.half_screen_height = self.screen_height / 2
 
     def ApplyToSprite(self, target_sprite):
         return target_sprite.rect.move(self.rect.topleft)
@@ -16,20 +20,16 @@ class Camera(pygame.sprite.Sprite):
         self.rect.height = new_height
 
     def Update(self, target):
-        self.rect = self.complex_camera(self.rect, target.rect)
+        self.rect = self.ApplyCamera(target.rect)
 
-    def complex_camera(self, camera, target_rect):
-        width_of_screen = 1280
-        half_width_of_screen = width_of_screen / 2
-        height_of_screen = 780
-        half_height_of_screen = height_of_screen / 2
+    def ApplyCamera(self, target_rect):
 
         l, t, _, _ = target_rect
-        _, _, w, h = camera
-        l, t, _, _ = -l + half_width_of_screen, -t + half_height_of_screen, w, h
+        _, _, w, h = self.rect
+        l, t, _, _ = -l + self.half_screen_width, -t + self.half_screen_height, w, h
 
         l = min(0, l)
-        l = max(-(camera.width - width_of_screen), l)
-        t = max(-(camera.height - height_of_screen), t)
+        l = max(-(self.rect.width - self.screen_width), l)
+        t = max(-(self.rect.height - self.screen_height), t)
         t = min(0, t)
         return pygame.Rect(l, t, w, h)

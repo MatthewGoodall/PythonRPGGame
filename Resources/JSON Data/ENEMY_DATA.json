@@ -4,7 +4,7 @@
     "damage": "5",
     "location_name": "town",
     "spawn x": "200",
-    "spawn y": "1375",
+    "spawn y": "1200",
     "spawn animation": "dragon_spawning",
     "idle animation": "dragon_idle",
     "walkloop start": "0",
