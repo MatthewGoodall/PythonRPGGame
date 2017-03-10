@@ -97,3 +97,4 @@ class JSONDataReader:
         for location in self.locations:
             if location.name == location_name:
                 return location
+        print("No location found with the name of: "+ location_name)

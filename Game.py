@@ -34,11 +34,18 @@ class Game:
 
         self.locations = self.json_reader.locations
         self.current_location = self.json_reader.GetLocation("town")
-        self.enemies = self.json_reader.enemies
-        self.NPCs = self.json_reader.NPCs
+        self.enemies = self.current_location.enemies
+        self.NPCs = self.current_location.NPCs
         self.GUI = []
         self.camera = Camera.Camera(32*64, 32*48, self.screen_width, self.screen_height)
         self.player = Player.Player(self.json_reader)
+
+    def ChangeLocation(self, new_location_name, new_x, new_y):
+        self.current_location = self.json_reader.GetLocation(new_location_name)
+        self.enemies = self.current_location.enemies
+        self.NPCs = self.current_location.NPCs
+        self.player.rect.x = int(new_x)
+        self.player.rect.y = int(new_y)
 
     def Setup(self):
         pass
@@ -70,7 +77,7 @@ class Game:
                         print(item)
                     print("------")
                 elif event.key == pygame.K_e:
-                    self.player.Interact(self.current_location)
+                    self.PlayerInteract()
                     """
                     text = str(var).strip("[]""'")
                     font = pygame.font.Font(None, 100)
@@ -90,6 +97,13 @@ class Game:
         self.player.jump_pressed = keys[pygame.K_SPACE]
         if self.player.jump_pressed:
             self.player.Jump()
+
+    def PlayerInteract(self):
+        self.player.NPCCollision(self.current_location)
+        gateway = self.player.GatewayCollision(self.current_location)
+        if gateway:
+            self.ChangeLocation(gateway.travel_location_name, gateway.travel_location_x,
+                                gateway.travel_location_y)
 
     def UpdateSprites(self):
         self.UpdatePlayer()

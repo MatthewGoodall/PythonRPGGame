@@ -132,14 +132,13 @@ class Player(pygame.sprite.Sprite):
         for collision_object in collision_list:
             collision_object.VerticalCollision(self)
 
-    def Interact(self, current_location):
-        self.NPCCollision(current_location)
-        self.GatewayCollision()
-
     def NPCCollision(self, current_location):
         interacts = pygame.sprite.spritecollide(self, current_location.NPCs, False)
         for npc in interacts:
             print(npc.dialogue)
 
-    def GatewayCollision(self):
-        pass
+    def GatewayCollision(self, current_location):
+        interacts = pygame.sprite.spritecollide(self, current_location.gateways, False)
+        for gateway in interacts:
+            print(gateway.travel_location_name)
+            return gateway

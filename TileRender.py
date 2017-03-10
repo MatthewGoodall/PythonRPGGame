@@ -18,6 +18,7 @@ class Renderer(object):
         self.solids = []
         self.platforms = []
         self.ladders = []
+        self.gateways = []
 
     def Render(self, surface):
 
@@ -47,6 +48,12 @@ class Renderer(object):
                         elif obj.type == "Solid":
                             solid_piece = CollisionObject.SolidObject(obj.x, obj.y, obj.width, obj.height)
                             self.solids.append(solid_piece)
+                        elif obj.type == "Gateway":
+                            a_gateway = CollisionObject.Gateway(obj.x, obj.y, obj.width, obj.height,
+                                                               obj.properties["travel_location"],
+                                                               obj.properties["travel_location_x"],
+                                                               obj.properties["travel_location_y"])
+                            self.gateways.append(a_gateway)
 
             elif isinstance(layer, pytmx.TiledImageLayer):
                 image = gt(layer.gid)

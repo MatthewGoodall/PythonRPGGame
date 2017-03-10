@@ -16,7 +16,8 @@ class Location():
         self.platforms = self.tile_renderer.platforms
         self.solids = self.tile_renderer.solids
         self.ladders = self.tile_renderer.ladders
-        self.collisions = self.platforms + self.solids + self.ladders
+        self.gateways = self.tile_renderer.gateways
+        self.collisions = self.platforms + self.solids + self.ladders + self.gateways
 
         self.width = self.tile_renderer.width
         self.height = self.tile_renderer.height

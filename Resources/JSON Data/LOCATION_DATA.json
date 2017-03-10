@@ -2,5 +2,9 @@
     "Town": {
       "name": "town",
       "tmx map path": "Resources/TileMaps/town.tmx"
+    },
+    "Town House 1": {
+      "name": "town_house_1",
+      "tmx map path": "Resources/TileMaps/town_house_1.tmx"
     }
 }
