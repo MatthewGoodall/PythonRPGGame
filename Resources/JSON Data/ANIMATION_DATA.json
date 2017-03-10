@@ -1,0 +1,62 @@
+{
+    "Dragon Idle": {
+      "name": "dragon_idle",
+      "type": "idle",
+      "spritesheet path": "Resources/Spritesheets/DragonRight.png",
+      "frame width": "20",
+      "frame height": "20",
+      "number of frames": "1",
+      "frame delay": "1000",
+      "scale": "4"
+    },
+    "Dragon Spawning": {
+      "name": "dragon_spawning",
+      "type": "idle",
+      "spritesheet path": "Resources/Spritesheets/DragonRight.png",
+      "frame width": "20",
+      "frame height": "20",
+      "number of frames": "1",
+      "frame delay": "1000",
+      "scale": "4"
+    },
+    "Player Walking Right": {
+      "name": "player_walking_right",
+      "type": "",
+      "spritesheet path": "Resources/Spritesheets/PlayerWalkingRight.png",
+      "frame width": "8",
+      "frame height": "16",
+      "number of frames": "4",
+      "frame delay": "125",
+      "scale": "4"
+    },
+    "Player Walking Left": {
+      "name": "player_walking_left",
+      "type": "",
+      "spritesheet path": "Resources/Spritesheets/PlayerWalkingLeft.png",
+      "frame width": "8",
+      "frame height": "16",
+      "number of frames": "4",
+      "frame delay": "125",
+      "scale": "4"
+    },
+    "Player Idle Right": {
+      "name": "player_idle_right",
+      "type": "",
+      "spritesheet path": "Resources/Spritesheets/PlayerIdleRight.png",
+      "frame width": "8",
+      "frame height": "16",
+      "number of frames": "2",
+      "frame delay": "125",
+      "scale": "4"
+    },
+    "Player Idle Left": {
+      "name": "player_idle_left",
+      "type": "",
+      "spritesheet path": "Resources/Spritesheets/PlayerIdleLeft.png",
+      "frame width": "8",
+      "frame height": "16",
+      "number of frames": "2",
+      "frame delay": "125",
+      "scale": "4"
+    }
+}

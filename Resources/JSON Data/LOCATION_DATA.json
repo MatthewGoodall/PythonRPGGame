@@ -1,0 +1,6 @@
+{
+    "Town": {
+      "name": "town",
+      "tmx map path": "Resources/TileMaps/town.tmx"
+    }
+}

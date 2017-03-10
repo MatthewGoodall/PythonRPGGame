@@ -12,7 +12,7 @@ import Camera
 import NPC
 import Item
 import CollisionObject
-import JSON_Reader
+import JSONDataReader
 
 pygame.init()
 pygame.mixer.init()
@@ -23,14 +23,25 @@ class Game:
         self.screen_height = 780
         self.screen_size = self.screen_width, self.screen_height
         self.screen = pygame.display.set_mode(self.screen_size)
-        self.locations = []
-        self.current_location = None
+        self.clock = pygame.time.Clock()
+
+        self.json_reader = JSONDataReader.JSONDataReader()
+        self.json_reader.MakeAnimations("Resources/JSON Data/ANIMATION_DATA.json")
+        self.json_reader.MakeEnemies("Resources/JSON Data/ENEMY_DATA.json")
+        self.json_reader.MakeNPCs("Resources/JSON Data/NPC_DATA.json")
+        self.json_reader.MakeLocations("Resources/JSON Data/LOCATION_DATA.json")
+        self.json_reader.PopulateLocations()
+
+        self.locations = self.json_reader.locations
+        self.current_location = self.json_reader.GetLocation("town")
+        self.enemies = self.json_reader.enemies
+        self.NPCs = self.json_reader.NPCs
         self.GUI = []
         self.camera = Camera.Camera(32*32, 32*48)
-        self.player = Player.Player()
+        self.player = Player.Player(self.json_reader)
 
     def Setup(self):
-        self.player.Load()
+        pass
 
     def GameLoop(self):
         self.running = True
@@ -94,11 +105,11 @@ class Game:
             self.KillPlayer()
 
     def UpdateEnemies(self):
-        for enemy in self.current_enemies:
-            if self.enemy.alive:
+        for enemy in self.enemies:
+            if enemy.alive:
                 enemy.UpdateAnimation(pygame.time.get_ticks())
                 if abs(self.player.rect.centerx - enemy.rect.centerx) < 300.0:
-                    enemy.ChasePlayer()
+                    enemy.ChasePlayer(self.current_location.collisions)
                 else:
                     enemy.WalkPath()
             else:
@@ -113,7 +124,7 @@ class Game:
         pass
 
     def KillEnemy(self, enemy_to_kill):
-        self.current_location.current_enemies.remove(enemy_to_kill)
+        self.current_location.enemies.remove(enemy_to_kill)
 
     def ClearScreen(self):
         color_of_sky = 30, 144, 255
@@ -125,9 +136,12 @@ class Game:
 
         self.screen.blit(self.player.image, self.camera.ApplyToSprite(self.player))
 
-        for enemy in self.current_enemies:
+        for enemy in self.enemies:
             self.screen.blit(enemy.image, self.camera.ApplyToSprite(enemy))
 
+        for npc in self.NPCs:
+            self.screen.blit(npc.image, self.camera.ApplyToSprite(npc))
+            
         for gui_element in self.GUI:
             self.screen.blit(gui_element.image, (gui_element.x, gui_element.y))
 

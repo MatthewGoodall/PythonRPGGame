@@ -6,26 +6,25 @@ import Enemy
 import Inventory
 import Camera
 import NPC
-import JSONDataReader
 
 pygame.mixer.init()
 pygame.display.init()
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, json_data):
         super().__init__()
         self.alive = True
         self.maximum_health = 10
         self.current_health = self.maximum_health
         self.inventory = Inventory.Inventory()
 
-        self.idle_right_animation = JSONData.GetAnimation("idle_right_animation")
-        self.idle_left_animation = JSONData.GetAnimation("idle_right_animation")
-        self.walking_right_animation = JSONData.GetAnimation("idle_right_animation")
-        self.walking_left_animation = JSONData.GetAnimation("idle_right_animation")
+        self.idle_right_animation = json_data.GetAnimation("player_idle_right")
+        self.idle_left_animation = json_data.GetAnimation("player_idle_left")
+        self.walking_right_animation = json_data.GetAnimation("player_walking_right")
+        self.walking_left_animation = json_data.GetAnimation("player_walking_left")
         self.current_animation = self.idle_right_animation
 
-        self.image = current_animation.GetFirstFrame
+        self.image = self.current_animation.GetFirstFrame()
         self.rect = self.image.get_rect()
 
         self.movement_speed = 5.0
@@ -52,10 +51,10 @@ class Player(pygame.sprite.Sprite):
         attack_box = pygame.Rect(0, 0, 150, 50) # create a rect that has a width of 150, height of 50
         attack_box.y = self.rect.y
 
-        if self.last_direction == "right":
+        if self.facing_direction == "right":
             attack_box.x = self.rect.x
 
-        elif self.last_direction == "left":
+        elif self.facing_direction == "left":
             attack_box.x = self.rect.x - (150 - self.rect.width)
 
         for enemy in enemies:
@@ -65,7 +64,7 @@ class Player(pygame.sprite.Sprite):
 
     def UpdateAnimation(self, time):
         if self.current_animation.NeedsUpdate(time):
-            self.current_animation.Update(time)
+            self.current_animation.Update()
 
     def ChangeCurrentAnimation(self, new_animation):
         if self.current_animation != new_animation:
@@ -87,14 +86,14 @@ class Player(pygame.sprite.Sprite):
 
         if self.move_x > 0.0:  # Moving right
             self.ChangeCurrentAnimation(self.walking_right_animation)
-            self.last_direction = "right"
+            self.facing_direction = "right"
         elif self.move_x < 0.0:  # Moving left
             self.ChangeCurrentAnimation(self.walking_left_animation)
-            self.last_direction = "left"
+            self.facing_direction = "left"
         elif self.move_x == 0.0:  # Standing still
-            if self.last_direction == "right":
+            if self.facing_direction == "right":
                 self.ChangeCurrentAnimation(self.idle_right_animation)
-            elif self.last_direction == "left":
+            elif self.facing_direction == "left":
                 self.ChangeCurrentAnimation(self.idle_left_animation)
 
         # Vertical Movement
@@ -104,7 +103,7 @@ class Player(pygame.sprite.Sprite):
         self.UpdateCollisions(current_location)
 
     def CheckForLadderMovement(self, current_location):
-        ladder_collision = pygame.sprite.spritecollide(self, current_location.ladders, False)
+        ladder_collisions = pygame.sprite.spritecollide(self, current_location.ladders, False)
         if ladder_collisions:
             self.move_y = 0.0
             if self.jump_pressed or self.up_pressed:
@@ -113,21 +112,25 @@ class Player(pygame.sprite.Sprite):
                 self.move_y += self.movement_speed/2
             return True
 
-    def UpdateGravity():
-        if self.y_speed <= 10.0:
-            self.y_speed += 0.3
-        self.move_y = self.y_speed
+    def UpdateGravity(self):
+        if self.vertical_speed <= 10.0:
+            self.vertical_speed += 0.3
+        self.move_y = self.vertical_speed
 
-    def UpdateCollisions(self, x_movement, y_movement, current_location):
+    def HitGround(self):
+        self.can_jump = True
+        self.vertical_speed = 0.0
+
+    def UpdateCollisions(self, current_location):
         self.rect.x += self.move_x
         collision_list = pygame.sprite.spritecollide(self, current_location.collisions, False)
         for collision_object in collision_list:
-            collision_object.HorizontalCollide(self)
+            collision_object.HorizontalCollision(self)
 
         self.rect.y += self.move_y
         collision_list = pygame.sprite.spritecollide(self, current_location.collisions, False)
         for collision_object in collision_list:
-            collision_object.VerticalCollide(self)
+            collision_object.VerticalCollision(self)
 
     def Interact(self):
         self.NPCCollision()

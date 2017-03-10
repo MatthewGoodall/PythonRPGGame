@@ -1,44 +1,13 @@
 {
-    "Dragon": {
-	  "name": "Dragon",
-      "damage": "5",
-	  "location_name": "town",
-	  "spawn_x": "200",
-	  "spawn_y": "1375"
-    },
-    "Ghost": {
-	  "name": "Ghost",
-      "damage": "5",
-	  "location_name": "town",
-	  "spawn_x": "150",
-	  "spawn_y": "1375"
-    },
-	"Henery": {
-	  "name": "Henery",
-      "damage": "5",
-	  "location_name": "town",
-	  "spawn_x": "100",
-	  "spawn_y": "1375"
-    },
-	"Aeghar": {
-	  "name": "Aeghar",
-      "damage": "25",
-	  "location_name": "cave",
-	  "spawn_x": "100",
-	  "spawn_y": "1375"
-    },
-	"Captain Boopers": {
-	  "name": "Boopers",
-      "damage": "5",
-	  "location_name": "town",
-	  "spawn_x": "100",
-	  "spawn_y": "1375"
-    },
-	"Super Tinairasouaris": {
-	  "name": "Super Tinairasouaris",
-      "damage": "100000",
-	  "location_name": "space",
-	  "spawn_x": "100",
-	  "spawn_y": "1375"
-    }
+  "Dragon": {
+    "health": "10",
+    "damage": "5",
+    "location_name": "town",
+    "spawn x": "200",
+    "spawn y": "1375",
+    "spawn animation": "dragon_spawning",
+    "idle animation": "dragon_idle",
+    "walkloop start": "0",
+    "walkloop end": "650"
+  }
 }

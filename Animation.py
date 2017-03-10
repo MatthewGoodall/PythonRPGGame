@@ -2,19 +2,22 @@ import pygame
 
 
 class Animation:
-    def __init__(self, sprite_sheet_path, frame_width, frame_height, number_of_frames, scale, height=0):
-        self.type = ""
+    def __init__(self, name, type_of_animation,spritesheet_path, frame_width, frame_height,
+                 number_of_frames, frame_delay, scale, height=0):
+        self.name = name
+        self.type = type_of_animation
         self.current_frame = 0
         self.time_counter = 0.0
-        self.ms_delay = 500
+        self.ms_delay = frame_delay
         self.frame_width = frame_width * scale
         self.frame_height = frame_height * scale
         self.frames = []
         self.height = height
-        self.sprite_sheet = pygame.image.load(sprite_sheet_path)
+        self.sprite_sheet = pygame.image.load(spritesheet_path)
         if scale > 1:
             self.sprite_sheet = pygame.transform.scale(self.sprite_sheet,
-                                                       (self.sprite_sheet.get_width() * scale, self.frame_height))
+                                                       (self.sprite_sheet.get_width() * scale,
+                                                        self.frame_height))
 
         self.number_of_frames = number_of_frames
         for i in range(self.number_of_frames):

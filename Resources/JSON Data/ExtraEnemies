@@ -1,0 +1,35 @@
+"Ghost": {
+  "name": "Ghost",
+  "damage": "5",
+  "location_name": "town",
+  "spawn_x": "150",
+  "spawn_y": "1375"
+},
+"Henery": {
+  "name": "Henery",
+  "damage": "5",
+  "location_name": "town",
+  "spawn_x": "100",
+  "spawn_y": "1375"
+  },
+"Aeghar": {
+  "name": "Aeghar",
+  "damage": "25",
+  "location_name": "cave",
+  "spawn_x": "100",
+  "spawn_y": "1375"
+  },
+"Captain Boopers": {
+  "name": "Boopers",
+  "damage": "5",
+  "location_name": "town",
+  "spawn_x": "100",
+  "spawn_y": "1375"
+  },
+"Super Tinairasouaris": {
+  "name": "Super Tinairasouaris",
+  "damage": "100000",
+  "location_name": "space",
+  "spawn_x": "100",
+  "spawn_y": "1375"
+  }

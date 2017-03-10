@@ -4,23 +4,26 @@ import Animation
 
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, health, damage, numberOfLoot, typeOfReward, spawnPos_X, spawnPos_Y, spawn_animation,
-                 walkLoop_start, walkLoop_end):
+    def __init__(self, health, damage, location, spawn_x, spawn_y, spawn_animation,
+                 idle_animation, walkLoop_start, walkLoop_end):
         super().__init__()
+
         self.damage = damage
         self.health = health
         self.damage = 1
+        self.location = location
+
         self.spawning = True
         self.alive = True
-        self.numberOfLoot = numberOfLoot
-        self.typeOfReward = typeOfReward
+
         self.spawn_animation = spawn_animation
-        self.idle_animation = None
+        self.idle_animation = idle_animation
         self.current_animation = spawn_animation
         self.image = self.current_animation.GetFirstFrame()
         self.rect = self.image.get_rect()
-        self.rect.x = spawnPos_X
-        self.rect.y = spawnPos_Y
+        self.rect.x = spawn_x
+        self.rect.y = spawn_y
+
         self.donePath = False
         self.walkLoop_start = walkLoop_start
         self.walkLoop_end = walkLoop_end
@@ -42,8 +45,8 @@ class Enemy(pygame.sprite.Sprite):
                 self.current_animation = self.idle_animation
                 self.spawning = False
 
-        if self.current_animation.needsUpdate(time):
-            self.image = self.current_animation.update()
+        if self.current_animation.NeedsUpdate(time):
+            self.image = self.current_animation.Update()
 
     def ChasePlayer(self, collisions, speed=1):
         if not self.spawning:
