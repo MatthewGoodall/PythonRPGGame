@@ -5,12 +5,12 @@
       "location": "town",
       "x pos": "150",
       "y pos": "1200",
-      "dialogue": "Hello son how are you its such a nice day today don’t you think also-"
+      "dialogue": "Hello son how are you its such a nice day today dont you think also-"
     },
     "Bad Guy": {
       "name": "Bad Guy McGee",
       "image path": "Resources/SinglePhotos/Knight.png",
-      "location": "town",    
+      "location": "town",
       "x pos": "300",
       "y pos": "1200",
       "dialogue": "Yes it is me the bad guy of this game the one who killed your parents muhahaha"
