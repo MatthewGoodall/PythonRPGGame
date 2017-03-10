@@ -140,5 +140,4 @@ class Player(pygame.sprite.Sprite):
     def GatewayCollision(self, current_location):
         interacts = pygame.sprite.spritecollide(self, current_location.gateways, False)
         for gateway in interacts:
-            print(gateway.travel_location_name)
             return gateway
