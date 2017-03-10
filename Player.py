@@ -105,12 +105,16 @@ class Player(pygame.sprite.Sprite):
     def CheckForLadderMovement(self, current_location):
         ladder_collisions = pygame.sprite.spritecollide(self, current_location.ladders, False)
         if ladder_collisions:
-            self.move_y = 0.0
-            if self.jump_pressed or self.up_pressed:
-                self.move_y -= self.movement_speed/2
-            if self.down_pressed:
-                self.move_y += self.movement_speed/2
-            return True
+            for ladder in ladder_collisions:
+                if ladder.rect.bottom > self.rect.centery:
+                    self.vertical_speed = 0.0
+                    self.move_y = 0.0
+                    if self.jump_pressed or self.up_pressed:
+                        self.move_y -= self.movement_speed/2
+                    if self.down_pressed:
+                        self.move_y += self.movement_speed/2
+                    return True
+        return False
 
     def UpdateGravity(self):
         if self.vertical_speed <= 10.0:

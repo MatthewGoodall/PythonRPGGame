@@ -34,7 +34,7 @@ class Game:
 
         self.locations = self.json_reader.locations
         self.current_location = self.json_reader.GetLocation("town")
-        self.enemies = self.current_location.enemies
+        self.enemies = list(self.current_location.enemies)
         self.NPCs = self.current_location.NPCs
         self.GUI = []
         self.camera = Camera.Camera(32*64, 32*48, self.screen_width, self.screen_height)
@@ -42,8 +42,11 @@ class Game:
 
     def ChangeLocation(self, new_location_name, new_x, new_y):
         self.current_location = self.json_reader.GetLocation(new_location_name)
-        self.enemies = self.current_location.enemies
+        self.enemies = list(self.current_location.enemies)
+        for enemy in self.enemies:
+            enemy.Respawn()
         self.NPCs = self.current_location.NPCs
+        self.camera.ChangeLocationSize(self.current_location.map_rect.width, self.current_location.map_rect.height)
         self.player.rect.x = int(new_x)
         self.player.rect.y = int(new_y)
 
@@ -138,7 +141,6 @@ class Game:
 
     def KillEnemy(self, enemy_to_kill):
         self.enemies.remove(enemy_to_kill)
-        self.current_location.enemies.remove(enemy_to_kill)
 
     def ClearScreen(self):
         color_of_sky = 30, 144, 255

@@ -15,7 +15,7 @@ class Camera(pygame.sprite.Sprite):
     def ApplyToRect(self, target_rect):
         return target_rect.move(self.rect.topleft)
 
-    def change_location_size(self, new_width, new_height):
+    def ChangeLocationSize(self, new_width, new_height):
         self.rect.width = new_width
         self.rect.height = new_height
 

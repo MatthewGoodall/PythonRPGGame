@@ -9,7 +9,8 @@ class Enemy(pygame.sprite.Sprite):
         super().__init__()
 
         self.damage = damage
-        self.health = health
+        self.maximum_health = health
+        self.health = self.maximum_health
         self.damage = 1
         self.location = location
 
@@ -37,6 +38,10 @@ class Enemy(pygame.sprite.Sprite):
         if self.health <= 0:
             self.health = 0
             self.alive = False
+
+    def Respawn(self):
+        self.alive = True
+        self.health = self.maximum_health
 
     def UpdateAnimation(self, time):
         if self.current_animation.type == "spawning":
