@@ -40,11 +40,9 @@
 </data>
  </layer>
  <objectgroup name="Collisions">
-  <object id="1" name="town" type="Gateway" x="576" y="897" width="30" height="63">
+  <object id="1" name="town_house_4_inside" type="Gateway" x="576" y="897" width="30" height="63">
    <properties>
-    <property name="travel_location" value="town"/>
-    <property name="travel_location_x" type="int" value="1440"/>
-    <property name="travel_location_y" type="int" value="1344"/>
+    <property name="travel_location" value="town_house_4_outside"/>
    </properties>
   </object>
   <object id="2" type="Solid" x="513" y="865" width="7" height="95"/>

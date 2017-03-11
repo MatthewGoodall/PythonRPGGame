@@ -4,7 +4,7 @@
       "tmx map path": "Resources/TileMaps/town.tmx"
     },
     "Town House 1": {
-      "name": "town_house_1",
+      "name": "town_house_1_inside",
       "tmx map path": "Resources/TileMaps/town_house_1.tmx"
     },
     "Town House 2": {

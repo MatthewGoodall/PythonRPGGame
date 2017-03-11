@@ -79,12 +79,11 @@ class Ladder(CollisionObject):
         self.CanJumpThrough(the_player)
 
 class Gateway(CollisionObject):
-    def __init__(self, x_pos, y_pos, width, height, travel_location_name,
-                 travel_location_x, travel_location_y):
+    def __init__(self, x_pos, y_pos, width, height, gateway_name, travel_location):
         super().__init__(x_pos, y_pos, width, height)
-        self.travel_location_name = travel_location_name
-        self.travel_location_x = travel_location_x
-        self.travel_location_y = travel_location_y
+        self.gateway_name = gateway_name
+        self.travel_location = travel_location
+        self.location = None
 
     def HorizontalCollision(self, the_player):
         self.CanWalkPast(the_player)

@@ -108,8 +108,7 @@ class Game:
         self.player.NPCCollision(self.current_location)
         gateway = self.player.GatewayCollision(self.current_location)
         if gateway:
-            self.ChangeLocation(gateway.travel_location_name, gateway.travel_location_x,
-                                gateway.travel_location_y)
+            self.ChangeLocation(gateway)
 
     def UpdateSprites(self):
         self.UpdatePlayer()
@@ -170,12 +169,16 @@ class Game:
     def HandleFrameRate(self, frames_per_second):
         self.clock.tick(frames_per_second)
 
-    def ChangeLocation(self, new_location_name, new_x, new_y):
-        self.current_location = self.json_reader.GetLocation(new_location_name)
+    def ChangeLocation(self, gateway):
+        for a_gateway in TileRender.Renderer.all_gateways:
+            if a_gateway.gateway_name == gateway.travel_location:
+                gateway_travelling_to = a_gateway
+
+        self.player.rect.x = gateway_travelling_to.rect.x
+        self.player.rect.y = gateway_travelling_to.rect.y
+        self.current_location = self.json_reader.GetLocation(gateway_travelling_to.location.name)
         self.enemies = list(self.current_location.enemies)
         for enemy in self.enemies:
             enemy.Respawn()
         self.NPCs = self.current_location.NPCs
         self.camera.ChangeLocationSize(self.current_location.map_rect.width, self.current_location.map_rect.height)
-        self.player.rect.x = int(new_x)
-        self.player.rect.y = int(new_y)

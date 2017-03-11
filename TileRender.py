@@ -8,7 +8,7 @@ class Renderer(object):
     """
     This object renders tile maps from Tiled
     """
-
+    all_gateways = []
     def __init__(self, filename):
         tm = pytmx.util_pygame.load_pygame(filename, pixel_alpha=True)
         self.width = tm.width * tm.tilewidth
@@ -50,10 +50,10 @@ class Renderer(object):
                             self.solids.append(solid_piece)
                         elif obj.type == "Gateway":
                             a_gateway = CollisionObject.Gateway(obj.x, obj.y, obj.width, obj.height,
-                                                               obj.properties["travel_location"],
-                                                               obj.properties["travel_location_x"],
-                                                               obj.properties["travel_location_y"])
+                                                                obj.name, obj.properties["travel_location"],
+                                                               )
                             self.gateways.append(a_gateway)
+                            self.all_gateways.append(a_gateway)
 
             elif isinstance(layer, pytmx.TiledImageLayer):
                 image = gt(layer.gid)
