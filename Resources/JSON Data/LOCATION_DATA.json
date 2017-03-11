@@ -10,5 +10,17 @@
     "Town House 2": {
       "name": "town_house_2",
       "tmx map path": "Resources/TileMaps/town_house_2.tmx"
+    },
+    "Town House 3": {
+      "name": "town_house_3",
+      "tmx map path": "Resources/TileMaps/town_house_3.tmx"
+    },
+    "Town House 4": {
+      "name": "town_house_4",
+      "tmx map path": "Resources/TileMaps/town_house_4.tmx"
+    },
+    "Town House 5": {
+      "name": "town_house_5",
+      "tmx map path": "Resources/TileMaps/town_house_5.tmx"
     }
 }
