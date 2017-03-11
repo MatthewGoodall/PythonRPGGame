@@ -383,11 +383,17 @@
   <object id="15" name="town_house_1" type="Gateway" x="576" y="1344" width="32.6667" height="64.6667">
    <properties>
     <property name="travel_location" value="town_house_1"/>
-    <property name="travel_location_x" type="int" value="416"/>
+    <property name="travel_location_x" type="int" value="448"/>
     <property name="travel_location_y" type="int" value="928"/>
    </properties>
   </object>
-  <object id="17" name="town_house_2" x="896" y="1345.33" width="62.6667" height="61.3333"/>
+  <object id="17" name="town_house_2" type="Gateway" x="896" y="1345.33" width="62.6667" height="61.3333">
+   <properties>
+    <property name="travel_location" value="town_house_2"/>
+    <property name="travel_location_x" type="int" value="609"/>
+    <property name="travel_location_y" type="int" value="896"/>
+   </properties>
+  </object>
   <object id="18" name="town_house3" x="1313.33" y="1344" width="29.3333" height="64"/>
   <object id="19" name="town_house_4" x="1440" y="1344" width="30.6667" height="64"/>
   <object id="20" name="town_house_5" x="1566.67" y="1344" width="30.6667" height="64"/>

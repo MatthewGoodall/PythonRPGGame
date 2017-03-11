@@ -6,5 +6,9 @@
     "Town House 1": {
       "name": "town_house_1",
       "tmx map path": "Resources/TileMaps/town_house_1.tmx"
+    },
+    "Town House 2": {
+      "name": "town_house_2",
+      "tmx map path": "Resources/TileMaps/town_house_2.tmx"
     }
 }

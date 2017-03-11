@@ -80,8 +80,8 @@
   <object id="2" type="Gateway" x="448.5" y="928" width="32" height="62">
    <properties>
     <property name="travel_location" value="town"/>
-    <property name="travel_location_x" type="int" value="550"/>
-    <property name="travel_location_y" type="int" value="1250"/>
+    <property name="travel_location_x" type="int" value="576"/>
+    <property name="travel_location_y" type="int" value="1344"/>
    </properties>
   </object>
   <object id="3" type="Solid" x="383.5" y="895" width="8.5" height="95"/>

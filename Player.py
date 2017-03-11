@@ -26,6 +26,8 @@ class Player(pygame.sprite.Sprite):
 
         self.image = self.current_animation.GetFirstFrame()
         self.rect = self.image.get_rect()
+        self.rect.x = 300
+        self.rect.y = 1200
 
         self.movement_speed = 5.0
         self.vertical_speed = 0.0

@@ -40,15 +40,18 @@ class Game:
         self.camera = Camera.Camera(32*64, 32*48, self.screen_width, self.screen_height)
         self.player = Player.Player(self.json_reader)
 
-    def ChangeLocation(self, new_location_name, new_x, new_y):
-        self.current_location = self.json_reader.GetLocation(new_location_name)
-        self.enemies = list(self.current_location.enemies)
-        for enemy in self.enemies:
-            enemy.Respawn()
-        self.NPCs = self.current_location.NPCs
-        self.camera.ChangeLocationSize(self.current_location.map_rect.width, self.current_location.map_rect.height)
-        self.player.rect.x = int(new_x)
-        self.player.rect.y = int(new_y)
+    def StartScreen(self):
+        self.running = True
+        start_screen_image = pygame.image.load("Resources/SinglePhotos/StartMenu.png")
+        while self.running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.running = False
+                elif event.type == pygame.KEYDOWN:
+                    self.running = False
+            self.screen.fill((0, 0, 0))
+            self.screen.blit(start_screen_image, (0, 0))
+            pygame.display.flip()
 
     def Setup(self):
         pass
@@ -74,7 +77,7 @@ class Game:
                 self.running = False
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_q:
-                    self.player.Attack(self.current_location.enemies)
+                    self.player.Attack(self.enemies)
                 elif event.key == pygame.K_i:
                     for item in self.player.items:
                         print(item)
@@ -166,3 +169,13 @@ class Game:
 
     def HandleFrameRate(self, frames_per_second):
         self.clock.tick(frames_per_second)
+
+    def ChangeLocation(self, new_location_name, new_x, new_y):
+        self.current_location = self.json_reader.GetLocation(new_location_name)
+        self.enemies = list(self.current_location.enemies)
+        for enemy in self.enemies:
+            enemy.Respawn()
+        self.NPCs = self.current_location.NPCs
+        self.camera.ChangeLocationSize(self.current_location.map_rect.width, self.current_location.map_rect.height)
+        self.player.rect.x = int(new_x)
+        self.player.rect.y = int(new_y)
