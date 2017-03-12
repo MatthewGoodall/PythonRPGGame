@@ -36,7 +36,7 @@ class Game:
         self.current_location = self.json_reader.GetLocation("town")
         self.enemies = list(self.current_location.enemies)
         self.NPCs = self.current_location.NPCs
-        self.GUI = []
+        self.GUI = GUI.GUI(self.json_reader)
         self.camera = Camera.Camera(32*64, 32*48, self.screen_width, self.screen_height)
         self.player = Player.Player(self.json_reader)
 
@@ -90,6 +90,8 @@ class Game:
                     text = font.render(text, True, (50, 58, 50))
                     screen.blit(text, [400, 300])
                     """
+                elif event.key == pygame.K_h:
+                    self.player.current_health -= 1
                 elif event.key == pygame.K_ESCAPE:
                     pass
 
@@ -134,8 +136,7 @@ class Game:
                 self.KillEnemy(enemy)
 
     def UpdateGUI(self):
-        for gui_element in self.GUI:
-            gui_element.UpdateAnimation()
+        self.GUI.Update(self.player)
 
     def KillPlayer(self):
         # Game over(TO BE IMPLEMENTED)
@@ -160,8 +161,8 @@ class Game:
         for npc in self.NPCs:
             self.screen.blit(npc.image, self.camera.ApplyToSprite(npc))
 
-        for gui_element in self.GUI:
-            self.screen.blit(gui_element.image, (gui_element.x, gui_element.y))
+        for gui_element in self.GUI.gui_items:
+            self.screen.blit(gui_element.image, (gui_element.rect.x, gui_element.rect.y))
 
     def DisplayScreen(self):
         pygame.display.flip()

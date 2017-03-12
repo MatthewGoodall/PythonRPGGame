@@ -1,14 +1,41 @@
 import pygame
 import Animation
+import JSONDataReader
 
+class GUI:
+    def __init__(self, json_data):
+        self.gui_items = []
+        self.health_bar = GUIBar(json_data.GetAnimation("health_bar"), 0, 0, 10)
+        self.gui_items.append(self.health_bar)
+
+    def Update(self, player):
+        self.health_bar.Update(player.current_health)
 
 class GUI_Item(pygame.sprite.Sprite):
-    def __init__(self, spritesheet, x, y):
+    def __init__(self, image, x, y):
         super().__init__()
-        self.image = spritesheet.get_first_frame()
+        self.image = image
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
 
-    def UpdateAnimation(self):
+    def Update(self):
         pass
+
+class GUIBar(GUI_Item):
+    def __init__(self, animation, x, y, maximum_value):
+        super().__init__(animation.GetFirstFrame(), x ,y)
+        self.animation = animation
+        self.maximum_value = maximum_value
+
+    def Update(self, current_value):
+        percent_full = (current_value / self.maximum_value) * 100
+        i = 100
+        checking = True
+        while checking:
+            if percent_full >= i:
+                self.image = self.animation.GetFrame(int(i/10))
+                checking = False
+            i -= 10
+            if i < 0:
+                checking = False

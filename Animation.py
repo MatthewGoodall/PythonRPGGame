@@ -29,6 +29,9 @@ class Animation:
         frame_1 = self.sprite_sheet.subsurface((0, self.height, self.frame_width, self.frame_height))
         return frame_1
 
+    def GetFrame(self, n):
+        return self.frames[n]
+
     def NeedsUpdate(self, current_time):
         if current_time - self.time_counter > self.ms_delay:
             self.time_counter = current_time
