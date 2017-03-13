@@ -59,10 +59,20 @@
       "frame delay": "500",
       "scale": "4"
     },
-    "Health bar": {
+    "Health Bar": {
       "name": "health_bar",
       "type": "",
       "spritesheet path": "Resources/Spritesheets/HealthBar.png",
+      "frame width": "65",
+      "frame height": "66",
+      "number of frames": "11",
+      "frame delay": "0",
+      "scale": "2"
+    },
+    "Mana Bar": {
+      "name": "mana_bar",
+      "type": "",
+      "spritesheet path": "Resources/Spritesheets/ManaBar.png",
       "frame width": "65",
       "frame height": "66",
       "number of frames": "11",

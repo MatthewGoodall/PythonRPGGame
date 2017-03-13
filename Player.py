@@ -16,6 +16,8 @@ class Player(pygame.sprite.Sprite):
         self.alive = True
         self.maximum_health = 10
         self.current_health = self.maximum_health
+        self.maximum_mana = 10
+        self.current_mana = self.maximum_mana
         self.inventory = Inventory.Inventory()
 
         self.idle_right_animation = json_data.GetAnimation("player_idle_right")

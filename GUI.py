@@ -6,10 +6,12 @@ class GUI:
     def __init__(self, json_data):
         self.gui_items = []
         self.health_bar = GUIBar(json_data.GetAnimation("health_bar"), 0, 0, 10)
-        self.gui_items.append(self.health_bar)
+        self.mana_bar = GUIBar(json_data.GetAnimation("mana_bar"), 126, 0, 10)
+        self.gui_items.extend((self.health_bar, self.mana_bar))
 
     def Update(self, player):
         self.health_bar.Update(player.current_health)
+        self.mana_bar.Update(player.current_mana)
 
 class GUI_Item(pygame.sprite.Sprite):
     def __init__(self, image, x, y):

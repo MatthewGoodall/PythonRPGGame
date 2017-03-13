@@ -78,6 +78,7 @@ class Game:
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_q:
                     self.player.Attack(self.enemies)
+                    self.player.current_mana -= 1
                 elif event.key == pygame.K_i:
                     for item in self.player.items:
                         print(item)
