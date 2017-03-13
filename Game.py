@@ -32,6 +32,7 @@ class Game:
         self.json_reader.MakeLocations("Resources/JSON Data/LOCATION_DATA.json")
         self.json_reader.PopulateLocations()
 
+        self.staff = Item.Weapon("staff", "Resources\SinglePhotos\Staff 1.png", 5, 5)
         self.locations = self.json_reader.locations
         self.current_location = self.json_reader.GetLocation("town")
         self.enemies = list(self.current_location.enemies)
@@ -80,8 +81,8 @@ class Game:
                     self.player.Attack(self.enemies)
                     self.player.current_mana -= 1
                 elif event.key == pygame.K_i:
-                    for item in self.player.items:
-                        print(item)
+                    for item in self.player.inventory.items:
+                        print(item.name)
                     print("------")
                 elif event.key == pygame.K_e:
                     self.PlayerInteract()
@@ -109,6 +110,7 @@ class Game:
 
     def PlayerInteract(self):
         self.player.NPCCollision(self.current_location)
+        self.player.ItemDropCollision(self.current_location)
         gateway = self.player.GatewayCollision(self.current_location)
         if gateway:
             self.ChangeLocation(gateway)
@@ -117,6 +119,7 @@ class Game:
         self.UpdatePlayer()
         self.UpdateEnemies()
         self.UpdateGUI()
+        self.UpdateItemDrops()
 
     def UpdatePlayer(self):
         if self.player.alive:
@@ -139,11 +142,17 @@ class Game:
     def UpdateGUI(self):
         self.GUI.Update(self.player)
 
+    def UpdateItemDrops(self):
+        for item_drop in self.current_location.item_drops:
+            item_drop.Update(self.current_location.collisions)
+
     def KillPlayer(self):
         # Game over(TO BE IMPLEMENTED)
         pass
 
     def KillEnemy(self, enemy_to_kill):
+        item = Item.ItemDrop(self.staff, enemy_to_kill.rect.x, enemy_to_kill.rect.y)
+        self.current_location.item_drops.append(item)
         self.enemies.remove(enemy_to_kill)
 
     def ClearScreen(self):
@@ -164,6 +173,9 @@ class Game:
 
         for gui_element in self.GUI.gui_items:
             self.screen.blit(gui_element.image, (gui_element.rect.x, gui_element.rect.y))
+
+        for item_drop in self.current_location.item_drops:
+            self.screen.blit(item_drop.image, self.camera.ApplyToSprite(item_drop))
 
     def DisplayScreen(self):
         pygame.display.flip()

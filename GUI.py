@@ -5,13 +5,13 @@ import JSONDataReader
 class GUI:
     def __init__(self, json_data):
         self.gui_items = []
-        self.health_bar = GUIBar(json_data.GetAnimation("health_bar"), 0, 0, 10)
-        self.mana_bar = GUIBar(json_data.GetAnimation("mana_bar"), 126, 0, 10)
+        self.health_bar = GUIBar(json_data.GetAnimation("health_bar"), 0, 0)
+        self.mana_bar = GUIBar(json_data.GetAnimation("mana_bar"), 126, 0)
         self.gui_items.extend((self.health_bar, self.mana_bar))
 
     def Update(self, player):
-        self.health_bar.Update(player.current_health)
-        self.mana_bar.Update(player.current_mana)
+        self.health_bar.Update(player.current_health, player.maximum_health)
+        self.mana_bar.Update(player.current_mana, player.maximum_mana)
 
 class GUI_Item(pygame.sprite.Sprite):
     def __init__(self, image, x, y):
@@ -25,13 +25,12 @@ class GUI_Item(pygame.sprite.Sprite):
         pass
 
 class GUIBar(GUI_Item):
-    def __init__(self, animation, x, y, maximum_value):
+    def __init__(self, animation, x, y):
         super().__init__(animation.GetFirstFrame(), x ,y)
         self.animation = animation
-        self.maximum_value = maximum_value
 
-    def Update(self, current_value):
-        percent_full = (current_value / self.maximum_value) * 100
+    def Update(self, current_value, maximum_value):
+        percent_full = (current_value / maximum_value) * 100
         i = 100
         checking = True
         while checking:

@@ -63,7 +63,6 @@ class Player(pygame.sprite.Sprite):
 
         for enemy in enemies:
             if attack_box.colliderect(enemy.rect):
-                print("Enemy took damage") # Just until we know for sure that the attack box is in the correct position / is correct size
                 enemy.TakeDamage(5) # Amount of damage will eventually be dependent on weapon and stats
 
     def UpdateAnimation(self, time):
@@ -149,3 +148,9 @@ class Player(pygame.sprite.Sprite):
         interacts = pygame.sprite.spritecollide(self, current_location.gateways, False)
         for gateway in interacts:
             return gateway
+
+    def ItemDropCollision(self, current_location):
+        interacts = pygame.sprite.spritecollide(self, current_location.item_drops, False)
+        for item_drop in interacts:
+            self.inventory.items.append(item_drop.item)
+            current_location.item_drops.remove(item_drop)

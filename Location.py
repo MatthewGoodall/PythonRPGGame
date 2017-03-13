@@ -9,6 +9,7 @@ class Location():
         self.name = name
         self.enemies = []
         self.NPCs = []
+        self.item_drops = []
         self.tmx_map_path = level_tmx_map_path
         self.tile_renderer = TileRender.Renderer(self.tmx_map_path)
         self.map_surface = self.tile_renderer.MakeMap()
