@@ -18,45 +18,39 @@ pygame.init()
 pygame.mixer.init()
 class Game:
     def __init__(self):
-        # Set Screen Dimensions
+        # Set screen dimensions
         self.screen_width = 1280
         self.screen_height = 780
         self.screen_size = self.screen_width, self.screen_height
-        # Create Screen
         self.screen = pygame.display.set_mode(self.screen_size)
-        # Create Clock
         self.clock = pygame.time.Clock()
 
-        # Read and Gather JSON Data
         self.json_reader = JSONDataReader.JSONDataReader()
         self.json_reader.MakeAnimations("Resources/JSON Data/ANIMATION_DATA.json")
         self.json_reader.MakeEnemies("Resources/JSON Data/ENEMY_DATA.json")
         self.json_reader.MakeNPCs("Resources/JSON Data/NPC_DATA.json")
         self.json_reader.MakeLocations("Resources/JSON Data/LOCATION_DATA.json")
+        self.json_reader.MakeItems("Resources/JSON Data/ITEM_DATA.json")
         self.json_reader.PopulateLocations()
 
         self.staff = Item.Weapon("staff", "Resources\SinglePhotos\Staff 1.png", 5, 5)
-        # Set current location of the player
+        self.locations = self.json_reader.locations
         self.current_location = self.json_reader.GetLocation("town")
-        # Seperate enemies from the location, so they will "respawn" when you enter the location
-        self.current_enemies = list(self.current_location.enemies)
-
-        # Create GUI, Camera that follows the player, and the player itself
+        self.enemies = list(self.current_location.enemies)
+        self.NPCs = self.current_location.NPCs
         self.GUI = GUI.GUI(self.json_reader)
         self.camera = Camera.Camera(32*64, 32*48, self.screen_width, self.screen_height)
         self.player = Player.Player(self.json_reader)
-        self.game_running = True
-        self.paused = False
 
     def StartScreen(self):
+        self.running = True
         start_screen_image = pygame.image.load("Resources/SinglePhotos/StartMenu.png")
-        start_screen = True
-        while start_screen:
+        while self.running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    self.game_running = False
+                    self.running = False
                 elif event.type == pygame.KEYDOWN:
-                    start_screen = False
+                    self.running = False
             self.screen.fill((0, 0, 0))
             self.screen.blit(start_screen_image, (0, 0))
             pygame.display.flip()
@@ -65,55 +59,44 @@ class Game:
         pass
 
     def GameLoop(self):
-        while self.game_running:
-            if not self.paused:
-                self.HandleEvents()
-                self.GetInput()
-                self.UpdateSprites()
-            else:
-                self.HandleMainEvents()
-
+        self.running = True
+        while self.running:
+            self.HandleEvents()
+            self.GetInput()
+            self.UpdateSprites()
             self.ClearScreen()
-            self.DrawGameScreen()
-            if self.paused:
-                self.DrawPausedScreen()
-
+            self.DrawScreen()
             self.DisplayScreen()
             self.HandleFrameRate(120)
 
     def Quit(self):
+        running = False
         pygame.quit()
 
     def HandleEvents(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                self.game_running = False
+                self.running = False
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_q:
-                    self.player.Attack(self.current_enemies)
-
+                    self.player.Attack(self.enemies)
+                    self.player.current_mana -= 1
                 elif event.key == pygame.K_i:
-                    self.player.inventory.PrintInventory()
-
+                    for item in self.player.inventory.items:
+                        print(item.name)
+                    print("------")
                 elif event.key == pygame.K_e:
                     self.PlayerInteract()
-
+                    """
+                    text = str(var).strip("[]""'")
+                    font = pygame.font.Font(None, 100)
+                    text = font.render(text, True, (50, 58, 50))
+                    screen.blit(text, [400, 300])
+                    """
+                elif event.key == pygame.K_h:
+                    self.player.current_health -= 1
                 elif event.key == pygame.K_ESCAPE:
-                    if self.paused:
-                        self.paused = False
-                    elif not self.paused:
-                        self.paused = True
-
-    def HandleMainEvents(self):
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                self.game_running = False
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    if self.paused:
-                        self.paused = False
-                    elif not self.paused:
-                        self.paused = True
+                    pass
 
     def GetInput(self):
         # Update player movement--------------------------------
@@ -147,7 +130,7 @@ class Game:
             self.KillPlayer()
 
     def UpdateEnemies(self):
-        for enemy in self.current_enemies:
+        for enemy in self.enemies:
             if enemy.alive:
                 enemy.UpdateAnimation(pygame.time.get_ticks())
                 if abs(self.player.rect.centerx - enemy.rect.centerx) < 300.0:
@@ -156,10 +139,6 @@ class Game:
                     enemy.WalkPath()
             else:
                 self.KillEnemy(enemy)
-        for location in self.json_reader.locations:
-            for enemy in location.enemies:
-                if enemy not in self.current_enemies:
-                    enemy.WalkPath()
 
     def UpdateGUI(self):
         self.GUI.Update(self.player)
@@ -175,22 +154,22 @@ class Game:
     def KillEnemy(self, enemy_to_kill):
         item = Item.ItemDrop(self.staff, enemy_to_kill.rect.x, enemy_to_kill.rect.y)
         self.current_location.item_drops.append(item)
-        self.current_enemies.remove(enemy_to_kill)
+        self.enemies.remove(enemy_to_kill)
 
     def ClearScreen(self):
         color_of_sky = 30, 144, 255
         self.screen.fill(color_of_sky)
 
-    def DrawGameScreen(self):
+    def DrawScreen(self):
         self.camera.Update(self.player)
         self.screen.blit(self.current_location.map_surface, self.camera.ApplyToRect(self.current_location.map_rect))
 
         self.screen.blit(self.player.image, self.camera.ApplyToSprite(self.player))
 
-        for enemy in self.current_enemies:
+        for enemy in self.enemies:
             self.screen.blit(enemy.image, self.camera.ApplyToSprite(enemy))
 
-        for npc in self.current_location.NPCs:
+        for npc in self.NPCs:
             self.screen.blit(npc.image, self.camera.ApplyToSprite(npc))
 
         for gui_element in self.GUI.gui_items:
@@ -199,8 +178,6 @@ class Game:
         for item_drop in self.current_location.item_drops:
             self.screen.blit(item_drop.image, self.camera.ApplyToSprite(item_drop))
 
-    def DrawPausedScreen(self):
-        self.screen.blit(self.GUI.pause_screen.image, (self.GUI.pause_screen.rect.x, self.GUI.pause_screen.rect.y))
     def DisplayScreen(self):
         pygame.display.flip()
 
@@ -215,8 +192,8 @@ class Game:
         self.player.rect.x = gateway_travelling_to.rect.x
         self.player.rect.y = gateway_travelling_to.rect.y
         self.current_location = self.json_reader.GetLocation(gateway_travelling_to.location.name)
-        self.current_enemies = list(self.current_location.enemies)
-        for enemy in self.current_enemies:
-            if not enemy.alive:
-                enemy.Respawn()
+        self.enemies = list(self.current_location.enemies)
+        for enemy in self.enemies:
+            enemy.Respawn()
+        self.NPCs = self.current_location.NPCs
         self.camera.ChangeLocationSize(self.current_location.map_rect.width, self.current_location.map_rect.height)

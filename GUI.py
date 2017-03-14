@@ -9,9 +9,6 @@ class GUI:
         self.mana_bar = GUIBar(json_data.GetAnimation("mana_bar"), 126, 0)
         self.gui_items.extend((self.health_bar, self.mana_bar))
 
-        self.pause_screen_image = pygame.image.load("Resources/SinglePhotos/PauseMenu.png")
-        self.pause_screen = GUI_Item(self.pause_screen_image, 450, 300)
-
     def Update(self, player):
         self.health_bar.Update(player.current_health, player.maximum_health)
         self.mana_bar.Update(player.current_mana, player.maximum_mana)
