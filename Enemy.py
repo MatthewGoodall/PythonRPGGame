@@ -22,8 +22,10 @@ class Enemy(pygame.sprite.Sprite):
         self.current_animation = spawn_animation
         self.image = self.current_animation.GetFirstFrame()
         self.rect = self.image.get_rect()
-        self.rect.x = spawn_x
-        self.rect.y = spawn_y
+        self.spawn_x = spawn_x
+        self.spawn_y = spawn_y
+        self.rect.x = self.spawn_x
+        self.rect.y = self.spawn_y
 
         self.donePath = False
         self.walkLoop_start = walkLoop_start
@@ -42,6 +44,8 @@ class Enemy(pygame.sprite.Sprite):
     def Respawn(self):
         self.alive = True
         self.health = self.maximum_health
+        self.rect.x = self.spawn_x
+        self.rect.y = self.spawn_y
 
     def UpdateAnimation(self, time):
         if self.current_animation.type == "spawning":

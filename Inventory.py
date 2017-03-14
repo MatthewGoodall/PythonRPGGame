@@ -4,6 +4,11 @@ class Inventory:
         self.max_items = 30
         self.gold = 0
 
+    def PrintInventory(self):
+        for item in self.items:
+            print(item.name)
+        print("-----------")
+        
     def AddItem(self, item):
         if len(self.items) >= 30:
             print("Can not add item, full inventory")
