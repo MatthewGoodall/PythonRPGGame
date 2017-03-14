@@ -10,8 +10,15 @@ class JSONDataReader:
         self.animations = []
         self.enemies = []
         self.locations = []
+        self.weapons = []
 
         self.bad_characters = '{}[]""'
+
+    def MakeItems(self, file_path):
+        with open(file_path) as data_file:
+            data = json.load(data_file)
+            for weapon in data:
+                damage = data[weapon]["damage"]
 
     def MakeNPCs(self, file_path):
         with open(file_path) as data_file:

@@ -156,6 +156,7 @@ class Game:
                     enemy.WalkPath()
             else:
                 self.KillEnemy(enemy)
+
         for location in self.json_reader.locations:
             for enemy in location.enemies:
                 if enemy not in self.current_enemies:
