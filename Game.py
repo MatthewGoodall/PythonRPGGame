@@ -19,11 +19,11 @@ pygame.mixer.init()
 class Game:
     def __init__(self):
         # Set Screen Dimensions
-        self.screen_width = 1280
-        self.screen_height = 780
+        self.screen_width = 800
+        self.screen_height = 500
         self.screen_size = self.screen_width, self.screen_height
         # Create Screen
-        self.screen = pygame.display.set_mode(self.screen_size)
+        self.screen = pygame.display.set_mode(self.screen_size, pygame.FULLSCREEN)
         # Create Clock
         self.clock = pygame.time.Clock()
 
@@ -103,6 +103,9 @@ class Game:
                         self.paused = False
                     elif not self.paused:
                         self.paused = True
+
+                elif event.key == pygame.K_F1:
+                    self.game_running = False
 
     def HandleMainEvents(self):
         for event in pygame.event.get():
