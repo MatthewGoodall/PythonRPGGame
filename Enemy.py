@@ -5,7 +5,7 @@ import Animation
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, health, damage, location, spawn_x, spawn_y, spawn_animation,
-                 idle_animation, walkLoop_start, walkLoop_end):
+                 idle_animation, walkLoop_start, walkLoop_end, min_gold_drop, max_gold_drop):
         super().__init__()
 
         self.damage = damage
@@ -26,6 +26,9 @@ class Enemy(pygame.sprite.Sprite):
         self.spawn_y = spawn_y
         self.rect.x = self.spawn_x
         self.rect.y = self.spawn_y
+
+        self.min_gold_drop = min_gold_drop
+        self.max_gold_drop = max_gold_drop
 
         self.donePath = False
         self.walkLoop_start = walkLoop_start

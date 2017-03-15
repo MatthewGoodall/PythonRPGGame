@@ -8,6 +8,8 @@
     "spawn animation": "dragon_spawning",
     "idle animation": "dragon_idle",
     "walkloop start": "0",
-    "walkloop end": "650"
+    "walkloop end": "650",
+    "min_gold_drop": "5",
+    "max_gold_drop": "15"
   }
 }
