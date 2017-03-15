@@ -15,8 +15,10 @@ class Letters:
         for i in range(len(self.letter_images)):
             self.letter_dict[self.letters[i]] = self.letter_images[i]
 
-class MessageBox:
+class MessageBox(pygame.sprite.Sprite):
     def __init__(self, letters, string):
+        super().__init__()
+
         self.image = pygame.Surface((1024, 100))
         self.image.fill((255, 255, 255))
         height = 5
@@ -28,3 +30,7 @@ class MessageBox:
             else:
                 width = char
             self.image.blit(letter_image, (width * 20 + 5, height))
+
+        self.rect = self.image.get_rect()
+        self.rect.x = 0
+        self.rect.y = 500

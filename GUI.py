@@ -19,11 +19,17 @@ class GUI:
     def Update(self, player):
         self.health_bar.Update(player.current_health, player.maximum_health)
         self.mana_bar.Update(player.current_mana, player.maximum_mana)
+        if player.npc_talking_to == None:
+            print("trying to get rid of it")
+            for gui_item in self.gui_items:
+                if isinstance(gui_item, Messagebox.MessageBox):
+                    self.gui_items.remove(gui_item)
+        else:
+            print("there is a message box")
 
     def MakeMessageBox(self, string):
         message_box = Messagebox.MessageBox(self.letters, string)
-        message_box_gui = GUI_Item(message_box.image, 0, 500)
-        self.gui_items.append(message_box_gui)
+        self.gui_items.append(message_box)
 
 class GUI_Item(pygame.sprite.Sprite):
     def __init__(self, image, x, y):
