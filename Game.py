@@ -140,7 +140,10 @@ class Game:
     def PlayerInteract(self):
         self.player.NPCCollision(self.current_location)
         if self.player.npc_talking_to:
-            self.GUI.MakeMessageBox(self.player.npc_talking_to.dialogue)
+            if self.GUI.message_box_shown:
+                self.GUI.RemoveMessageBox()
+            else:
+                self.GUI.MakeMessageBox(self.player.npc_talking_to.dialogue)
 
         self.player.ItemDropCollision(self.current_location)
         gateway = self.player.GatewayCollision(self.current_location)

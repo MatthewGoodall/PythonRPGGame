@@ -14,22 +14,25 @@ class GUI:
         self.pause_screen = GUI_Item(self.pause_screen_image, 0, 0)
         self.pause_screen.rect.x = 1024/2 - self.pause_screen.rect.width/2
         self.pause_screen.rect.y = 576/2 - self.pause_screen.rect.height/2
+        self.message_box_shown = False
         self.letters = Messagebox.Letters()
 
     def Update(self, player):
         self.health_bar.Update(player.current_health, player.maximum_health)
         self.mana_bar.Update(player.current_mana, player.maximum_mana)
         if player.npc_talking_to == None:
-            print("trying to get rid of it")
-            for gui_item in self.gui_items:
-                if isinstance(gui_item, Messagebox.MessageBox):
-                    self.gui_items.remove(gui_item)
-        else:
-            print("there is a message box")
+            self.RemoveMessageBox()
 
     def MakeMessageBox(self, string):
         message_box = Messagebox.MessageBox(self.letters, string)
         self.gui_items.append(message_box)
+        self.message_box_shown = True
+
+    def RemoveMessageBox(self):
+        for gui_item in self.gui_items:
+            if isinstance(gui_item, Messagebox.MessageBox):
+                self.gui_items.remove(gui_item)
+                self.message_box_shown = False
 
 class GUI_Item(pygame.sprite.Sprite):
     def __init__(self, image, x, y):
