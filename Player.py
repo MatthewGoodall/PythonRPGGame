@@ -104,6 +104,9 @@ class Player(pygame.sprite.Sprite):
         if not self.CheckForLadderMovement(current_location):
             self.UpdateGravity()
 
+        # Check for leaving npc range
+        self.NPCCollision(current_location)
+        # Update collisions
         self.UpdateCollisions(current_location)
 
     def CheckForLadderMovement(self, current_location):
@@ -144,6 +147,8 @@ class Player(pygame.sprite.Sprite):
         interacts = pygame.sprite.spritecollide(self, current_location.NPCs, False)
         for npc in interacts:
             self.npc_talking_to = npc
+        if not interacts:
+            self.npc_talking_to = None
 
     def GatewayCollision(self, current_location):
         interacts = pygame.sprite.spritecollide(self, current_location.gateways, False)
