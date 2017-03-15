@@ -1,0 +1,9 @@
+{
+  "HealingPotion":{
+    "name": "Healing Potion",
+    "image_path": "Resources/Spritesheets/RedPot",
+    "gold_value": "10",
+    "healing_value": "10"
+  }
+
+}

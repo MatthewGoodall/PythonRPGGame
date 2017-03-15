@@ -35,6 +35,8 @@ class Game:
         self.json_reader.MakeEnemies("Resources/JSON Data/ENEMY_DATA.json")
         self.json_reader.MakeNPCs("Resources/JSON Data/NPC_DATA.json")
         self.json_reader.MakeLocations("Resources/JSON Data/LOCATION_DATA.json")
+        self.json_reader.MakeHealingPotion("resources/JSON Data/POTION_DATA.json")
+        self.json_reader.MakeWeapon("Resources/JSON Data/ITEM_DATA.json")
         self.json_reader.PopulateLocations()
 
         self.staff = Item.Weapon("staff", "Resources\SinglePhotos\Staff 1.png", 5, 5)
