@@ -35,7 +35,7 @@ class JSONDataReader:
                 name = data[potion]["name"]
                 image_path = data[potion]["image_path"]
                 gold_value = data[potion]["gold_value"]
-                healing_value = data[potion]["heailing_value"]
+                healing_value = data[potion]["healing_value"]
                 a_potion = Item.HealingPotion(name, image_path, gold_value, healing_value)
                 self.healing_potions.append(a_potion)
 

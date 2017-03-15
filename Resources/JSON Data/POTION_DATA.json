@@ -1,7 +1,7 @@
 {
   "HealingPotion":{
     "name": "Healing Potion",
-    "image_path": "Resources/Spritesheets/RedPot",
+    "image_path": "Resources/Spritesheets/RedPot.png",
     "gold_value": "10",
     "healing_value": "10"
   }
