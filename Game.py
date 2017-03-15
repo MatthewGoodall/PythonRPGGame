@@ -39,7 +39,7 @@ class Game:
         self.json_reader.MakeWeapon("Resources/JSON Data/ITEM_DATA.json")
         self.json_reader.PopulateLocations()
 
-        self.staff = Item.Weapon("staff", "Resources\SinglePhotos\Staff 1.png", 5, 5)
+        self.item_drop = self.json_reader.enemies.item_drop_name
         # Set current location of the player
         self.current_location = self.json_reader.GetLocation("town")
         # Seperate enemies from the location, so they will "respawn" when you enter the location
@@ -191,7 +191,7 @@ class Game:
         pass
 
     def KillEnemy(self, enemy_to_kill):
-        item = Item.ItemDrop(self.staff, enemy_to_kill.rect.x, enemy_to_kill.rect.y)
+        item = Item.ItemDrop(self.item_drop, enemy_to_kill.rect.x, enemy_to_kill.rect.y)
         self.current_location.item_drops.append(item)
         self.current_enemies.remove(enemy_to_kill)
 
