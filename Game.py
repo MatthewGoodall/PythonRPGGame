@@ -121,6 +121,8 @@ class Game:
                         self.paused = False
                     elif not self.paused:
                         self.paused = True
+                elif event.key == pygame.K_F1:
+                    self.game_running = False
 
     def GetInput(self):
         # Update player movement--------------------------------
@@ -135,6 +137,9 @@ class Game:
 
     def PlayerInteract(self):
         self.player.NPCCollision(self.current_location)
+        if self.player.npc_talking_to:
+            self.GUI.MakeMessageBox(self.player.npc_talking_to.dialogue)
+
         self.player.ItemDropCollision(self.current_location)
         gateway = self.player.GatewayCollision(self.current_location)
         if gateway:

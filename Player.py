@@ -19,6 +19,7 @@ class Player(pygame.sprite.Sprite):
         self.maximum_mana = 10
         self.current_mana = self.maximum_mana
         self.inventory = Inventory.Inventory()
+        self.npc_talking_to = None
 
         self.idle_right_animation = json_data.GetAnimation("player_idle_right")
         self.idle_left_animation = json_data.GetAnimation("player_idle_left")
@@ -142,7 +143,7 @@ class Player(pygame.sprite.Sprite):
     def NPCCollision(self, current_location):
         interacts = pygame.sprite.spritecollide(self, current_location.NPCs, False)
         for npc in interacts:
-            print(npc.dialogue)
+            self.npc_talking_to = npc
 
     def GatewayCollision(self, current_location):
         interacts = pygame.sprite.spritecollide(self, current_location.gateways, False)

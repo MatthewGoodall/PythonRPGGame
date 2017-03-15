@@ -5,7 +5,7 @@
       "location": "town",
       "x pos": "150",
       "y pos": "1350",
-      "dialogue": "This is an easter egg, get it, cause I'm an egg"
+      "dialogue": "this is an easter egg get it cause im an egg"
     },
     "Bad Guy": {
       "name": "Bad Guy McGee",
@@ -13,6 +13,6 @@
       "location": "town",
       "x pos": "850",
       "y pos": "750",
-      "dialogue": "Yes it is me the bad guy of this game the one who killed your parents muhahaha"
+      "dialogue": "yes it is me the bad guy of this game the one who killed your parents muhahaha"
     }
 }

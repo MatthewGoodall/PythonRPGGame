@@ -27,5 +27,4 @@ class MessageBox:
                 width = char - 51
             else:
                 width = char
-            print(str(height))
             self.image.blit(letter_image, (width * 20 + 5, height))
