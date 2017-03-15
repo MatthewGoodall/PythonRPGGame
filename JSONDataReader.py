@@ -3,6 +3,7 @@ import NPC
 import Enemy
 import Animation
 import Location
+import Item
 
 class JSONDataReader:
     def __init__(self):
@@ -11,14 +12,32 @@ class JSONDataReader:
         self.enemies = []
         self.locations = []
         self.weapons = []
+        self.healing_potions = []
 
         self.bad_characters = '{}[]""'
 
-    def MakeItems(self, file_path):
+    def MakeWeapon(self, file_path):
         with open(file_path) as data_file:
             data = json.load(data_file)
             for weapon in data:
                 damage = data[weapon]["damage"]
+                name = data[weapon]["name"]
+                image_path = data[weapon]["image_path"]
+                gold_value = data[weapon]["gold_value"]
+                a_weapon = Item.Weapon(name, image_path, gold_value, damage)
+                self.weapons.append(a_weapon)
+
+
+    def MakeHealingPotion(self, file_path):
+        with open(file_path) as data_file:
+            data = json.load(data_file)
+            for potion in data:
+                name = data[potion]["name"]
+                image_path = data[potion]["image_path"]
+                gold_value = data[potion]["gold_value"]
+                healing_value = data[potion]["heailing_value"]
+                a_potion = Item.HealingPotion(name, image_path, gold_value, healing_value)
+                self.healing_potions.append(a_potion)
 
     def MakeNPCs(self, file_path):
         with open(file_path) as data_file:
