@@ -19,13 +19,13 @@ pygame.mixer.init()
 class Game:
     def __init__(self):
         # Set Screen Dimensions
-        self.draw_screen_width = 1024
-        self.draw_screen_height = 576
-        self.draw_screen_size = self.draw_screen_width, self.draw_screen_height
+        self.screen_width = 1024
+        self.screen_height = 576
+        self.screen_size = self.screen_width, self.screen_height
         # Create Screen
         self.display_info = pygame.display.Info()
-        self.screen = pygame.display.set_mode((self.display_info.current_w, self.display_info.current_h), pygame.FULLSCREEN)
-        self.draw_screen = pygame.Surface((self.draw_screen_width, self.draw_screen_height))
+        self.draw_screen = pygame.display.set_mode((self.display_info.current_w, self.display_info.current_h), pygame.FULLSCREEN)
+        self.screen = pygame.Surface((self.screen_width, self.screen_height))
         # Create Clock
         self.clock = pygame.time.Clock()
 
@@ -45,8 +45,10 @@ class Game:
 
         # Create GUI, Camera that follows the player, and the player itself
         self.GUI = GUI.GUI(self.json_reader)
-        self.camera = Camera.Camera(32*64, 32*48, self.draw_screen_width, self.draw_screen_height)
+        self.camera = Camera.Camera(self.current_location.map_rect.width, self.current_location.map_rect.height, self.screen_width, self.screen_height)
         self.player = Player.Player(self.json_reader)
+
+        # Set flags
         self.game_running = True
         self.paused = False
 
@@ -59,9 +61,9 @@ class Game:
                     self.game_running = False
                 elif event.type == pygame.KEYDOWN:
                     start_screen = False
-            self.draw_screen.fill((0, 0, 0))
-            self.draw_screen.blit(start_screen_image, (0, 0))
-            pygame.display.flip()
+            self.ClearScreen()
+            self.screen.blit(start_screen_image, (0, 0))
+            self.DisplayScreen()
 
     def Setup(self):
         pass
@@ -81,7 +83,7 @@ class Game:
                 self.DrawPausedScreen()
 
             self.DisplayScreen()
-            self.HandleFrameRate(120)
+            self.HandleFrameRate(60)
 
     def Quit(self):
         pygame.quit()
@@ -185,32 +187,31 @@ class Game:
 
     def ClearScreen(self):
         color_of_sky = 30, 144, 255
-        self.draw_screen.fill(color_of_sky)
+        self.screen.fill(color_of_sky)
 
     def DrawGameScreen(self):
         self.camera.Update(self.player)
-        self.draw_screen.blit(self.current_location.map_surface, self.camera.ApplyToRect(self.current_location.map_rect))
+        self.screen.blit(self.current_location.map_surface, self.camera.ApplyToRect(self.current_location.map_rect))
 
-        self.draw_screen.blit(self.player.image, self.camera.ApplyToSprite(self.player))
+        self.screen.blit(self.player.image, self.camera.ApplyToSprite(self.player))
 
         for enemy in self.current_enemies:
-            self.draw_screen.blit(enemy.image, self.camera.ApplyToSprite(enemy))
+            self.screen.blit(enemy.image, self.camera.ApplyToSprite(enemy))
 
         for npc in self.current_location.NPCs:
-            self.draw_screen.blit(npc.image, self.camera.ApplyToSprite(npc))
+            self.screen.blit(npc.image, self.camera.ApplyToSprite(npc))
 
         for gui_element in self.GUI.gui_items:
-            self.draw_screen.blit(gui_element.image, (gui_element.rect.x, gui_element.rect.y))
+            self.screen.blit(gui_element.image, (gui_element.rect.x, gui_element.rect.y))
 
         for item_drop in self.current_location.item_drops:
-            self.draw_screen.blit(item_drop.image, self.camera.ApplyToSprite(item_drop))
+            self.screen.blit(item_drop.image, self.camera.ApplyToSprite(item_drop))
 
     def DrawPausedScreen(self):
-        self.draw_screen.blit(self.GUI.pause_screen.image, (self.GUI.pause_screen.rect.x, self.GUI.pause_screen.rect.y))
+        self.screen.blit(self.GUI.pause_screen.image, (self.GUI.pause_screen.rect.x, self.GUI.pause_screen.rect.y))
 
     def DisplayScreen(self):
-        scaled_display = pygame.transform.scale(self.draw_screen, (self.display_info.current_w, self.display_info.current_h))
-        self.screen.blit(scaled_display, (0, 0))
+        scaled_display = pygame.transform.scale(self.screen, (self.display_info.current_w, self.display_info.current_h), self.draw_screen)
         pygame.display.flip()
 
     def HandleFrameRate(self, frames_per_second):

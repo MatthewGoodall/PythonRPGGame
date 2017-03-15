@@ -31,7 +31,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.x = 300
         self.rect.y = 1200
 
-        self.movement_speed = 5.0
+        self.movement_speed = 7.0
         self.vertical_speed = 0.0
         self.move_x = 0.0
         self.move_y = 0.0
@@ -75,7 +75,7 @@ class Player(pygame.sprite.Sprite):
 
     def Jump(self):
         if self.can_jump:
-            upward_speed = -8.0
+            upward_speed = -10.0
             self.vertical_speed = upward_speed
             self.can_jump = False
 
@@ -121,7 +121,7 @@ class Player(pygame.sprite.Sprite):
 
     def UpdateGravity(self):
         if self.vertical_speed <= 10.0:
-            self.vertical_speed += 0.3
+            self.vertical_speed += 0.5
         self.move_y = self.vertical_speed
 
     def HitGround(self):
