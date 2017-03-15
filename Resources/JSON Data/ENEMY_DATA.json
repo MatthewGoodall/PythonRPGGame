@@ -5,6 +5,7 @@
     "location_name": "town",
     "spawn x": "1650",
     "spawn y": "1200",
+    "item_drop_name": "Staff2",
     "spawn animation": "dragon_spawning",
     "idle animation": "dragon_idle",
     "walkloop start": "0",

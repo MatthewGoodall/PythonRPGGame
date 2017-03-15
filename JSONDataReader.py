@@ -82,6 +82,7 @@ class JSONDataReader:
                 location_of_enemy = data[enemy]["location_name"]
                 spawn_x_of_enemy = int(data[enemy]["spawn x"])
                 spawn_y_of_enemy = int(data[enemy]["spawn y"])
+                item_drop_name = data[enemy]["item_drop_name"]
                 spawn_animation_name = data[enemy]["spawn animation"]
                 spawn_animation_of_enemy = self.GetAnimation(spawn_animation_name)
                 idle_animation_name = data[enemy]["idle animation"]
@@ -93,7 +94,7 @@ class JSONDataReader:
                 an_enemy = Enemy.Enemy(health_of_enemy, damage_of_enemy, location_of_enemy,
                                  spawn_x_of_enemy, spawn_y_of_enemy, spawn_animation_of_enemy,
                                  idle_animation_of_enemy, walkloop_start_of_enemy, walkloop_end_of_enemy,
-                                 min_gold_drop, max_gold_drop)
+                                 min_gold_drop, max_gold_drop, item_drop_name)
                 self.enemies.append(an_enemy)
 
     def MakeLocations(self, file_path):
