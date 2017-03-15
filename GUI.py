@@ -1,6 +1,7 @@
 import pygame
 import Animation
 import JSONDataReader
+import Messagebox
 
 class GUI:
     def __init__(self, json_data):
@@ -13,6 +14,10 @@ class GUI:
         self.pause_screen = GUI_Item(self.pause_screen_image, 0, 0)
         self.pause_screen.rect.x = 1024/2 - self.pause_screen.rect.width/2
         self.pause_screen.rect.y = 576/2 - self.pause_screen.rect.height/2
+        self.letters = Messagebox.Letters()
+        self.message_box = Messagebox.MessageBox(self.letters, "my name is old guy and you killed my father prepare to die")
+        self.message_box = GUI_Item(self.message_box.image, 0, 500)
+        self.gui_items.append(self.message_box)
 
     def Update(self, player):
         self.health_bar.Update(player.current_health, player.maximum_health)
