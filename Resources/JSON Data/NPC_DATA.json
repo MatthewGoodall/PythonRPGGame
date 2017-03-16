@@ -16,5 +16,15 @@
       "x pos": "850",
       "y pos": "750",
       "dialogue": "this is a test to see what happens if the word keeps going on and on and on and on and on and on and on and on and on"
+    },
+    "Shop Keeper": {
+      "name": "Sky The Shop Keeper",
+      "image path": "Resources/SinglePhotos/Knight.png",
+      "closeup path": "Resources/SinglePhotos/KnightCloseUp.png",
+      "location": "town",
+      "x pos": "250",
+      "y pos": "1350",
+      "dialogue": "what do you want to buy"
     }
+
 }
