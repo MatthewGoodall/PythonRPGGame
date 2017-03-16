@@ -44,6 +44,9 @@ class Enemy(pygame.sprite.Sprite):
         return gold_drop
 
 
+    def MakeItemDrop(self):
+        return None
+
     def DoDamage(self):
         player.TakeDamage(self.damage)
         return self.damage

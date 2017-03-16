@@ -8,9 +8,8 @@ class Item():
     self.value = gold_value
 
 class ItemDrop(pygame.sprite.Sprite):
-    def __init__(self, item, x, y):
-        self.item = item
-        self.image = self.item.image
+    def __init__(self, image, x, y):
+        self.image = image
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -27,6 +26,17 @@ class ItemDrop(pygame.sprite.Sprite):
 
         self.y_speed += 0.3
 
+class NormalItemDrop(ItemDrop):
+    def __init__(self, item, x, y):
+        super().__init__(item.image, x, y)
+        self.item = item
+
+class GoldDrop(ItemDrop):
+    def __init__(self, gold_value, x, y):
+        gold_picture = pygame.image.load("Resources/SinglePhotos/Gold.png")
+        super().__init__(gold_picture, x, y)
+        self.value = gold_value
+
 class Weapon(Item):
   def __init__(self, weapon_name, image_path, gold_value, weapon_damage):
     super().__init__(weapon_name, image_path, gold_value)
@@ -39,7 +49,3 @@ class Potion(Item):
 class HealingPotion(Potion):
   def __init__(self, potion_name, image_path, gold_value, heal_amount):
     super().__init__(potion_name, image_path, gold_value)
-
-class GoldDrop(ItemDrop):
-    def __init__(self, gold_value, x, y):
-        super().__init__(gold_value, x, y)

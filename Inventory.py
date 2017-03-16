@@ -7,8 +7,9 @@ class Inventory:
     def PrintInventory(self):
         for item in self.items:
             print(item.name)
+        print(str(self.gold))
         print("-----------")
-        
+
     def AddItem(self, item):
         if len(self.items) >= 30:
             print("Can not add item, full inventory")

@@ -6,6 +6,7 @@ import Enemy
 import Inventory
 import Camera
 import NPC
+import Item
 
 pygame.mixer.init()
 pygame.display.init()
@@ -158,5 +159,8 @@ class Player(pygame.sprite.Sprite):
     def ItemDropCollision(self, current_location):
         interacts = pygame.sprite.spritecollide(self, current_location.item_drops, False)
         for item_drop in interacts:
-            self.inventory.items.append(item_drop.item)
+            if isinstance(item_drop, Item.GoldDrop):
+                self.inventory.AddGold(item_drop.value)
+            else:
+                self.inventory.AddItem(item_drop.item)
             current_location.item_drops.remove(item_drop)

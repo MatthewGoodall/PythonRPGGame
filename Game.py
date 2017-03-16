@@ -191,8 +191,14 @@ class Game:
         pass
 
     def KillEnemy(self, enemy_to_kill):
-        item = Item.ItemDrop(enemy.RandomGoldDrop, enemy_to_kill.rect.x, enemy_to_kill.rect.y)
-        self.current_location.item_drops.append(item)
+        gold_drop_item = Item.GoldDrop(enemy_to_kill.RandomGoldDrop(), enemy_to_kill.rect.x, enemy_to_kill.rect.y)
+        self.current_location.item_drops.append(gold_drop_item)
+
+        enemy_item_drop = enemy_to_kill.MakeItemDrop()
+        if enemy_item_drop:
+            item_drop = Item.NormalItemDrop(enemy_item_drop, enemy_to_kill.rect.x, enemy_to_kill.rect.y)
+            self.current_location.item_drops.append(item_drop)
+
         self.current_enemies.remove(enemy_to_kill)
 
     def ClearScreen(self):
