@@ -4,7 +4,7 @@ class Letters:
     def __init__(self):
         self.letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k",
                         "l", "m", "n", "o", "p"," q", "r", "s", "t", "u",
-                        "v", "w", "x", "y", "z", " "]
+                        "v", "w", "x", "y", "z", ".", ',', ' ']
         self.alphabet_image = pygame.image.load("Resources/SinglePhotos/Alphabet.png")
         self.letter_dict = {}
         self.letter_images = []
@@ -27,17 +27,28 @@ class MessageBox(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = 0
         self.rect.y = 385
-        current_x = 0
+        self.dialogue_box_rect = self.dialogue_box.get_rect()
+        current_x = -1
         current_y = 0
         letter_width = letters.letter_images[0].get_width()
         letter_height = letters.letter_images[0].get_height()
         spacing = 3
         for char in range(len(string)):
             letter_image = letters.letter_dict[string[char]]
-            self.dialogue_box.blit(letter_image, (current_x, current_y))
-            current_x += letter_width + spacing
-            if current_x + letter_width + spacing > self.rect.width:
+            if current_x != -1:
+                print(str(char))
+                if string[char] == ',':
+                    current_x += letter_width
+                else:
+                    current_x += letter_width + spacing
+            else:
                 current_x = 0
-                current_y += letter_height + 3
-        self.image.blit(self.dialogue_box, (204, 12))
+
+            if current_x + letter_width + spacing > self.dialogue_box_rect.width:
+                current_y += letter_height + spacing
+                current_x = 0
+
+            self.dialogue_box.blit(letter_image, (current_x, current_y))
+
+        self.image.blit(self.dialogue_box, (204, 16))
         self.image.blit(npc_picture, (12, 12))
