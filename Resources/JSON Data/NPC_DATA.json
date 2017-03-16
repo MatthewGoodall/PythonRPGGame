@@ -2,6 +2,7 @@
     "Mother": {
       "name": "Mother The Baker",
       "image path": "Resources/SinglePhotos/DragonEgg.png",
+      "closeup path": "Resources/SinglePhotos/DragonEggCloseUp.png",
       "location": "town",
       "x pos": "150",
       "y pos": "1350",
@@ -10,6 +11,7 @@
     "Bad Guy": {
       "name": "Bad Guy McGee",
       "image path": "Resources/SinglePhotos/Knight.png",
+      "closeup path": "Resources/SinglePhotos/KnightCloseUp.png",
       "location": "town",
       "x pos": "850",
       "y pos": "750",

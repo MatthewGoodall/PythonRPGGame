@@ -13,7 +13,7 @@ class Animation:
         self.frame_height = frame_height * scale
         self.frames = []
         self.height = height
-        self.sprite_sheet = pygame.image.load(spritesheet_path)
+        self.sprite_sheet = pygame.image.load(spritesheet_path).convert_alpha()
         if scale > 1:
             self.sprite_sheet = pygame.transform.scale(self.sprite_sheet,
                                                        (self.sprite_sheet.get_width() * scale,

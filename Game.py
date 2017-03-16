@@ -39,7 +39,7 @@ class Game:
         self.json_reader.MakeWeapon("Resources/JSON Data/ITEM_DATA.json")
         self.json_reader.PopulateLocations()
 
-        self.item_drop = self.json_reader.enemies.item_drop_name
+        # self.item_drop = self.json_reader.enemies.item_drop_name
         # Set current location of the player
         self.current_location = self.json_reader.GetLocation("town")
         # Seperate enemies from the location, so they will "respawn" when you enter the location
@@ -143,7 +143,7 @@ class Game:
             if self.GUI.message_box_shown:
                 self.GUI.RemoveMessageBox()
             else:
-                self.GUI.MakeMessageBox(self.player.npc_talking_to.dialogue)
+                self.GUI.MakeMessageBox(self.player.npc_talking_to.dialogue, self.player.npc_talking_to.close_up)
 
         self.player.ItemDropCollision(self.current_location)
         gateway = self.player.GatewayCollision(self.current_location)

@@ -46,11 +46,12 @@ class JSONDataReader:
                 name_of_npc = data[npc]["name"]
                 location_of_npc = data[npc]["location"]
                 image_path_of_npc = data[npc]["image path"]
+                close_up_of_npc = data[npc]["closeup path"]
                 x_pos_of_npc = int(data[npc]["x pos"])
                 y_pos_of_npc = int(data[npc]["y pos"])
                 dialogue_of_npc = data[npc]["dialogue"]
-                a_npc = NPC.NPC(name_of_npc, location_of_npc, image_path_of_npc,  x_pos_of_npc, y_pos_of_npc,
-                            dialogue_of_npc)
+                a_npc = NPC.NPC(name_of_npc, location_of_npc, image_path_of_npc,  close_up_of_npc,
+                                x_pos_of_npc, y_pos_of_npc, dialogue_of_npc)
                 self.NPCs.append(a_npc)
 
     def MakeAnimations(self, file_path):
