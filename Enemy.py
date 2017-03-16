@@ -1,6 +1,7 @@
 from Player import *
 import pygame
 import Animation
+import random
 
 
 class Enemy(pygame.sprite.Sprite):
@@ -32,9 +33,16 @@ class Enemy(pygame.sprite.Sprite):
         self.min_gold_drop = min_gold_drop
         self.max_gold_drop = max_gold_drop
 
+
         self.donePath = False
         self.walkLoop_start = walkLoop_start
         self.walkLoop_end = walkLoop_end
+
+
+    def RandomGoldDrop(self):
+        gold_drop = random.randrange(self.min_gold_drop, self.max_gold_drop)
+        return gold_drop
+
 
     def DoDamage(self):
         player.TakeDamage(self.damage)
