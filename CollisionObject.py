@@ -24,6 +24,9 @@ class CollisionObject(pygame.sprite.Sprite):
             the_player.can_jump = True
             the_player.HitGround()
 
+    def CanFallThrough(self, the_player):
+        pass
+
     # No Upward Collision
     def CanJumpThrough(self, the_player):
         pass
@@ -90,3 +93,4 @@ class Gateway(CollisionObject):
 
     def VerticalCollision(self, the_player):
         self.CanJumpThrough(the_player)
+        self.CanFallThrough(the_player)
