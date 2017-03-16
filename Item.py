@@ -36,8 +36,8 @@ class Potion(Item):
   def __init__(self, potion_name, image_path, gold_value):
     super().__init__(potion_name, image_path, gold_value)
 
-class HealingPotion(Potion):
-  def __init__(self, potion_name, image_path, gold_value, heal_amount):
+class RestorePotion(Potion):
+  def __init__(self, potion_name, image_path, gold_value, heal_amount, mana_restore_value):
     super().__init__(potion_name, image_path, gold_value)
 
 class GoldDrop(ItemDrop):
