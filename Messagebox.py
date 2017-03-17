@@ -5,7 +5,7 @@ class Letters:
         self.letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k",
                         "l", "m", "n", "o", "p","q", "r", "s", "t", "u",
                         "v", "w", "x", "y", "z", ",", ".", "'", '?', '!', ' ']
-        self.alphabet_image = pygame.image.load("Resources/SinglePhotos/Alphabet.png")
+        self.alphabet_image = pygame.image.load("Resources/SinglePhotos/Alphabet.png").convert_alpha()
         self.letter_dict = {}
         self.letter_images = []
         length_of_surface = self.alphabet_image.get_width()

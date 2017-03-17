@@ -9,14 +9,24 @@
       "frame delay": "1000",
       "scale": "4"
     },
-    "Dragon Spawning": {
-      "name": "dragon_spawning",
+    "Dragon Walking Right": {
+      "name": "dragon_walking_right",
       "type": "idle",
       "spritesheet path": "Resources/Spritesheets/DragonRight.png",
       "frame width": "20",
       "frame height": "20",
-      "number of frames": "1",
-      "frame delay": "1000",
+      "number of frames": "4",
+      "frame delay": "250",
+      "scale": "4"
+    },
+    "Dragon Walking Left": {
+      "name": "dragon_walking_left",
+      "type": "idle",
+      "spritesheet path": "Resources/Spritesheets/DragonLeft.png",
+      "frame width": "20",
+      "frame height": "20",
+      "number of frames": "4",
+      "frame delay": "250",
       "scale": "4"
     },
     "Player Walking Right": {

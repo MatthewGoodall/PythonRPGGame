@@ -87,21 +87,31 @@ class JSONDataReader:
             for enemy in data:
                 health_of_enemy = int(data[enemy]["health"])
                 damage_of_enemy = int(data[enemy]["damage"])
+
                 location_of_enemy = data[enemy]["location_name"]
                 spawn_x_of_enemy = int(data[enemy]["spawn x"])
                 spawn_y_of_enemy = int(data[enemy]["spawn y"])
+
                 item_drop_name = data[enemy]["item_drop_name"]
-                spawn_animation_name = data[enemy]["spawn animation"]
-                spawn_animation_of_enemy = self.GetAnimation(spawn_animation_name)
+
                 idle_animation_name = data[enemy]["idle animation"]
                 idle_animation_of_enemy = self.GetAnimation(idle_animation_name)
-                walkloop_start_of_enemy = int(data[enemy]["walkloop start"])
-                walkloop_end_of_enemy = int(data[enemy]["walkloop end"])
-                min_gold_drop = int(data[enemy]["min_gold_drop"])
-                max_gold_drop = int(data[enemy]["max_gold_drop"])
+
+                walking_right_animation_name = data[enemy]["walking right animation"]
+                walking_right_animation_of_enemy = self.GetAnimation(walking_right_animation_name)
+
+                walking_left_animation_name = data[enemy]["walking left animation"]
+                walking_left_animation_of_enemy = self.GetAnimation(walking_left_animation_name)
+
+                walk_loop_distance_of_enemy = int(data[enemy]["walkloop distance"])
+
+                min_gold_drop = int(data[enemy]["min gold drop"])
+                max_gold_drop = int(data[enemy]["max gold drop"])
+
                 an_enemy = Enemy.Enemy(health_of_enemy, damage_of_enemy, location_of_enemy,
-                                 spawn_x_of_enemy, spawn_y_of_enemy, spawn_animation_of_enemy,
-                                 idle_animation_of_enemy, walkloop_start_of_enemy, walkloop_end_of_enemy,
+                                 spawn_x_of_enemy, spawn_y_of_enemy,
+                                 idle_animation_of_enemy, walking_right_animation_of_enemy,
+                                 walking_left_animation_of_enemy, walk_loop_distance_of_enemy,
                                  min_gold_drop, max_gold_drop, item_drop_name)
                 self.enemies.append(an_enemy)
 

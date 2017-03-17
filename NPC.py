@@ -6,8 +6,8 @@ class NPC(pygame.sprite.Sprite):
         super().__init__()
         self.name = name
         self.location = location
-        self.image = pygame.image.load(image_path)
-        self.close_up = pygame.image.load(closeup_path)
+        self.image = pygame.image.load(image_path).convert_alpha()
+        self.close_up = pygame.image.load(closeup_path).convert_alpha()
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
