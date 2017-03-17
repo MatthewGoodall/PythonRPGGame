@@ -14,7 +14,6 @@ pygame.display.init()
 
 class Player(PhysicsSprite.PhysicsSprite):
     def __init__(self, json_data):
-        super().__init__(json_data, "player_idle_right", 300, 1200)
 
         self.alive = True
         self.maximum_health = 10
@@ -28,6 +27,8 @@ class Player(PhysicsSprite.PhysicsSprite):
         self.idle_left_animation = json_data.GetAnimation("player_idle_left")
         self.walking_right_animation = json_data.GetAnimation("player_walking_right")
         self.walking_left_animation = json_data.GetAnimation("player_walking_left")
+        self.current_animation = self.idle_right_animation
+        super().__init__(self.idle_right_animation.GetFirstFrame(), 300, 1200)
 
         self.jump_pressed = False
         self.up_pressed = False
@@ -37,6 +38,14 @@ class Player(PhysicsSprite.PhysicsSprite):
 
         self.can_jump = False
         self.movement_speed = 5.0
+
+    def ChangeCurrentAnimation(self, new_animation):
+        if self.current_animation is not new_animation:
+            self.current_animation = new_animation
+
+    def UpdateAnimation(self, time):
+        if self.current_animation.NeedsUpdate(time):
+            self.image = self.current_animation.Update()
 
     def TakeDamge(self, amount_of_damage):
         self.current_health -= damage

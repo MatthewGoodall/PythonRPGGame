@@ -1,27 +1,18 @@
 import pygame
 
 class PhysicsSprite(pygame.sprite.Sprite):
-    def __init__(self, json_reader, animation_name, start_x, start_y):
+    def __init__(self, image, start_x, start_y):
         self.move_x = 0.0
         self.move_y = 0.0
         self.y_velocity = 0.0
         self.downward_acceleration = 0.5
 
-        self.current_animation = json_reader.GetAnimation(animation_name)
-        self.image = self.current_animation.GetFirstFrame()
+        self.image = image
         self.rect = self.image.get_rect()
         self.rect.x = start_x
         self.rect.y = start_y
 
         self.latest_x_direction = ""
-
-    def UpdateAnimation(self, time):
-        if self.current_animation.NeedsUpdate(time):
-            self.image = self.current_animation.Update()
-
-    def ChangeCurrentAnimation(self, new_animation):
-        if self.current_animation != new_animation:
-            self.current_animation = new_animation
 
     def ApplyCollisions(self, current_location):
         self.rect.x += self.move_x

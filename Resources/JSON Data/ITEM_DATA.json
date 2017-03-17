@@ -2,25 +2,25 @@
   "Staff1":{
     "damage":"12",
     "name": "Staff1",
-    "image_path": "Resources/SinglePhotos/Necromancer Wand.png",
-    "gold_value": "10"
+    "image path": "Resources/SinglePhotos/Necromancer Wand.png",
+    "gold value": "10"
   },
   "Staff2":{
     "damage":"12",
     "name": "Staff2",
-    "image_path": "Resources/SinglePhotos/Staff 1.png",
-    "gold_value": "10"
+    "image path": "Resources/SinglePhotos/Staff 1.png",
+    "gold value": "10"
   },
   "Sword1":{
     "damage":"12",
     "name": "Sword1",
-    "image_path": "Resources/SinglePhotos/Necromancer Wand.png",
-    "gold_value": "10"
+    "image path": "Resources/SinglePhotos/Necromancer Wand.png",
+    "gold value": "10"
   },
   "Sword2":{
     "damage":"12",
     "name": "Sword2",
-    "image_path": "Resources/SinglePhotos/Necromancer Wand.png",
-    "gold_value": "10"
+    "image path": "Resources/SinglePhotos/Necromancer Wand.png",
+    "gold value": "10"
   }
 }

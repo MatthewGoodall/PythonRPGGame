@@ -1,18 +1,20 @@
 {
   "HealingPotion":{
     "name": "Healing Potion",
-    "image_path": "Resources/Spritesheets/RedPot.png",
-    "gold_value": "10",
+    "image path": "Resources/Spritesheets/RedPot.png",
+    "gold value": "10",
     "type": "Healing",
-    "healing_value": "10"
+    "healing value": "10",
+    "mana restore value": "10"
 
   },
   "ManaPot": {
     "name": "Mana Potion",
-    "image_path": "Resources/Spritesheets/BluePot.png",
-    "gold_value": "10",
+    "image path": "Resources/Spritesheets/BluePot.png",
+    "gold value": "10",
     "type": "Mana",
-    "mana_restore_value": "10"
+    "healing value": "0",
+    "mana restore value": "10"
 
 
   }

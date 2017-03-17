@@ -165,7 +165,6 @@ class Game:
 
     def UpdateEnemies(self):
         for enemy in self.current_enemies:
-            print(enemy.item_drop.name)
             if enemy.alive:
                 enemy.UpdateAnimation(pygame.time.get_ticks())
                 if abs(self.player.rect.centerx - enemy.rect.centerx) < 300.0:
@@ -187,7 +186,7 @@ class Game:
 
     def UpdateItemDrops(self):
         for item_drop in self.current_location.item_drops:
-            item_drop.Update(self.current_location.collisions)
+            item_drop.Update(self.current_location)
 
     def KillPlayer(self):
         # Game over(TO BE IMPLEMENTED)

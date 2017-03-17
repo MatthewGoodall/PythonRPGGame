@@ -20,11 +20,7 @@ class JSONDataReader:
         with open(file_path) as data_file:
             data = json.load(data_file)
             for weapon in data:
-                damage = data[weapon]["damage"]
-                name = data[weapon]["name"]
-                image_path = data[weapon]["image_path"]
-                gold_value = data[weapon]["gold_value"]
-                a_weapon = Item.Weapon(name, image_path, gold_value, damage)
+                a_weapon = Item.Weapon(data, weapon)
                 self.weapons.append(a_weapon)
 
 
@@ -32,18 +28,7 @@ class JSONDataReader:
         with open(file_path) as data_file:
             data = json.load(data_file)
             for potion in data:
-                name = data[potion]["name"]
-                image_path = data[potion]["image_path"]
-                gold_value = data[potion]["gold_value"]
-                if data[potion]["type"] == "Healing":
-                    healing_value = data[potion]["healing_value"]
-                else:
-                    healing_value = 0
-                if data[potion]["type"] == "Mana":
-                    mana_restore_value = data[potion]["mana_restore_value"]
-                else:
-                    mana_restore_value = 0
-                a_potion = Item.RestorePotion(name, image_path, gold_value, healing_value, mana_restore_value)
+                a_potion = Item.RestorePotion(data, potion)
                 self.healing_potions.append(a_potion)
 
     def MakeNPCs(self, file_path):

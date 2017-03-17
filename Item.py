@@ -1,34 +1,20 @@
 import pygame
+import PhysicsSprite
 
 class Item():
-  def __init__(self, item_name, image_path, gold_value):
-    self.image = pygame.image.load(image_path).convert_alpha()
+  def __init__(self, item_data, index):
+    self.image = pygame.image.load(item_data[index]["image path"]).convert_alpha()
     self.rect = self.image.get_rect()
-    self.name = item_name
-    self.value = gold_value
+    self.name = item_data[index]["name"]
+    self.value = item_data[index]["gold value"]
 
-class ItemDrop(pygame.sprite.Sprite):
+class ItemDrop(PhysicsSprite.PhysicsSprite):
     def __init__(self, image, x, y):
-        self.image = image
-        self.rect = image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
-        self.y_speed = 0.0
-        self.move_y = 0.0
+        super().__init__(image, x, y)
 
-    def Update(self, collisions):
-        self.move_y = self.y_speed
-        self.rect.y += self.move_y
-        collision_list = pygame.sprite.spritecollide(self, collisions, False)
-        for collision_object in collision_list:
-            if self.move_y > 0:
-                collision_object.VerticalCollision(self)
-
-        self.y_speed += 0.3
-
-    def HitGround(self):
-        self.y_speed = 0.0
-
+    def Update(self, current_location):
+        self.ApplyGravity()
+        self.ApplyCollisions(current_location)
 class NormalItemDrop(ItemDrop):
     def __init__(self, item, x, y):
         super().__init__(item.image, x, y)
@@ -41,14 +27,15 @@ class GoldDrop(ItemDrop):
         self.value = gold_value
 
 class Weapon(Item):
-  def __init__(self, weapon_name, image_path, gold_value, weapon_damage):
-    super().__init__(weapon_name, image_path, gold_value)
-    self.damage = weapon_damage
+  def __init__(self, weapon_data, index):
+    super().__init__(weapon_data, index)
+    self.damage = weapon_data[index]["damage"]
 
 class Potion(Item):
-  def __init__(self, potion_name, image_path, gold_value):
-    super().__init__(potion_name, image_path, gold_value)
+  def __init__(self, potion_data, index):
+    super().__init__(potion_data, index)
 
 class RestorePotion(Potion):
-  def __init__(self, potion_name, image_path, gold_value, heal_amount, mana_restore_value):
-    super().__init__(potion_name, image_path, gold_value)
+  def __init__(self, restore_potion_data, index):
+    super().__init__(restore_potion_data, index)
+    self.restore_amount = restore_potion_data[index]["mana restore value"]
