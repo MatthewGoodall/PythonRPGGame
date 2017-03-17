@@ -14,6 +14,7 @@ import Item
 import CollisionObject
 import JSONDataReader
 import random
+
 pygame.init()
 pygame.mixer.init()
 class Game:
@@ -38,7 +39,6 @@ class Game:
         self.json_reader.MakePotion("resources/JSON Data/POTION_DATA.json")
         self.json_reader.MakeWeapon("Resources/JSON Data/ITEM_DATA.json")
         self.json_reader.PopulateLocations()
-
 
         # Set current location of the player
         self.current_location = self.json_reader.GetLocation("town")
@@ -165,6 +165,7 @@ class Game:
 
     def UpdateEnemies(self):
         for enemy in self.current_enemies:
+            print(enemy.item_drop.name)
             if enemy.alive:
                 enemy.UpdateAnimation(pygame.time.get_ticks())
                 if abs(self.player.rect.centerx - enemy.rect.centerx) < 300.0:
@@ -172,7 +173,7 @@ class Game:
                 else:
                     enemy.chasing = False
 
-                enemy.UpdateMovement(self.current_location.collisions, self.player)
+                # enemy.UpdateMovement(self.current_location.collisions, self.player)
             else:
                 self.KillEnemy(enemy)
 
@@ -194,12 +195,11 @@ class Game:
 
     def KillEnemy(self, enemy_to_kill):
         gold_drop_item = Item.GoldDrop(enemy_to_kill.RandomGoldDrop(), enemy_to_kill.rect.x, enemy_to_kill.rect.y)
+        loot_drop = enemy_to_kill.RandomLootDrop()
+        if loot_drop:
+            loot_drop_item = Item.NormalItemDrop(loot_drop, enemy_to_kill.rect.x, enemy_to_kill.rect.y)
+            self.current_location.item_drops.append(loot_drop_item)
         self.current_location.item_drops.append(gold_drop_item)
-        for int(i) in self.json_reader.weapons:
-            if enemy_to_kill.item_drop_name == i.name:
-                item_drop = Item.NormalItemDrop(str(self.json_reader.weapons[i].image_path), i.name, enemy_to_kill.rect.x + 10, enemy_to_kill.rect.y)
-                self.current_location.item_drops.append(item_drop)
-
         self.current_enemies.remove(enemy_to_kill)
 
     def ClearScreen(self):
