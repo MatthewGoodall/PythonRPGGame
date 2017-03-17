@@ -2,7 +2,7 @@ import pygame
 
 class Item():
   def __init__(self, item_name, image_path, gold_value):
-    self.image = pygame.image.load(image_path)
+    self.image = pygame.image.load(image_path).convert_alpha()
     self.rect = self.image.get_rect()
     self.name = item_name
     self.value = gold_value
@@ -14,17 +14,20 @@ class ItemDrop(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
         self.y_speed = 0.0
+        self.move_y = 0.0
 
     def Update(self, collisions):
-        move_y = self.y_speed
-        self.rect.y += move_y
+        self.move_y = self.y_speed
+        self.rect.y += self.move_y
         collision_list = pygame.sprite.spritecollide(self, collisions, False)
         for collision_object in collision_list:
-            if move_y > 0:
-                self.rect.bottom = collision_object.rect.top
-                self.y_speed = 0.0
+            if self.move_y > 0:
+                collision_object.VerticalCollision(self)
 
         self.y_speed += 0.3
+
+    def HitGround(self):
+        self.y_speed = 0.0
 
 class NormalItemDrop(ItemDrop):
     def __init__(self, item, x, y):
@@ -33,7 +36,7 @@ class NormalItemDrop(ItemDrop):
 
 class GoldDrop(ItemDrop):
     def __init__(self, gold_value, x, y):
-        gold_picture = pygame.image.load("Resources/SinglePhotos/Gold.png")
+        gold_picture = pygame.image.load("Resources/SinglePhotos/Gold.png").convert_alpha()
         super().__init__(gold_picture, x, y)
         self.value = gold_value
 

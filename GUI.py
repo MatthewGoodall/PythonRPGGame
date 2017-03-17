@@ -15,7 +15,7 @@ class GUI:
         self.pause_screen.rect.x = 1024/2 - self.pause_screen.rect.width/2
         self.pause_screen.rect.y = 576/2 - self.pause_screen.rect.height/2
         self.message_box_shown = False
-        self.dialogue_frame_image = pygame.image.load("Resources/SinglePhotos/MessageBoxFrame.png")
+        self.dialogue_frame_image = pygame.image.load("Resources/SinglePhotos/MessageBoxFrame.png").convert_alpha()
         self.letters = Messagebox.Letters()
 
     def Update(self, player):

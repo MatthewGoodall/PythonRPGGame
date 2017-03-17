@@ -5,9 +5,9 @@ import random
 
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, health, damage, location, spawn_x, spawn_y, spawn_animation,
-                 idle_animation, walkLoop_start, walkLoop_end, min_gold_drop, max_gold_drop,
-                 item_drop_name):
+    def __init__(self, health, damage, location, spawn_x, spawn_y,
+                 idle_animation, walking_right_animation, walking_left_animation,
+                 walk_loop_distance, min_gold_drop, max_gold_drop, item_drop_name):
         super().__init__()
 
         self.damage = damage
@@ -17,32 +17,37 @@ class Enemy(pygame.sprite.Sprite):
         self.location = location
         self.item_drop_name = item_drop_name
 
-        self.spawning = True
         self.alive = True
 
-        self.spawn_animation = spawn_animation
         self.idle_animation = idle_animation
-        self.current_animation = spawn_animation
+        self.walking_right_animation = walking_right_animation
+        self.walking_left_animation = walking_left_animation
+        self.current_animation = walking_right_animation
+
         self.image = self.current_animation.GetFirstFrame()
         self.rect = self.image.get_rect()
         self.spawn_x = spawn_x
         self.spawn_y = spawn_y
         self.rect.x = self.spawn_x
         self.rect.y = self.spawn_y
+        self.speed = 2.0
+        self.move_x = 0.0
+        self.move_y = 0.0
 
         self.min_gold_drop = min_gold_drop
         self.max_gold_drop = max_gold_drop
 
+        self.walking_direction = "right"
+        self.walking_distance = walk_loop_distance
 
-        self.donePath = False
-        self.walkLoop_start = walkLoop_start
-        self.walkLoop_end = walkLoop_end
 
+    def ChangeCurrentAnimation(self, new_animation):
+        if self.current_animation is not new_animation:
+            self.current_animation = new_animation
 
     def RandomGoldDrop(self):
         gold_drop = random.randrange(self.min_gold_drop, self.max_gold_drop)
         return gold_drop
-
 
     def MakeItemDrop(self):
         return None
@@ -64,54 +69,53 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.y = self.spawn_y
 
     def UpdateAnimation(self, time):
-        if self.current_animation.type == "spawning":
-            if self.current_animation.current_frame == self.current_animation.number_of_frames - 1:
-                self.current_animation.update()
-                self.current_animation = self.idle_animation
-                self.spawning = False
-
         if self.current_animation.NeedsUpdate(time):
             self.image = self.current_animation.Update()
 
-    def ChasePlayer(self, collisions, player, speed=1):
-        move_x, move_y = 0, 0
+    def UpdateMovement(self, collisions, player):
+        if self.chasing:
+            self.ChasePlayer(collisions, player)
+        else:
+            self.WalkPath(collisions)
+
+    def ChasePlayer(self, collisions, player):
+        self.move_x, self.move_y = 0, 0
         # Movement along x direction
-        if self.rect.x > player.rect.x:
-            move_x -= speed
-        elif self.rect.x < player.rect.x:
-            move_x += speed
-        # Movement along y direction
-        if self.rect.y < player.rect.y:
-            move_y += speed
-        elif self.rect.y > player.rect.y:
-            move_y -= speed
+        if self.rect.x >= player.rect.x + 2:
+            self.move_x -= self.speed
+            self.ChangeCurrentAnimation(self.walking_left_animation)
+        elif self.rect.x <= player.rect.x - 2:
+            self.move_x += self.speed
+            self.ChangeCurrentAnimation(self.walking_right_animation)
 
-        self.rect.x += move_x
+        self.UpdateCollisions(collisions)
+
+    def WalkPath(self, collisions, speed=1):
+        self.move_x, self.move_y = 0, 0
+        if self.walking_direction == "right":
+            self.move_x += self.speed
+            self.ChangeCurrentAnimation(self.walking_right_animation)
+        elif self.walking_direction == "left":
+            self.move_x -= self.speed
+            self.ChangeCurrentAnimation(self.walking_left_animation)
+
+        self.UpdateCollisions(collisions)
+
+        if self.rect.x >= self.spawn_x + self.walking_distance:
+            self.walking_direction = "left"
+        elif self.rect.x <= self.spawn_x:
+            self.walking_direction = "right"
+
+    def UpdateCollisions(self, collisions):
+        self.rect.x += self.move_x
         collision_list = pygame.sprite.spritecollide(self, collisions, False)
         for collision_object in collision_list:
-            if move_x > 0:
-                self.rect.right = collision_object.rect.left
+            collision_object.HorizontalCollision(self)
 
-            elif move_x < 0:
-                self.rect.left = collision_object.rect.right
-
-        self.rect.y += move_y
+        self.rect.y += self.move_y
         collision_list = pygame.sprite.spritecollide(self, collisions, False)
         for collision_object in collision_list:
-            if move_y > 0:
-                self.rect.bottom = collision_object.rect.top
-            elif move_y < 0:
-                self.rect.top = collision_object.rect.bottom
+            collision_object.VerticalCollision(self)
 
-    def WalkPath(self, speed=1):
-            move_x, move_y = 0, 0
-
-            if not self.donePath:
-                move_y -= speed
-                if self.rect.y <= self.walkLoop_start:
-                    self.donePath = True
-            elif self.donePath:
-                move_y += speed
-                if self.rect.y >= self.walkLoop_end:
-                    self.donePath = False
-            self.rect.y += move_y
+    def HitGround(self):
+        pass
