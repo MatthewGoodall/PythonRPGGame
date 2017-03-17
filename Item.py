@@ -27,8 +27,9 @@ class ItemDrop(pygame.sprite.Sprite):
         self.y_speed += 0.3
 
 class NormalItemDrop(ItemDrop):
-    def __init__(self, item, x, y):
-        super().__init__(item.image, x, y)
+    def __init__(self, image_path, item, x, y):
+        image = pygame.image.load(image_path)
+        super().__init__(image, x, y)
         self.item = item
 
 class GoldDrop(ItemDrop):

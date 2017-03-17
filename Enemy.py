@@ -2,6 +2,7 @@ from Player import *
 import pygame
 import Animation
 import random
+import JSONDataReader
 
 
 class Enemy(pygame.sprite.Sprite):
@@ -29,10 +30,11 @@ class Enemy(pygame.sprite.Sprite):
         self.spawn_y = spawn_y
         self.rect.x = self.spawn_x
         self.rect.y = self.spawn_y
+        self.json_reader = JSONDataReader.JSONDataReader()
 
         self.min_gold_drop = min_gold_drop
         self.max_gold_drop = max_gold_drop
-
+        self.item_drop_name = item_drop_name
 
         self.donePath = False
         self.walkLoop_start = walkLoop_start
@@ -42,10 +44,6 @@ class Enemy(pygame.sprite.Sprite):
     def RandomGoldDrop(self):
         gold_drop = random.randrange(self.min_gold_drop, self.max_gold_drop)
         return gold_drop
-
-
-    def MakeItemDrop(self):
-        return None
 
     def DoDamage(self):
         player.TakeDamage(self.damage)
