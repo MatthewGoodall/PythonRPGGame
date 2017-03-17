@@ -3,8 +3,8 @@ import copy
 class Letters:
     def __init__(self):
         self.letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k",
-                        "l", "m", "n", "o", "p"," q", "r", "s", "t", "u",
-                        "v", "w", "x", "y", "z", ".", ',', ' ']
+                        "l", "m", "n", "o", "p","q", "r", "s", "t", "u",
+                        "v", "w", "x", "y", "z", ",", ".", "'", '?', '!', ' ']
         self.alphabet_image = pygame.image.load("Resources/SinglePhotos/Alphabet.png")
         self.letter_dict = {}
         self.letter_images = []
@@ -28,6 +28,7 @@ class MessageBox(pygame.sprite.Sprite):
         self.rect.x = 0
         self.rect.y = 385
         self.dialogue_box_rect = self.dialogue_box.get_rect()
+        characters_with_no_spacing = [",", "."]
         current_x = -1
         current_y = 0
         letter_width = letters.letter_images[0].get_width()
@@ -36,11 +37,18 @@ class MessageBox(pygame.sprite.Sprite):
         for char in range(len(string)):
             letter_image = letters.letter_dict[string[char]]
             if current_x != -1:
-                print(str(char))
-                if string[char] == ',':
+                if string[char] in characters_with_no_spacing:
                     current_x += letter_width
+                elif string[char] == "'":
+                    current_x += letter_width + spacing/2
                 else:
-                    current_x += letter_width + spacing
+                    back_one = char - 1
+                    if back_one < 0:
+                        back_one = 0
+                    if string[back_one] == "'":
+                        current_x += letter_width - spacing
+                    else:
+                        current_x += letter_width + spacing
             else:
                 current_x = 0
 

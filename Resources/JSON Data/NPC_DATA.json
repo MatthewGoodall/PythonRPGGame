@@ -6,7 +6,7 @@
       "location": "town",
       "x pos": "150",
       "y pos": "1350",
-      "dialogue": "this is an easter egg,get it,cause im an egg"
+      "dialogue": "this isn't eggxactly what you were expecting, was it? i'm only yoking with you, i like to crack a yolk here and there."
     },
     "Bad Guy": {
       "name": "Bad Guy McGee",
@@ -15,6 +15,6 @@
       "location": "town",
       "x pos": "850",
       "y pos": "750",
-      "dialogue": "this is a test to see what happens if the word keeps goin on and on and on and on and on and on and on and on and on"
+      "dialogue": "luke, i am your father's sister's cousin's pet dog's best friend's owner's roommate"
     }
 }
