@@ -29,6 +29,8 @@ class Game:
         self.screen = pygame.Surface((self.screen_width, self.screen_height))
         # Create Clock
         self.clock = pygame.time.Clock()
+        # Hold mouse position
+        self.mouse_pos = []
 
         # Read and Gather JSON Data
         self.json_reader = JSONDataReader.JSONDataReader()
@@ -46,7 +48,7 @@ class Game:
         self.current_enemies = list(self.current_location.enemies)
 
         # Create GUI, Camera that follows the player, and the player itself
-        self.GUI = GUI.GUI(self.json_reader)
+        self.GUI = GUI.GUI(self.json_reader, self.screen_size)
         self.camera = Camera.Camera(self.current_location.map_rect.width, self.current_location.map_rect.height, self.screen_width, self.screen_height)
         self.player = Player.Player(self.json_reader)
 
@@ -78,6 +80,7 @@ class Game:
                 self.UpdateSprites()
             else:
                 self.HandleMainEvents()
+                self.UpdateGUI()
 
             self.ClearScreen()
             self.DrawGameScreen()
@@ -137,13 +140,21 @@ class Game:
         if self.player.jump_pressed:
             self.player.Jump()
 
+    def UpdateMousePosition(self):
+        actual_mouse_pos = pygame.mouse.get_pos()
+        x_mouse_scaling = self.screen_width / self.display_info.current_w
+        y_mouse_scaling = self.screen_height / self.display_info.current_h
+        self.mouse_pos = [actual_mouse_pos[0] * x_mouse_scaling,
+                          actual_mouse_pos[1] * y_mouse_scaling]
+
     def PlayerInteract(self):
         self.player.NPCCollision(self.current_location)
         if self.player.npc_talking_to:
             if self.GUI.message_box_shown:
                 self.GUI.RemoveMessageBox()
             else:
-                self.GUI.MakeMessageBox(self.player.npc_talking_to.dialogue, self.player.npc_talking_to.close_up)
+                self.GUI.MakeMessageBox(self.player.npc_talking_to.dialogue,
+                                        self.player.npc_talking_to.close_up)
 
         self.player.ItemDropCollision(self.current_location)
         gateway = self.player.GatewayCollision(self.current_location)
@@ -177,7 +188,8 @@ class Game:
                     enemy.WalkPath(self.current_location)
 
     def UpdateGUI(self):
-        self.GUI.Update(self.player)
+        self.UpdateMousePosition()
+        self.GUI.Update(self.player, self.mouse_pos)
 
     def UpdateItemDrops(self):
         for item_drop in self.current_location.item_drops:
@@ -188,11 +200,13 @@ class Game:
         pass
 
     def KillEnemy(self, enemy_to_kill):
-        gold_drop_item = Item.GoldDrop(enemy_to_kill.RandomGoldDrop(), enemy_to_kill.rect.x, enemy_to_kill.rect.y)
+        gold_drop_item = Item.GoldDrop(enemy_to_kill.RandomGoldDrop(),
+                                       enemy_to_kill.rect.x, enemy_to_kill.rect.y)
         self.current_location.item_drops.append(gold_drop_item)
         loot_drop = enemy_to_kill.RandomLootDrop()
         if loot_drop:
-            loot_drop_item = Item.NormalItemDrop(loot_drop, enemy_to_kill.rect.x, enemy_to_kill.rect.y)
+            loot_drop_item = Item.NormalItemDrop(loot_drop, enemy_to_kill.rect.x,
+                                                 enemy_to_kill.rect.y)
             self.current_location.item_drops.append(loot_drop_item)
         self.current_enemies.remove(enemy_to_kill)
 
@@ -202,7 +216,8 @@ class Game:
 
     def DrawGameScreen(self):
         self.camera.Update(self.player)
-        self.screen.blit(self.current_location.map_surface, self.camera.ApplyToRect(self.current_location.map_rect))
+        self.screen.blit(self.current_location.map_surface,
+                         self.camera.ApplyToRect(self.current_location.map_rect))
 
         self.screen.blit(self.player.image, self.camera.ApplyToSprite(self.player))
 
@@ -219,10 +234,13 @@ class Game:
             self.screen.blit(item_drop.image, self.camera.ApplyToSprite(item_drop))
 
     def DrawPausedScreen(self):
-        self.screen.blit(self.GUI.pause_screen.image, (self.GUI.pause_screen.rect.x, self.GUI.pause_screen.rect.y))
+        for gui_item in self.GUI.pause_gui_items:
+            self.screen.blit(gui_item.image, (gui_item.rect.x, gui_item.rect.y))
 
     def DisplayScreen(self):
-        scaled_display = pygame.transform.scale(self.screen, (self.display_info.current_w, self.display_info.current_h), self.draw_screen)
+        scaled_display = pygame.transform.scale(self.screen, (self.display_info.current_w,
+                                                              self.display_info.current_h),
+                                                self.draw_screen)
         pygame.display.flip()
 
     def HandleFrameRate(self, frames_per_second):
@@ -243,4 +261,5 @@ class Game:
         for enemy in self.current_enemies:
             if not enemy.alive:
                 enemy.Respawn()
-        self.camera.ChangeLocationSize(self.current_location.map_rect.width, self.current_location.map_rect.height)
+        self.camera.ChangeLocationSize(self.current_location.map_rect.width,
+                                       self.current_location.map_rect.height)

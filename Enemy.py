@@ -81,5 +81,6 @@ class Enemy(PhysicsSprite.PhysicsSprite):
 
 
     def WalkPath(self, current_location):
+        self.move_x, self.move_y = 0, 0
         self.ApplyGravity()
         self.ApplyCollisions(current_location)

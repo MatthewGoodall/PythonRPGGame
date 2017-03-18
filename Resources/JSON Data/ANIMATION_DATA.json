@@ -70,5 +70,13 @@
       "number of frames": "11",
       "frame delay": "0",
       "scale": "2"
+    },
+    "Settings Option": {
+      "name": "settings_option",
+      "spritesheet path": "Resources/Spritesheets/SettingsOption.png",
+      "start height": "0",
+      "number of frames": "2",
+      "frame delay": "0",
+      "scale": "2"
     }
 }
