@@ -167,7 +167,7 @@ class Game:
         for enemy in self.current_enemies:
             if enemy.alive:
                 enemy.UpdateAnimation(pygame.time.get_ticks())
-                enemy.UpdateMovement(self.current_location.collisions, self.player)
+                enemy.UpdateMovement(self.current_location, self.player)
             else:
                 self.KillEnemy(enemy)
 

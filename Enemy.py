@@ -8,6 +8,7 @@ class Enemy(PhysicsSprite.PhysicsSprite):
                          int( enemy_data[index]["spawn x"]), int( enemy_data[index]["spawn y"] ))
 
         self.idle_animation = json_data.GetAnimation(enemy_data[index]["idle animation"])
+        self.current_animation = self.idle_animation
         self.damage = int( enemy_data[index]["damage"] )
         self.maximum_health = int( enemy_data[index]["health"] )
         self.health = self.maximum_health
@@ -55,10 +56,10 @@ class Enemy(PhysicsSprite.PhysicsSprite):
         self.rect.y = self.spawn_y
 
     def UpdateMovement(self, current_location, player):
-        if abs(self.player.rect.centerx - enemy.rect.centerx) < 300.0:
+        if abs(player.rect.centerx - self.rect.centerx) < 300.0:
             self.ChasePlayer(current_location, player)
         else:
-            self.WalkPath(self, current_location)
+            self.WalkPath(current_location)
 
     def ChasePlayer(self, current_location, player):
         self.move_x, self.move_y = 0, 0

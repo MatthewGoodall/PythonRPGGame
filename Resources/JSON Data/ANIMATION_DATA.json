@@ -3,7 +3,7 @@
       "name": "dragon_idle",
       "spritesheet path": "Resources/Spritesheets/DragonRight.png",
       "start height": "0",
-      "number of frames": "1",
+      "number of frames": "4",
       "frame delay": "1000",
       "scale": "4"
     },

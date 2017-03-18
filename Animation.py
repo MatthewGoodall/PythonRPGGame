@@ -13,7 +13,7 @@ class Animation:
         self.time_counter = 0.0
         self.ms_delay = int( animation_data[index]["frame delay"] )
 
-        self.number_of_frames =int( animation_data[index]["number of frames"] )
+        self.number_of_frames = int( animation_data[index]["number of frames"] )
         self.frame_width = self.spritesheet.get_width() / self.number_of_frames
         self.frame_height = self.spritesheet.get_height()
 
