@@ -16,9 +16,16 @@ class GUI:
         self.gui_items.extend((self.health_bar, self.mana_bar))
 
         self.pause_gui_items = []
+        pause_menu_background_image = pygame.image.load("Resources/SinglePhotos/PauseMenuBackground.png").convert_alpha()
+        self.pause_menu_background = GUI_Item(pause_menu_background_image, self.half_screen_width,
+                                              self.half_screen_height)
+        self.pause_menu_background.XCenter(self.half_screen_width)
+        self.pause_menu_background.YCenter(self.half_screen_height)
         self.settings_option = Button(json_data.GetAnimation("settings_option"),
-                                      self.half_screen_width, self.half_screen_height, True)
-        self.pause_gui_items.append(self.settings_option)
+                                      self.half_screen_width, self.half_screen_height)
+        self.settings_option.XCenter(self.half_screen_width)
+        self.settings_option.YCenter(self.half_screen_height)
+        self.pause_gui_items.extend((self.pause_menu_background, self.settings_option))
 
         self.message_box_shown = False
         self.dialogue_frame_image = pygame.image.load("Resources/SinglePhotos/MessageBoxFrame.png").convert_alpha()
@@ -29,8 +36,8 @@ class GUI:
         self.mana_bar.Update(player.current_mana, player.maximum_mana)
         if player.npc_talking_to == None:
             self.RemoveMessageBox()
-        for pause_item in self.pause_gui_items:
-            pause_item.Update(mouse_pos)
+        self.settings_option.Update(mouse_pos)
+        self.pause_menu_background.Update()
 
     def MakeMessageBox(self, string, picture):
         message_box = Messagebox.MessageBox(self.letters, self.dialogue_frame_image, picture, string)
@@ -51,14 +58,18 @@ class GUI_Item(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
+    def XCenter(self, x):
+        self.rect.x = x - self.rect.width / 2
+
+    def YCenter(self, y):
+        self.rect.y = y - self.rect.height / 2
+
     def Update(self):
         pass
 
 class Button(GUI_Item):
-    def __init__(self, animation, x, y, is_centered = False):
+    def __init__(self, animation, x, y):
         super().__init__(animation.GetFrame(0), x, y)
-        if is_centered:
-            self.rect.x -= self.rect.width / 2
 
         self.normal_image = animation.GetFrame(0)
         self.hover_image = animation.GetFrame(1)
