@@ -13,8 +13,10 @@ class ItemDrop(PhysicsSprite.PhysicsSprite):
         super().__init__(image, x, y)
 
     def Update(self, current_location):
+        self.move_y = 0.0
         self.ApplyGravity()
         self.ApplyCollisions(current_location)
+
 class NormalItemDrop(ItemDrop):
     def __init__(self, item, x, y):
         super().__init__(item.image, x, y)

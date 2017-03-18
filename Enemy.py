@@ -8,6 +8,8 @@ class Enemy(PhysicsSprite.PhysicsSprite):
                          int( enemy_data[index]["spawn x"]), int( enemy_data[index]["spawn y"] ))
 
         self.idle_animation = json_data.GetAnimation(enemy_data[index]["idle animation"])
+        self.walking_right_animation = json_data.GetAnimation(enemy_data[index]["walking right animation"])
+        self.walking_left_animation = json_data.GetAnimation(enemy_data[index]["walking left animation"])
         self.current_animation = self.idle_animation
         self.damage = int( enemy_data[index]["damage"] )
         self.maximum_health = int( enemy_data[index]["health"] )
@@ -29,6 +31,11 @@ class Enemy(PhysicsSprite.PhysicsSprite):
             self.current_animation = new_animation
 
     def UpdateAnimation(self, time):
+        if self.move_x > 0:
+            self.ChangeCurrentAnimation(self.walking_right_animation)
+        elif self.move_x < 0:
+            self.ChangeCurrentAnimation(self.walking_left_animation)
+
         if self.current_animation.NeedsUpdate(time):
             self.image = self.current_animation.Update()
 
@@ -64,9 +71,9 @@ class Enemy(PhysicsSprite.PhysicsSprite):
     def ChasePlayer(self, current_location, player):
         self.move_x, self.move_y = 0, 0
         # Movement along x direction
-        if self.rect.x > player.rect.x:
+        if self.rect.x > player.rect.x + 2:
             self.move_x -= self.speed
-        elif self.rect.x < player.rect.x:
+        elif self.rect.x < player.rect.x - 2:
             self.move_x += self.speed
 
         self.ApplyGravity()
