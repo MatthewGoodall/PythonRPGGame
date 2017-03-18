@@ -167,19 +167,14 @@ class Game:
         for enemy in self.current_enemies:
             if enemy.alive:
                 enemy.UpdateAnimation(pygame.time.get_ticks())
-                if abs(self.player.rect.centerx - enemy.rect.centerx) < 300.0:
-                    enemy.chasing = True
-                else:
-                    enemy.chasing = False
-
-                # enemy.UpdateMovement(self.current_location.collisions, self.player)
+                enemy.UpdateMovement(self.current_location.collisions, self.player)
             else:
                 self.KillEnemy(enemy)
 
         for location in self.json_reader.locations:
             for enemy in location.enemies:
                 if enemy not in self.current_enemies and enemy.alive:
-                    enemy.WalkPath(self.current_location.collisions)
+                    enemy.WalkPath(self.current_location)
 
     def UpdateGUI(self):
         self.GUI.Update(self.player)

@@ -1,90 +1,72 @@
 {
     "Dragon Idle": {
       "name": "dragon_idle",
-      "type": "idle",
       "spritesheet path": "Resources/Spritesheets/DragonRight.png",
-      "frame width": "20",
-      "frame height": "20",
+      "start height": "0",
       "number of frames": "1",
       "frame delay": "1000",
       "scale": "4"
     },
     "Dragon Walking Right": {
       "name": "dragon_walking_right",
-      "type": "idle",
       "spritesheet path": "Resources/Spritesheets/DragonRight.png",
-      "frame width": "20",
-      "frame height": "20",
+      "start height": "0",
       "number of frames": "4",
       "frame delay": "250",
       "scale": "4"
     },
     "Dragon Walking Left": {
       "name": "dragon_walking_left",
-      "type": "idle",
       "spritesheet path": "Resources/Spritesheets/DragonLeft.png",
-      "frame width": "20",
-      "frame height": "20",
+      "start height": "0",
       "number of frames": "4",
       "frame delay": "250",
       "scale": "4"
     },
     "Player Walking Right": {
       "name": "player_walking_right",
-      "type": "",
       "spritesheet path": "Resources/Spritesheets/PlayerWalkingRight.png",
-      "frame width": "8",
-      "frame height": "16",
+      "start height": "0",
       "number of frames": "4",
       "frame delay": "125",
       "scale": "4"
     },
     "Player Walking Left": {
       "name": "player_walking_left",
-      "type": "",
       "spritesheet path": "Resources/Spritesheets/PlayerWalkingLeft.png",
-      "frame width": "8",
-      "frame height": "16",
+      "start height": "0",
       "number of frames": "4",
       "frame delay": "125",
       "scale": "4"
     },
     "Player Idle Right": {
       "name": "player_idle_right",
-      "type": "",
       "spritesheet path": "Resources/Spritesheets/PlayerIdleRight.png",
-      "frame width": "8",
-      "frame height": "16",
+      "start height": "0",
       "number of frames": "2",
       "frame delay": "500",
       "scale": "4"
     },
     "Player Idle Left": {
       "name": "player_idle_left",
-      "type": "",
       "spritesheet path": "Resources/Spritesheets/PlayerIdleLeft.png",
-      "frame width": "8",
-      "frame height": "16",
+      "start height": "0",
       "number of frames": "2",
       "frame delay": "500",
       "scale": "4"
     },
     "Health Bar": {
       "name": "health_bar",
-      "type": "",
       "spritesheet path": "Resources/Spritesheets/HealthBar.png",
-      "frame width": "65",
-      "frame height": "66",
+      "start height": "0",
       "number of frames": "11",
       "frame delay": "0",
       "scale": "2"
     },
     "Mana Bar": {
       "name": "mana_bar",
-      "type": "",
       "spritesheet path": "Resources/Spritesheets/ManaBar.png",
-      "frame width": "65",
-      "frame height": "66",
+      "start height": "0",
       "number of frames": "11",
       "frame delay": "0",
       "scale": "2"

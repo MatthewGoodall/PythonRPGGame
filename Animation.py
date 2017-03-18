@@ -2,32 +2,31 @@ import pygame
 
 
 class Animation:
-    def __init__(self, name, type_of_animation,spritesheet_path, frame_width, frame_height,
-                 number_of_frames, frame_delay, scale, height=0):
-        self.name = name
-        self.type = type_of_animation
+    def __init__(self, animation_data, index):
+        self.name = animation_data[index]["name"]
+
+        self.spritesheet = pygame.image.load(animation_data[index]["spritesheet path"]).convert_alpha()
+        scale = int( animation_data[index]["scale"] )
+        self.spritesheet = pygame.transform.scale(self.spritesheet, (self.spritesheet.get_width()*scale, self.spritesheet.get_height()*scale))
+
         self.current_frame = 0
         self.time_counter = 0.0
-        self.ms_delay = frame_delay
-        self.frame_width = frame_width * scale
-        self.frame_height = frame_height * scale
-        self.frames = []
-        self.height = height
-        self.sprite_sheet = pygame.image.load(spritesheet_path).convert_alpha()
-        if scale > 1:
-            self.sprite_sheet = pygame.transform.scale(self.sprite_sheet,
-                                                       (self.sprite_sheet.get_width() * scale,
-                                                        self.frame_height))
+        self.ms_delay = int( animation_data[index]["frame delay"] )
 
-        self.number_of_frames = number_of_frames
+        self.number_of_frames =int( animation_data[index]["number of frames"] )
+        self.frame_width = self.spritesheet.get_width() / self.number_of_frames
+        self.frame_height = self.spritesheet.get_height()
+
+        self.frames = []
+        self.start_height = int( animation_data[index]["start height"] )
+
         for i in range(self.number_of_frames):
-            new_image = self.sprite_sheet.subsurface(
-                (i * self.frame_width, self.height, self.frame_width, self.frame_height))
+            new_image = self.spritesheet.subsurface(
+                (i * self.frame_width, self.start_height, self.frame_width, self.frame_height))
             self.frames.append(new_image)
 
     def GetFirstFrame(self):
-        frame_1 = self.sprite_sheet.subsurface((0, self.height, self.frame_width, self.frame_height))
-        return frame_1
+        return self.frames[0]
 
     def GetFrame(self, n):
         return self.frames[n]

@@ -35,32 +35,14 @@ class JSONDataReader:
         with open(file_path) as data_file:
             data = json.load(data_file)
             for npc in data:
-                name_of_npc = data[npc]["name"]
-                location_of_npc = data[npc]["location"]
-                image_path_of_npc = data[npc]["image path"]
-                close_up_of_npc = data[npc]["closeup path"]
-                x_pos_of_npc = int(data[npc]["x pos"])
-                y_pos_of_npc = int(data[npc]["y pos"])
-                dialogue_of_npc = data[npc]["dialogue"]
-                a_npc = NPC.NPC(name_of_npc, location_of_npc, image_path_of_npc,  close_up_of_npc,
-                                x_pos_of_npc, y_pos_of_npc, dialogue_of_npc)
+                a_npc = NPC.NPC(data, npc)
                 self.NPCs.append(a_npc)
 
     def MakeAnimations(self, file_path):
         with open(file_path) as data_file:
             data = json.load(data_file)
             for animation in data:
-                name_of_anim = data[animation]["name"]
-                type_of_anim = data[animation]["type"]
-                spritesheet_path_of_anim = data[animation]["spritesheet path"]
-                frame_width_of_anim = int(data[animation]["frame width"])
-                frame_height_of_anim = int(data[animation]["frame height"])
-                number_of_frames_of_anim = int(data[animation]["number of frames"])
-                frame_delay_of_anim = int(data[animation]["frame delay"])
-                scale_of_anim = int(data[animation]["scale"])
-                an_animation = Animation.Animation(name_of_anim, type_of_anim, spritesheet_path_of_anim,
-                                                   frame_width_of_anim, frame_height_of_anim, number_of_frames_of_anim,
-                                                   frame_delay_of_anim, scale_of_anim)
+                an_animation = Animation.Animation(data, animation)
                 self.animations.append(an_animation)
 
     def MakeEnemies(self, file_path):

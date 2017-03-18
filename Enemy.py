@@ -4,17 +4,15 @@ import random
 
 class Enemy(PhysicsSprite.PhysicsSprite):
     def __init__(self, json_data, enemy_data, index):
-        self.idle_right_animation = json_data.GetAnimation(enemy_data[index]["idle animation"])
-        starting_x = int( enemy_data[index]["spawn x"] )
-        starting_y = int( enemy_data[index]["spawn y"] )
-        super().__init__(self.idle_right_animation.GetFirstFrame(), starting_x, starting_y)
+        super().__init__(json_data.GetAnimation(enemy_data[index]["idle animation"]).GetFirstFrame(),
+                         int( enemy_data[index]["spawn x"]), int( enemy_data[index]["spawn y"] ))
 
-        self.current_animation = self.idle_right_animation
+        self.idle_animation = json_data.GetAnimation(enemy_data[index]["idle animation"])
         self.damage = int( enemy_data[index]["damage"] )
         self.maximum_health = int( enemy_data[index]["health"] )
         self.health = self.maximum_health
         self.location = enemy_data[index]["location name"]
-
+        self.speed = 3.0
         self.alive = True
 
         self.spawn_x = self.rect.x
@@ -56,18 +54,24 @@ class Enemy(PhysicsSprite.PhysicsSprite):
         self.rect.x = self.spawn_x
         self.rect.y = self.spawn_y
 
-    def ChasePlayer(self, collisions, player, speed=1):
-        move_x, move_y = 0, 0
+    def UpdateMovement(self, current_location, player):
+        if abs(self.player.rect.centerx - enemy.rect.centerx) < 300.0:
+            self.ChasePlayer(current_location, player)
+        else:
+            self.WalkPath(self, current_location)
+
+    def ChasePlayer(self, current_location, player):
+        self.move_x, self.move_y = 0, 0
         # Movement along x direction
         if self.rect.x > player.rect.x:
-            move_x -= speed
+            self.move_x -= self.speed
         elif self.rect.x < player.rect.x:
-            move_x += speed
-        # Movement along y direction
-        if self.rect.y < player.rect.y:
-            move_y += speed
-        elif self.rect.y > player.rect.y:
-            move_y -= speed
+            self.move_x += self.speed
 
-    def WalkPath(self, speed=1):
-        pass
+        self.ApplyGravity()
+        self.ApplyCollisions(current_location)
+
+
+    def WalkPath(self, current_location):
+        self.ApplyGravity()
+        self.ApplyCollisions(current_location)
