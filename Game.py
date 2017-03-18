@@ -254,6 +254,8 @@ class Game:
         self.current_location = self.json_reader.GetLocation(gateway_travelling_to.location.name)
         self.player.rect.x = gateway_travelling_to.rect.x
         self.player.rect.y = gateway_travelling_to.rect.y - 2
+        print(self.player.rect.y)
+        print(self.player.rect.x)
         self.player.move_y = -0.5
         self.player.move_x = 0.0
         self.player.can_jump = False

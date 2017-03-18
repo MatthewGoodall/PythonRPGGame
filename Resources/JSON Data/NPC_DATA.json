@@ -16,5 +16,14 @@
       "x pos": "850",
       "y pos": "750",
       "dialogue": "luke, i am your father's sister's cousin's pet dog's best friend's owner's roommate"
+    },
+    "ShopKeeper": {
+      "name": "ShopKeeper",
+      "image path": "Resources/SinglePhotos/Wizard.png",
+      "closeup path": "Resources/SinglePhotos/WizardCloseUp.png",
+      "location": "town",
+      "x pos": "300",
+      "y pos": "1350",
+      "dialogue": "what you want?"
     }
 }
