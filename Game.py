@@ -48,7 +48,7 @@ class Game:
         self.current_enemies = list(self.current_location.enemies)
 
         # Create GUI, Camera that follows the player, and the player itself
-        self.GUI = GUI.GUI(self.json_reader, self.screen_size)
+        self.GUI = GUI.GUI(self, self.json_reader)
         self.camera = Camera.Camera(self.current_location.map_rect.width, self.current_location.map_rect.height, self.screen_width, self.screen_height)
         self.player = Player.Player(self.json_reader)
 
@@ -189,7 +189,7 @@ class Game:
 
     def UpdateGUI(self):
         self.UpdateMousePosition()
-        self.GUI.Update(self.player, self.mouse_pos)
+        self.GUI.Update(self)
 
     def UpdateItemDrops(self):
         for item_drop in self.current_location.item_drops:
@@ -227,14 +227,14 @@ class Game:
         for npc in self.current_location.NPCs:
             self.screen.blit(npc.image, self.camera.ApplyToSprite(npc))
 
-        for gui_element in self.GUI.gui_items:
+        for gui_element in self.GUI.hud_elements:
             self.screen.blit(gui_element.image, (gui_element.rect.x, gui_element.rect.y))
 
         for item_drop in self.current_location.item_drops:
             self.screen.blit(item_drop.image, self.camera.ApplyToSprite(item_drop))
 
     def DrawPausedScreen(self):
-        for gui_item in self.GUI.pause_gui_items:
+        for gui_item in self.GUI.pause_menu_elements:
             self.screen.blit(gui_item.image, (gui_item.rect.x, gui_item.rect.y))
 
     def DisplayScreen(self):
