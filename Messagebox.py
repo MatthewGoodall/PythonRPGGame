@@ -3,7 +3,7 @@ import TextWrapper
 import copy
 
 class MessageBox(pygame.sprite.Sprite):
-    def __init__(self, frame_image, npc_picture, string):
+    def __init__(self, frame_image, font, npc):
         super().__init__()
 
         self.image = copy.copy(frame_image)
@@ -12,10 +12,9 @@ class MessageBox(pygame.sprite.Sprite):
         self.rect.x = 0
         self.rect.y = 385
         self.dialogue_box_rect = self.dialogue_box.get_rect()
-        font = pygame.font.Font("Resources/Fonts/Ringbearer.ttf", 30)
-        TextWrapper.drawText(self.dialogue_box, string, (0, 0, 0), self.dialogue_box_rect, font)
+        TextWrapper.drawText(self.dialogue_box, npc.dialogue, (0, 0, 0), self.dialogue_box_rect, font)
         self.image.blit(self.dialogue_box, (204, 16))
-        self.image.blit(npc_picture, (12, 12))
+        self.image.blit(npc.close_up, (12, 12))
 
     def Update(self, game):
         pass

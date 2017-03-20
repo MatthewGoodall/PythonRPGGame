@@ -6,7 +6,6 @@
 / make sure to add elements to their respective list
 /   (pause or normal hud elements)
 / The resource for creating message boxes are just storing images so they can be passed by reference
-/   letters are just the subsurface images for each letter/punctuation
 / Messageboxes are made in the game file when the player interacts
 / Every time the gui updates it checks to see if the player is still talking to an NPC
 /   if they aren't, remove the current message box being shown
@@ -34,6 +33,7 @@ class GUI:
         self.exit_button = ExitButton(game)
         self.pause_menu_elements = [self.pause_menu_background, self.continue_button, self.settings_button,self.exit_button]
         # Resources for creating message boxes
+        self.font = pygame.font.Font("Resources/Fonts/Ringbearer.ttf", 30)
         self.dialogue_frame_image = pygame.image.load("Resources/SinglePhotos/MessageBoxFrame.png")
         self.message_box_shown = False
 
@@ -63,8 +63,8 @@ class GUI:
         if game.player.npc_talking_to == None:
             self.RemoveMessageBox()
 
-    def MakeMessageBox(self, string, picture):
-        message_box = Messagebox.MessageBox(self.dialogue_frame_image, picture, string)
+    def MakeMessageBox(self, npc):
+        message_box = Messagebox.MessageBox(self.dialogue_frame_image, self.font, npc)
         self.hud_elements.append(message_box)
         self.message_box_shown = True
 
