@@ -48,7 +48,7 @@ class Game:
         self.current_enemies = list(self.current_location.enemies)
 
         # Create GUI, Camera that follows the player, and the player itself
-        self.GUI = GUI.GUI(self, self.json_reader)
+        self.GUI = GUI.GUI(self)
         self.camera = Camera.Camera(self.current_location.map_rect.width, self.current_location.map_rect.height, self.screen_width, self.screen_height)
         self.player = Player.Player(self.json_reader)
 
@@ -75,13 +75,10 @@ class Game:
     def GameLoop(self):
         while self.game_running:
             if not self.paused:
-                self.HandleEvents()
                 self.GetInput()
                 self.UpdateSprites()
-            else:
-                self.HandleMainEvents()
-                self.UpdateGUI()
-
+            self.HandleEvents()
+            self.UpdateGUI()
             self.ClearScreen()
             self.DrawGameScreen()
             if self.paused:
@@ -97,37 +94,30 @@ class Game:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.game_running = False
+
+            elif event.type == pygame.MOUSEBUTTONDOWN:  # Left click
+                self.GUI.MousePress(self)
+
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_q:
-                    self.player.Attack(self.current_enemies)
+                if not self.paused:
+                    if event.key == pygame.K_q:
+                        self.player.Attack(self.current_enemies)
 
-                elif event.key == pygame.K_i:
-                    self.player.inventory.PrintInventory()
+                    elif event.key == pygame.K_i:
+                        self.player.inventory.PrintInventory()
 
-                elif event.key == pygame.K_e:
-                    self.PlayerInteract()
+                    elif event.key == pygame.K_e:
+                        self.PlayerInteract()
 
-                elif event.key == pygame.K_ESCAPE:
-                    if self.paused:
-                        self.paused = False
-                    elif not self.paused:
-                        self.paused = True
-
-                elif event.key == pygame.K_F1:
-                    self.game_running = False
-
-    def HandleMainEvents(self):
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                self.game_running = False
-            elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     if self.paused:
                         self.paused = False
                     elif not self.paused:
                         self.paused = True
+
                 elif event.key == pygame.K_F1:
                     self.game_running = False
+
 
     def GetInput(self):
         # Update player movement--------------------------------
