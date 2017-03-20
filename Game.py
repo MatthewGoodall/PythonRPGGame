@@ -171,6 +171,10 @@ class Game:
         if self.player.alive:
             self.player.UpdateMovement(self.current_location)
             self.player.UpdateAnimation(pygame.time.get_ticks())
+            if self.player.rect.x > self.current_location.map_rect.width - self.player.rect.width:
+                self.player.rect.x = self.current_location.map_rect.width - self.player.rect.width
+            elif self.player.rect.x < 0:
+                self.player.rect.x = 0
         else:
             self.KillPlayer()
 
@@ -185,7 +189,7 @@ class Game:
         for location in self.json_reader.locations:
             for enemy in location.enemies:
                 if enemy not in self.current_enemies and enemy.alive:
-                    enemy.WalkPath(self.current_location)
+                    enemy.WalkPath(self.json_reader.GetLocation(enemy.location))
 
     def UpdateGUI(self):
         self.UpdateMousePosition()

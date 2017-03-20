@@ -20,6 +20,8 @@ class Enemy(PhysicsSprite.PhysicsSprite):
 
         self.spawn_x = self.rect.x
         self.spawn_y = self.rect.y
+        self.walkloop_distance = int( enemy_data[index]["walkloop distance"] )
+        self.UpdateXDirection("right")
 
         self.min_gold_drop = int( enemy_data[index]["min gold drop"] )
         self.max_gold_drop = int( enemy_data[index]["max gold drop"] )
@@ -73,8 +75,10 @@ class Enemy(PhysicsSprite.PhysicsSprite):
         # Movement along x direction
         if self.rect.x > player.rect.x + 2:
             self.move_x -= self.speed
+            self.UpdateXDirection("left")
         elif self.rect.x < player.rect.x - 2:
             self.move_x += self.speed
+            self.UpdateXDirection("right")
 
         self.ApplyGravity()
         self.ApplyCollisions(current_location)
@@ -82,5 +86,14 @@ class Enemy(PhysicsSprite.PhysicsSprite):
 
     def WalkPath(self, current_location):
         self.move_x, self.move_y = 0, 0
+        if self.rect.x < self.spawn_x:
+            self.UpdateXDirection("right")
+        elif self.rect.x > self.spawn_x + self.walkloop_distance:
+            self.UpdateXDirection("left")
+
+        if self.FacingRight():
+            self.move_x += self.speed -1
+        elif self.FacingLeft():
+            self.move_x -= self.speed -1
         self.ApplyGravity()
         self.ApplyCollisions(current_location)

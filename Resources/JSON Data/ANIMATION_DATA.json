@@ -78,5 +78,21 @@
       "number of frames": "2",
       "frame delay": "0",
       "scale": "2"
+    },
+    "Continue Option": {
+      "name": "continue_option",
+      "spritesheet path": "Resources/Spritesheets/ContinueOption.png",
+      "start height": "0",
+      "number of frames": "2",
+      "frame delay": "0",
+      "scale": "2"
+    },
+    "Quit Option": {
+      "name": "quit_option",
+      "spritesheet path": "Resources/Spritesheets/QuitOption.png",
+      "start height": "0",
+      "number of frames": "2",
+      "frame delay": "0",
+      "scale": "2"
     }
 }

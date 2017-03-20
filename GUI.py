@@ -13,11 +13,17 @@ class GUI:
         # Pause menu
         self.pause_menu_background = GUI_Image("Resources/SinglePhotos/PauseMenuBackground.png", 0, 0)
         self.pause_menu_background.XCenter(game.screen_width)
-        self.pause_menu_background.YCenter(game.screen_width)
-        self.pause_settings_option = GUI_Button(json_data.GetAnimation("settings_option"), 0, 0)
-        self.pause_settings_option.XCenter(game.screen_width)
-        self.pause_settings_option.YCenter(game.screen_height)
-        self.pause_menu_elements = [self.pause_menu_background, self.pause_settings_option]
+        self.pause_menu_background.YCenter(game.screen_height)
+        self.continue_option = GUI_Button(json_data.GetAnimation("continue_option"), 0, 0)
+        self.continue_option.XCenter(game.screen_width)
+        self.continue_option.YCenter(game.screen_height, offset=-30)
+        self.settings_option = GUI_Button(json_data.GetAnimation("settings_option"), 0, 0)
+        self.settings_option.XCenter(game.screen_width)
+        self.settings_option.YCenter(game.screen_height)
+        self.quit_option = GUI_Button(json_data.GetAnimation("quit_option"), 0, 0)
+        self.quit_option.XCenter(game.screen_width)
+        self.quit_option.YCenter(game.screen_height, offset=30)
+        self.pause_menu_elements = [self.pause_menu_background, self.continue_option, self.settings_option, self.quit_option]
 
         # Resources for creating message boxes
         self.dialogue_frame_image = pygame.image.load("Resources/SinglePhotos/MessageBoxFrame.png")
@@ -30,7 +36,9 @@ class GUI:
         if game.player.npc_talking_to == None:
             self.RemoveMessageBox()
 
-        self.pause_settings_option.Update(game.mouse_pos)
+        self.continue_option.Update(game.mouse_pos)
+        self.settings_option.Update(game.mouse_pos)
+        self.quit_option.Update(game.mouse_pos)
         self.pause_menu_background.Update()
 
     def MakeMessageBox(self, string, picture):
@@ -45,7 +53,7 @@ class GUI:
                 self.message_box_shown = False
 
 
-class GUI_Item(pygame.sprite.Sprite):
+class GUI_Element(pygame.sprite.Sprite):
     def __init__(self, image, x, y):
         super().__init__()
         self.image = image
@@ -53,21 +61,23 @@ class GUI_Item(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
-    def XCenter(self, screen_width):
+    def XCenter(self, screen_width, offset=0):
         self.rect.x = screen_width / 2 - self.rect.width / 2
+        self.rect.x += offset
 
-    def YCenter(self, screen_height):
+    def YCenter(self, screen_height, offset=0):
         self.rect.y = screen_height / 2 - self.rect.height / 2
+        self.rect.y += offset
 
     def Update(self):
         pass
 
-class GUI_Image(GUI_Item):
+class GUI_Image(GUI_Element):
     def __init__(self, image_path, x, y):
         image = pygame.image.load(image_path).convert_alpha()
         super().__init__(image, x, y)
 
-class GUI_Button(GUI_Item):
+class GUI_Button(GUI_Element):
     def __init__(self, animation, x, y):
         super().__init__(animation.GetFrame(0), x, y)
         self.normal_image = animation.GetFrame(0)
@@ -87,7 +97,7 @@ class GUI_Button(GUI_Item):
         if self.image is not self.normal_image:
             self.image = self.normal_image
 
-class GUIBar(GUI_Item):
+class GUIBar(GUI_Element):
     def __init__(self, animation, x, y):
         super().__init__(animation.GetFirstFrame(), x ,y)
         self.animation = animation
