@@ -2,9 +2,9 @@
 / Create GUI bars for things like a health bar or something
 / A gui image for something like a background image that doesnt actually do anything when pressed/hover_image
 / GUI buttons change image to next animation frame when Hovered
-/   and you can implement them doing different things when Pressed
+/   and you can implement them doing different things when Pressed()
 / make sure to add elements to their respective list
-/   (pause or normal hud elemts)
+/   (pause or normal hud elements)
 / The resource for creating message boxes are just storing images so they can be passed by reference
 /   letters are just the subsurface images for each letter/punctuation
 / Messageboxes are made in the game file when the player interacts
@@ -35,7 +35,6 @@ class GUI:
         self.pause_menu_elements = [self.pause_menu_background, self.continue_button, self.settings_button,self.exit_button]
         # Resources for creating message boxes
         self.dialogue_frame_image = pygame.image.load("Resources/SinglePhotos/MessageBoxFrame.png")
-        self.letters = Messagebox.Letters()
         self.message_box_shown = False
 
     def Update(self, game):
@@ -65,7 +64,7 @@ class GUI:
             self.RemoveMessageBox()
 
     def MakeMessageBox(self, string, picture):
-        message_box = Messagebox.MessageBox(self.letters, self.dialogue_frame_image, picture, string)
+        message_box = Messagebox.MessageBox(self.dialogue_frame_image, picture, string)
         self.hud_elements.append(message_box)
         self.message_box_shown = True
 
