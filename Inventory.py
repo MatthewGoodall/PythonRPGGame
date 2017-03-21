@@ -4,28 +4,39 @@ import copy
 
 class Inventory:
     def __init__(self):
-        self.items = []
+        self.item_stacks = []
         self.max_items = 40
         self.gold = 0
 
     def PrintInventory(self):
-        for item in self.items:
-            print(item.name)
+        for item_stack in self.item_stacks:
+            print(str(item_stack.quantity))
         print(str(self.gold))
         print("-----------")
 
     def AddItem(self, item):
-        if len(self.items) >= self.max_items:
-            print("Can not add item, full inventory")
+        for item_stack in self.item_stacks:
+            if item_stack.item_name == item.name:
+                item_stack.quantity += 1
+                break
         else:
-            self.items.append(item)
+            new_item_stack = ItemStack(item)
+            new_item_stack.quantity = 1
+            self.item_stacks.append(new_item_stack)
+
 
     def AddGold(self, amount):
         self.gold += amount
 
     def RemoveItem(self, item):
-        if item in self.items:
-            self.items.remove(item)
+        for item_stack in self.item_stacks:
+            if item_stack.item_name == item.name:
+                item_stack.quantity -= 1
+                if item_stack.quantity <= 0:
+                    self.items_stacks.remove(item_stack)
+                break
+        else:
+            print("no item in inventory has been found")
 
     def CanPayGold(self, amount):
         if self.gold - amount < 0:
@@ -36,6 +47,12 @@ class Inventory:
 
     def DecreaseGold(self, amount):
         self.gold -= amount
+
+class ItemStack:
+    def __init__(self, item):
+        self.item_name = item.name
+        self.image = item.image
+        self.quantity = 0
 
 class InventoryGUI(GUI.GUIElement):
     def __init__(self, game):
@@ -48,12 +65,11 @@ class InventoryGUI(GUI.GUIElement):
 
     def Update(self, game):
         new_image = copy.copy(self.background)
-        all_items = game.player.inventory.items
         x = 8
         y = 8
         gap = 8
-        for item in game.player.inventory.items:
-            scaled_image = pygame.transform.scale(item.image, (64, 64))
+        for item_stack in game.player.inventory.item_stacks:
+            scaled_image = pygame.transform.scale(item_stack.image, (64, 64))
             new_image.blit(scaled_image, (x, y))
             x += 64 + gap
             if x >= 10*64 + 10*gap:

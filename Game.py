@@ -110,6 +110,7 @@ class Game:
                 if event.key == pygame.K_i:
                     if self.current_menu is None:
                         self.current_menu = "inventory"
+                        self.player.inventory.PrintInventory()
                     elif self.current_menu == "inventory":
                         self.current_menu = None
 
