@@ -62,6 +62,7 @@ class InventoryGUI(GUI.GUIElement):
         self.image = pygame.Surface((self.background.get_width(), self.background.get_height()))
         self.XCenter(game.screen_width)
         self.YCenter(game.screen_height)
+        self.font = pygame.font.Font("Resources/Fonts/Roboto.ttf", 16)
 
     def Update(self, game):
         new_image = copy.copy(self.background)
@@ -71,6 +72,8 @@ class InventoryGUI(GUI.GUIElement):
         for item_stack in game.player.inventory.item_stacks:
             scaled_image = pygame.transform.scale(item_stack.image, (64, 64))
             new_image.blit(scaled_image, (x, y))
+            quantity_of_items = self.font.render(str(item_stack.quantity), 1, (0, 0, 0))
+            new_image.blit(quantity_of_items, (x, y))
             x += 64 + gap
             if x >= 10*64 + 10*gap:
                 x = 8
