@@ -239,7 +239,7 @@ class Game:
             self.screen.blit(gui_item.image, (gui_item.rect.x, gui_item.rect.y))
 
     def DrawInventoryScreen(self):
-        self.screen.blit(self.GUI.inventory_gui.background, (self.GUI.inventory_gui.rect.x, self.GUI.inventory_gui.rect.y))
+        self.screen.blit(self.GUI.inventory_gui.image, (self.GUI.inventory_gui.rect.x, self.GUI.inventory_gui.rect.y))
 
     def DisplayScreen(self):
         scaled_display = pygame.transform.scale(self.screen, (self.display_info.current_w,

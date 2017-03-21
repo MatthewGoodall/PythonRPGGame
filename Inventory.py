@@ -1,5 +1,6 @@
 import pygame
 import GUI
+import copy
 
 class Inventory:
     def __init__(self):
@@ -46,7 +47,12 @@ class InventoryGUI(GUI.GUIElement):
         self.YCenter(game.screen_height)
 
     def Update(self, game):
-        pass
+        new_image = copy.copy(self.background)
+        all_items = game.player.inventory.items
+        for item in range(len(all_items)):
+            new_image.blit(all_items[item].image, (item*33, 0))
+
+        self.image = new_image
         """
         inventory = list(game.player.inventory.items)
         for item, slot in zip(inventory, game.player.inventory.max_items):
