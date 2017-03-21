@@ -47,7 +47,7 @@ class Enemy(PhysicsSprite.PhysicsSprite):
 
     def RandomLootDrop(self):
         roll = random.randrange(0, 100)
-        if roll >= 75:
+        if roll >= 0:
             return self.item_drop
     def DoDamage(self):
         pass

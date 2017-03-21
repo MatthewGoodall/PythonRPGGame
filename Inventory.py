@@ -5,7 +5,7 @@ import copy
 class Inventory:
     def __init__(self):
         self.items = []
-        self.max_items = 36
+        self.max_items = 40
         self.gold = 0
 
     def PrintInventory(self):
@@ -49,8 +49,16 @@ class InventoryGUI(GUI.GUIElement):
     def Update(self, game):
         new_image = copy.copy(self.background)
         all_items = game.player.inventory.items
-        for item in range(len(all_items)):
-            new_image.blit(all_items[item].image, (item*33, 0))
+        x = 8
+        y = 8
+        gap = 8
+        for item in game.player.inventory.items:
+            scaled_image = pygame.transform.scale(item.image, (64, 64))
+            new_image.blit(scaled_image, (x, y))
+            x += 64 + gap
+            if x >= 10*64 + 10*gap:
+                x = 8
+                y += 64 + gap
 
         self.image = new_image
         """
