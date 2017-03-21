@@ -94,5 +94,13 @@
       "number of frames": "2",
       "frame delay": "0",
       "scale": "2"
+    },
+    "Inventory Slot": {
+      "name": "inventory_slot",
+      "spritesheet path": "Resources/Spritesheets/InventorySlot.png",
+      "start height": "0",
+      "number of frames": "2",
+      "frame delay": "0",
+      "scale": "2"
     }
 }

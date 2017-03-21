@@ -54,7 +54,7 @@ class Game:
 
         # Set flags
         self.game_running = True
-        self.paused = False
+        self.current_menu = None
 
     def StartScreen(self):
         start_screen_image = pygame.image.load("Resources/SinglePhotos/StartMenu.png")
@@ -74,15 +74,17 @@ class Game:
 
     def GameLoop(self):
         while self.game_running:
-            if not self.paused:
+            if self.current_menu == None:
                 self.GetInput()
                 self.UpdateSprites()
             self.HandleEvents()
             self.UpdateGUI()
             self.ClearScreen()
             self.DrawGameScreen()
-            if self.paused:
+            if self.current_menu == "paused":
                 self.DrawPausedScreen()
+            elif self.current_menu == "inventory":
+                self.DrawInventoryScreen()
 
             self.DisplayScreen()
             self.HandleFrameRate(60)
@@ -99,21 +101,27 @@ class Game:
                 self.GUI.MousePress(self)
 
             elif event.type == pygame.KEYDOWN:
-                if not self.paused:
+                if self.current_menu == None:
                     if event.key == pygame.K_q:
                         self.player.Attack(self.current_enemies)
-
-                    elif event.key == pygame.K_i:
-                        self.player.inventory.PrintInventory()
-
                     elif event.key == pygame.K_e:
                         self.PlayerInteract()
 
-                if event.key == pygame.K_ESCAPE:
-                    if self.paused:
-                        self.paused = False
-                    elif not self.paused:
-                        self.paused = True
+                if event.key == pygame.K_i:
+                    if self.current_menu is None:
+                        self.current_menu = "inventory"
+                    elif self.current_menu == "inventory":
+                        self.current_menu = None
+
+                elif event.key == pygame.K_ESCAPE:
+                    if self.current_menu is not None:
+                        self.current_menu = None
+                    elif self.current_menu == None:
+                        self.current_menu = "paused"
+
+                elif event.key == pygame.K_RETURN:
+                    if self.current_menu is not None:
+                        self.current_menu = None
 
                 elif event.key == pygame.K_F1:
                     self.game_running = False
@@ -229,6 +237,9 @@ class Game:
     def DrawPausedScreen(self):
         for gui_item in self.GUI.pause_menu_elements:
             self.screen.blit(gui_item.image, (gui_item.rect.x, gui_item.rect.y))
+
+    def DrawInventoryScreen(self):
+        self.screen.blit(self.GUI.inventory_gui.background, (self.GUI.inventory_gui.rect.x, self.GUI.inventory_gui.rect.y))
 
     def DisplayScreen(self):
         scaled_display = pygame.transform.scale(self.screen, (self.display_info.current_w,

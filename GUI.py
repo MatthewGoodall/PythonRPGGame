@@ -13,6 +13,7 @@
 /   which do all the work on their side (health bar class grabs the player health from the game class)
 """
 import pygame
+import Inventory
 import Animation
 import JSONDataReader
 import Messagebox
@@ -32,6 +33,8 @@ class GUI:
         self.settings_button = SettingsButton(game)
         self.exit_button = ExitButton(game)
         self.pause_menu_elements = [self.pause_menu_background, self.continue_button, self.settings_button,self.exit_button]
+        # Inventory menu
+        self.inventory_gui = Inventory.InventoryGUI(game)
         # Resources for creating message boxes
         self.font = pygame.font.Font("Resources/Fonts/Ringbearer.ttf", 30)
         self.dialogue_frame_image = pygame.image.load("Resources/SinglePhotos/MessageBoxFrame.png")
@@ -41,9 +44,12 @@ class GUI:
         for gui_element in self.hud_elements:
             gui_element.Update(game)
 
-        if game.paused:
+        if game.current_menu == "paused":
             for gui_element in self.pause_menu_elements:
                 gui_element.Update(game)
+
+        elif game.current_menu == "inventory":
+            self.inventory_gui.Update(game)
 
         self.UpdateMessageBox(game)
 
@@ -53,7 +59,7 @@ class GUI:
                 if gui_element.hovered:
                     gui_element.Pressed(game)
 
-        if game.paused:
+        if game.current_menu == "paused":
             for gui_element in self.pause_menu_elements:
                 if isinstance(gui_element, GUIButton):
                     if gui_element.hovered:
@@ -134,7 +140,7 @@ class ContinueButton(GUIButton):
         self.YCenter(game.screen_height, offset=-30)
 
     def Pressed(self, game):
-        game.paused = False
+        game.current_menu = None
 
 class SettingsButton(GUIButton):
     def __init__(self, game):
