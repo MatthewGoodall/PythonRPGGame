@@ -62,6 +62,8 @@ class Player(PhysicsSprite.PhysicsSprite):
         for spell in self.Spells:
             if spell_to_cast == spell.name:
                 spell_cast = Projectile.Projectile(spell, self.rect.right, self.rect.centery)
+                if self.latest_x_direction == "left":
+                    spell_cast.speed *= -1
                 game.projectiles.append(spell_cast)
                 self.current_mana -= 1
 

@@ -10,7 +10,7 @@ class Projectile(pygame.sprite.Sprite):
 
     def Update(self, game):
         self.rect.x += self.speed
-        collisions = pygame.sprite.spritecollide(self, game.current_location.enemies, False)
+        collisions = pygame.sprite.spritecollide(self, game.current_enemies, False)
         for hit in collisions:
             hit.TakeDamage(self.attack.damage)
             game.projectiles.remove(self)
