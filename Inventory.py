@@ -8,12 +8,6 @@ class Inventory:
         self.max_items = 40
         self.gold = 0
 
-    def PrintInventory(self):
-        for item_stack in self.item_stacks:
-            print(str(item_stack.quantity))
-        print(str(self.gold))
-        print("-----------")
-
     def AddItem(self, item):
         for item_stack in self.item_stacks:
             if item_stack.item_name == item.name:
@@ -62,7 +56,7 @@ class InventoryGUI(GUI.GUIElement):
         self.image = pygame.Surface((self.background.get_width(), self.background.get_height()))
         self.XCenter(game.screen_width)
         self.YCenter(game.screen_height)
-        self.font = pygame.font.Font("Resources/Fonts/Roboto.ttf", 16)
+        self.font = pygame.font.Font("Resources/Fonts/Roboto.ttf", 18)
 
     def Update(self, game):
         new_image = copy.copy(self.background)
@@ -70,10 +64,12 @@ class InventoryGUI(GUI.GUIElement):
         y = 38
         gap = 8
         for item_stack in game.player.inventory.item_stacks:
-            scaled_image = pygame.transform.scale(item_stack.image, (64, 64))
-            new_image.blit(scaled_image, (x, y))
+            scaled_item_image = pygame.transform.scale(item_stack.image, (64, 64))
+            new_image.blit(scaled_item_image, (x, y))
+
             quantity_of_items = self.font.render(str(item_stack.quantity), 1, (0, 0, 0))
             new_image.blit(quantity_of_items, (x, y))
+
             x += 64 + gap
             if x >= 10*64 + 10*gap:
                 x = 8
@@ -81,10 +77,5 @@ class InventoryGUI(GUI.GUIElement):
 
         amount_of_gold = self.font.render(str(game.player.inventory.gold), 1, (0, 0, 0))
         new_image.blit(amount_of_gold, (272*2, 6))
+
         self.image = new_image
-        """
-        inventory = list(game.player.inventory.items)
-        for item, slot in zip(inventory, game.player.inventory.max_items):
-            print("item name" + item.name)
-            print("number:" + str(slot))
-        """

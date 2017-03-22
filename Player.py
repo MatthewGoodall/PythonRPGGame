@@ -27,6 +27,7 @@ class Player(PhysicsSprite.PhysicsSprite):
         self.npc_talking_to = None
 
         self.Spells = json_data.spells
+        self.spell_1 = self.Spells[0]
 
         self.idle_right_animation = json_data.GetAnimation("player_idle_right")
         self.idle_left_animation = json_data.GetAnimation("player_idle_left")
@@ -58,14 +59,18 @@ class Player(PhysicsSprite.PhysicsSprite):
             self.current_health = 0
             self.alive = False
 
-    def CastSpell(self, game, spell_to_cast):
-        for spell in self.Spells:
-            if spell_to_cast == spell.name:
-                spell_cast = Projectile.Projectile(spell, self.rect.right, self.rect.centery)
-                if self.latest_x_direction == "left":
-                    spell_cast.speed *= -1
-                game.projectiles.append(spell_cast)
-                self.current_mana -= 1
+    def CastSpell(self, projectile_list):
+        spell_cast = Projectile.Projectile(self.spell_1, 0, 0)
+        spell_cast.rect.y = self.rect.centery - spell_cast.rect.height/2
+        if self.FacingLeft():
+            spell_cast.UpdateDirection("left")
+            spell_cast.rect.x = self.rect.left
+        elif self.FacingRight():
+            spell_cast.UpdateDirection("right")
+            spell_cast.rect.x = self.rect.right
+
+        projectile_list.append(spell_cast)
+        self.current_mana -= 1
 
     def MeleeAttack(self, enemies):
         attack_box = pygame.Rect(0, 0, 150, 50) # create a rect that has a width of 150, height of 50

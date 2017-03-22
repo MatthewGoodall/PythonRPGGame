@@ -106,15 +106,14 @@ class Game:
                 if self.current_menu == None:
                     if event.key == pygame.K_q:
                         self.player.MeleeAttack(self.current_enemies)
-                    elif event.key == pygame.K_p:
-                        self.player.CastSpell(self, "fire ball")
+                    elif event.key == pygame.K_1:
+                        self.player.CastSpell(self.projectiles)
                     elif event.key == pygame.K_e:
                         self.PlayerInteract()
 
                 if event.key == pygame.K_i:
                     if self.current_menu is None:
                         self.current_menu = "inventory"
-                        self.player.inventory.PrintInventory()
                     elif self.current_menu == "inventory":
                         self.current_menu = None
 
@@ -214,11 +213,13 @@ class Game:
         gold_drop_item = Item.GoldDrop(enemy_to_kill.RandomGoldDrop(),
                                        enemy_to_kill.rect.x, enemy_to_kill.rect.y)
         self.current_location.item_drops.append(gold_drop_item)
+
         loot_drop = enemy_to_kill.RandomLootDrop()
         if loot_drop:
             loot_drop_item = Item.NormalItemDrop(loot_drop, enemy_to_kill.rect.x,
                                                  enemy_to_kill.rect.y)
             self.current_location.item_drops.append(loot_drop_item)
+
         self.current_enemies.remove(enemy_to_kill)
 
     def ClearScreen(self):
