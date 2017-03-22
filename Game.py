@@ -40,6 +40,7 @@ class Game:
         self.json_reader.MakeLocations("Resources/JSON Data/LOCATION_DATA.json")
         self.json_reader.MakePotion("resources/JSON Data/POTION_DATA.json")
         self.json_reader.MakeWeapon("Resources/JSON Data/ITEM_DATA.json")
+        self.json_reader.MakeDamageSpell("Resources/JSON Data/SPELL_DATA.json")
         self.json_reader.PopulateLocations()
 
         # Set current location of the player
@@ -103,7 +104,9 @@ class Game:
             elif event.type == pygame.KEYDOWN:
                 if self.current_menu == None:
                     if event.key == pygame.K_q:
-                        self.player.Attack(self.current_enemies)
+                        self.player.MeleeAttack(self.current_enemies)
+                    elif event.key == pygame.K_p:
+                        self.player.CastSpell("fire ball", self.screen)
                     elif event.key == pygame.K_e:
                         self.PlayerInteract()
 

@@ -4,6 +4,7 @@ import Enemy
 import Animation
 import Location
 import Item
+import Spells
 
 class JSONDataReader:
     def __init__(self):
@@ -12,6 +13,7 @@ class JSONDataReader:
         self.enemies = []
         self.locations = []
         self.weapons = []
+        self.spells = []
         self.healing_potions = []
 
         self.bad_characters = '{}[]""'
@@ -23,6 +25,12 @@ class JSONDataReader:
                 a_weapon = Item.Weapon(data, weapon)
                 self.weapons.append(a_weapon)
 
+    def MakeDamageSpell(self, file_path):
+        with open(file_path) as data_file:
+            data = json.load(data_file)
+            for spell in data:
+                a_spell = Spells.DamageSpell(data, spell)
+                self.spells.append(a_spell)
 
     def MakePotion(self, file_path):
         with open(file_path) as data_file:

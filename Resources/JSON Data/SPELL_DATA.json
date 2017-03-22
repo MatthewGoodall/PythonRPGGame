@@ -1,0 +1,10 @@
+{
+  "fire ball":
+  {
+    "name": "fire ball",
+    "damage": "20",
+    "image path": "Resources/Spritesheets/Fireball.png",
+    "effect": "None"
+  }
+
+}

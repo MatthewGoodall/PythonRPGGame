@@ -24,11 +24,14 @@ class Player(PhysicsSprite.PhysicsSprite):
         self.inventory = Inventory.Inventory()
         self.npc_talking_to = None
 
+        self.Spells = json_data.spells
+
         self.idle_right_animation = json_data.GetAnimation("player_idle_right")
         self.idle_left_animation = json_data.GetAnimation("player_idle_left")
         self.walking_right_animation = json_data.GetAnimation("player_walking_right")
         self.walking_left_animation = json_data.GetAnimation("player_walking_left")
         self.current_animation = self.idle_right_animation
+
 
         self.jump_pressed = False
         self.up_pressed = False
@@ -53,7 +56,18 @@ class Player(PhysicsSprite.PhysicsSprite):
             self.current_health = 0
             self.alive = False
 
-    def Attack(self, enemies):
+    def CastSpell(self, SpellToCast, screen):
+        for spell in self.Spells:
+            x, y = self.rect.x, self.rect.y
+            if SpellToCast == spell.name:
+                screen.blit(spell.image, (x, y))
+                if x <= x + 150:
+                    x + 10
+                print(x)
+
+
+
+    def MeleeAttack(self, enemies):
         attack_box = pygame.Rect(0, 0, 150, 50) # create a rect that has a width of 150, height of 50
         attack_box.y = self.rect.y
 
@@ -76,6 +90,7 @@ class Player(PhysicsSprite.PhysicsSprite):
     def UpdateMovement(self, current_location):
         # Horizontal Movement
         self.move_x = 0.0
+
         if self.right_pressed:
             self.move_x += self.movement_speed
         if self.left_pressed:
