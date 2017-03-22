@@ -10,7 +10,7 @@ class DamageSpell(Spell):
     def __init__(self, spell_data, index):
         super().__init__(spell_data, index)
         self.spell = spell_data[index]["name"]
-        self.damage = spell_data[index]["damage"]
+        self.damage = int( spell_data[index]["damage"] )
         self.image_path = spell_data[index]["image path"]
         self.effect = spell_data[index]["effect"]
         self.speed = 6.0

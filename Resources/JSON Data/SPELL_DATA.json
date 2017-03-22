@@ -3,7 +3,7 @@
   {
     "name": "fire ball",
     "damage": "20",
-    "image path": "Resources/Spritesheets/Fireball.png",
+    "image path": "Resources/SinglePhotos/Fireball.png",
     "effect": "None"
   }
 

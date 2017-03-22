@@ -61,8 +61,9 @@ class Player(PhysicsSprite.PhysicsSprite):
     def CastSpell(self, game, spell_to_cast):
         for spell in self.Spells:
             if spell_to_cast == spell.name:
-                spell_cast = Projectile.Projectile(spell, self.rect.x, self.rect.y)
+                spell_cast = Projectile.Projectile(spell, self.rect.right, self.rect.centery)
                 game.projectiles.append(spell_cast)
+                self.current_mana -= 1
 
     def MeleeAttack(self, enemies):
         attack_box = pygame.Rect(0, 0, 150, 50) # create a rect that has a width of 150, height of 50
