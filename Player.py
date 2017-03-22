@@ -8,6 +8,7 @@ import Inventory
 import Camera
 import NPC
 import Item
+import copy
 
 pygame.mixer.init()
 pygame.display.init()
@@ -56,16 +57,13 @@ class Player(PhysicsSprite.PhysicsSprite):
             self.current_health = 0
             self.alive = False
 
-    def CastSpell(self, SpellToCast, screen):
+    def CastSpell(self, game, spell_to_cast):
         for spell in self.Spells:
-            x, y = self.rect.x, self.rect.y
-            if SpellToCast == spell.name:
-                screen.blit(spell.image, (x, y))
-                if x <= x + 150:
-                    x + 10
-                print(x)
-
-
+            if spell_to_cast == spell.name:
+                spell_cast = copy.copy(spell)
+                spell_cast.rect.x = self.rect.x
+                spell_cast.rect.y = self.rect.y
+                game.projectiles.append(spell_cast)
 
     def MeleeAttack(self, enemies):
         attack_box = pygame.Rect(0, 0, 150, 50) # create a rect that has a width of 150, height of 50

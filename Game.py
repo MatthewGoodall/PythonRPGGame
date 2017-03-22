@@ -52,6 +52,7 @@ class Game:
         self.GUI = GUI.GUI(self)
         self.camera = Camera.Camera(self.current_location.map_rect.width, self.current_location.map_rect.height, self.screen_width, self.screen_height)
         self.player = Player.Player(self.json_reader)
+        self.projectiles = []
 
         # Set flags
         self.game_running = True
@@ -106,7 +107,7 @@ class Game:
                     if event.key == pygame.K_q:
                         self.player.MeleeAttack(self.current_enemies)
                     elif event.key == pygame.K_p:
-                        self.player.CastSpell("fire ball", self.screen)
+                        self.player.CastSpell(self, "fire ball")
                     elif event.key == pygame.K_e:
                         self.PlayerInteract()
 
@@ -166,6 +167,7 @@ class Game:
         self.UpdatePlayer()
         self.UpdateEnemies()
         self.UpdateGUI()
+        self.UpdateProjectiles()
         self.UpdateItemDrops()
 
     def UpdatePlayer(self):
@@ -195,6 +197,10 @@ class Game:
     def UpdateGUI(self):
         self.UpdateMousePosition()
         self.GUI.Update(self)
+
+    def UpdateProjectiles(self):
+        for projectile in self.projectiles:
+            projectile.Update()
 
     def UpdateItemDrops(self):
         for item_drop in self.current_location.item_drops:
@@ -234,6 +240,12 @@ class Game:
 
         for gui_element in self.GUI.hud_elements:
             self.screen.blit(gui_element.image, (gui_element.rect.x, gui_element.rect.y))
+
+        for projectile in self.projectiles:
+            self.screen.blit(projectile.image, self.camera.ApplyToSprite(projectile))
+            print("drawing projectile")
+            print("projectile x:" + str(projectile.rect.x))
+            print("projectile y:" + str(projectile.rect.y))
 
         for item_drop in self.current_location.item_drops:
             self.screen.blit(item_drop.image, self.camera.ApplyToSprite(item_drop))
