@@ -200,11 +200,7 @@ class Game:
 
     def UpdateProjectiles(self):
         for projectile in self.projectiles:
-            self.begin_x = self.player.rect.x
-            if projectile.rect.x < self.begin_x + 150:
-                projectile.Update()
-            elif projectile.rect.x >= self.begin_x + 150:
-                projectile.rect.x = self.player.rect.x
+            projectile.Update()
 
     def UpdateItemDrops(self):
         for item_drop in self.current_location.item_drops:
@@ -247,9 +243,6 @@ class Game:
 
         for projectile in self.projectiles:
             self.screen.blit(projectile.image, self.camera.ApplyToSprite(projectile))
-            print("drawing projectile")
-            print("projectile x:" + str(projectile.rect.x))
-            print("projectile y:" + str(projectile.rect.y))
 
         for item_drop in self.current_location.item_drops:
             self.screen.blit(item_drop.image, self.camera.ApplyToSprite(item_drop))

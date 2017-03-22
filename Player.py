@@ -5,6 +5,7 @@ import CollisionObject
 import Location
 import Enemy
 import Inventory
+import Projectile
 import Camera
 import NPC
 import Item
@@ -60,9 +61,7 @@ class Player(PhysicsSprite.PhysicsSprite):
     def CastSpell(self, game, spell_to_cast):
         for spell in self.Spells:
             if spell_to_cast == spell.name:
-                spell_cast = copy.copy(spell)
-                spell_cast.rect.x = self.rect.x
-                spell_cast.rect.y = self.rect.y
+                spell_cast = Projectile.Projectile(spell, self.rect.x, self.rect.y)
                 game.projectiles.append(spell_cast)
 
     def MeleeAttack(self, enemies):
