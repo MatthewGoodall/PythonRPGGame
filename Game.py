@@ -200,7 +200,11 @@ class Game:
 
     def UpdateProjectiles(self):
         for projectile in self.projectiles:
-            projectile.Update()
+            self.begin_x = self.player.rect.x
+            if projectile.rect.x < self.begin_x + 150:
+                projectile.Update()
+            elif projectile.rect.x >= self.begin_x + 150:
+                projectile.rect.x = self.player.rect.x
 
     def UpdateItemDrops(self):
         for item_drop in self.current_location.item_drops:

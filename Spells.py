@@ -19,3 +19,5 @@ class DamageSpell(Spell):
 
     def Update(self):
         self.rect.x += self.speed
+        if self.speed >= 6.0:
+            self.speed = 6.0
