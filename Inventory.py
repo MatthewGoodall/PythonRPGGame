@@ -67,7 +67,7 @@ class InventoryGUI(GUI.GUIElement):
     def Update(self, game):
         new_image = copy.copy(self.background)
         x = 8
-        y = 8
+        y = 38
         gap = 8
         for item_stack in game.player.inventory.item_stacks:
             scaled_image = pygame.transform.scale(item_stack.image, (64, 64))
@@ -79,6 +79,8 @@ class InventoryGUI(GUI.GUIElement):
                 x = 8
                 y += 64 + gap
 
+        amount_of_gold = self.font.render(str(game.player.inventory.gold), 1, (0, 0, 0))
+        new_image.blit(amount_of_gold, (272*2, 6))
         self.image = new_image
         """
         inventory = list(game.player.inventory.items)
