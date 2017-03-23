@@ -29,7 +29,7 @@ class JSONDataReader:
         with open(file_path) as data_file:
             data = json.load(data_file)
             for spell in data:
-                a_spell = Spells.DamageSpell(data, spell)
+                a_spell = Spells.DamageSpell(data, spell, self)
                 self.spells.append(a_spell)
 
     def MakePotion(self, file_path):

@@ -1,5 +1,5 @@
 import pygame
-
+import copy
 
 class Animation:
     def __init__(self, animation_data, index):
@@ -25,6 +25,22 @@ class Animation:
                 (i * self.frame_width, self.start_height, self.frame_width, self.frame_height))
             self.frames.append(new_image)
 
+    def Update(self):
+        self.current_frame += 1
+        if self.current_frame > self.number_of_frames - 1:
+            self.current_frame = 0
+        image_to_return = self.frames[self.current_frame]
+        return image_to_return
+
+    def GetMirrorAnimation(self):
+        new_animation = copy.copy(self)
+        new_frames = []
+        for frame in new_animation.frames:
+            mirror_frame = pygame.transform.flip(frame, True, False)
+            new_frames.append(mirror_frame)
+        new_animation.frames = new_frames
+        return new_animation
+
     def GetFirstFrame(self):
         return self.frames[0]
 
@@ -37,10 +53,3 @@ class Animation:
             return True
         else:
             return False
-
-    def Update(self):
-        self.current_frame += 1
-        if self.current_frame > self.number_of_frames - 1:
-            self.current_frame = 0
-        image_to_return = self.frames[self.current_frame]
-        return image_to_return

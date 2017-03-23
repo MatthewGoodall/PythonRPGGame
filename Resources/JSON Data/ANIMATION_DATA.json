@@ -15,14 +15,6 @@
       "frame delay": "250",
       "scale": "4"
     },
-    "Dragon Walking Left": {
-      "name": "dragon_walking_left",
-      "spritesheet path": "Resources/Spritesheets/DreamDragon left.png",
-      "start height": "0",
-      "number of frames": "4",
-      "frame delay": "250",
-      "scale": "4"
-    },
     "Player Walking Right": {
       "name": "player_walking_right",
       "spritesheet path": "Resources/Spritesheets/PlayerWalkingRight.png",
@@ -31,25 +23,9 @@
       "frame delay": "125",
       "scale": "4"
     },
-    "Player Walking Left": {
-      "name": "player_walking_left",
-      "spritesheet path": "Resources/Spritesheets/PlayerWalkingLeft.png",
-      "start height": "0",
-      "number of frames": "4",
-      "frame delay": "125",
-      "scale": "4"
-    },
     "Player Idle Right": {
       "name": "player_idle_right",
       "spritesheet path": "Resources/Spritesheets/PlayerIdleRight.png",
-      "start height": "0",
-      "number of frames": "2",
-      "frame delay": "500",
-      "scale": "4"
-    },
-    "Player Idle Left": {
-      "name": "player_idle_left",
-      "spritesheet path": "Resources/Spritesheets/PlayerIdleLeft.png",
       "start height": "0",
       "number of frames": "2",
       "frame delay": "500",
@@ -69,6 +45,14 @@
       "start height": "0",
       "number of frames": "11",
       "frame delay": "0",
+      "scale": "2"
+    },
+    "Fireball Right": {
+      "name": "fire_ball",
+      "spritesheet path": "Resources/Spritesheets/RedFireBall.png",
+      "start height": "0",
+      "number of frames": "4",
+      "frame delay": "125",
       "scale": "2"
     },
     "Settings Option": {
