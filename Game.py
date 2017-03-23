@@ -29,8 +29,12 @@ class Game:
         self.screen = pygame.Surface((self.screen_width, self.screen_height))
         # Create Clock
         self.clock = pygame.time.Clock()
+        self.dt = self.clock.tick(60)
         # Hold mouse position
         self.mouse_pos = []
+
+        self.attack_timer = 0
+        self.attack_duration = 1000 #milliseconds
 
         # Read and Gather JSON Data
         self.json_reader = JSONDataReader.JSONDataReader()
@@ -104,12 +108,14 @@ class Game:
 
             elif event.type == pygame.KEYDOWN:
                 if self.current_menu == None:
-                    if event.key == pygame.K_q:
-                        self.player.MeleeAttack(self.current_enemies)
-                    elif event.key == pygame.K_1:
-                        self.player.CastSpell(self.projectiles)
+                    if event.key == pygame.K_1:
+                        if self.player.current_mana > 0:
+                            self.player.CastSpell(self.projectiles)
                     elif event.key == pygame.K_e:
                         self.PlayerInteract()
+                    elif event.key == pygame.K_q:
+                        self.attack_timer += self.attack_duration
+                        self.player.MeleeAttack(self.current_enemies, self.dt, self.attack_timer)
 
                 if event.key == pygame.K_i:
                     if self.current_menu is None:
@@ -129,6 +135,8 @@ class Game:
 
                 elif event.key == pygame.K_F1:
                     self.game_running = False
+
+
 
 
     def GetInput(self):

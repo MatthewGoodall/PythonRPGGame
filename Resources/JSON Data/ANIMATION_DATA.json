@@ -55,6 +55,14 @@
       "frame delay": "500",
       "scale": "4"
     },
+    "Player Attacking Right": {
+      "name": "player_attacking_right",
+      "spritesheet path": "Resources/SPritesheets/Henrey.png",
+      "start height": "0",
+      "number of frames": "2",
+      "frame delay": "500",
+      "scale": "4"
+    },
     "Health Bar": {
       "name": "health_bar",
       "spritesheet path": "Resources/Spritesheets/HealthBar.png",

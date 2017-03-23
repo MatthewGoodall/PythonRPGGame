@@ -33,6 +33,7 @@ class Player(PhysicsSprite.PhysicsSprite):
         self.idle_left_animation = json_data.GetAnimation("player_idle_left")
         self.walking_right_animation = json_data.GetAnimation("player_walking_right")
         self.walking_left_animation = json_data.GetAnimation("player_walking_left")
+        self.attacking_right_animation = json_data.GetAnimation("player_attacking_right")
         self.current_animation = self.idle_right_animation
 
 
@@ -72,18 +73,18 @@ class Player(PhysicsSprite.PhysicsSprite):
         projectile_list.append(spell_cast)
         self.current_mana -= 1
 
-    def MeleeAttack(self, enemies):
+    def MeleeAttack(self, enemies, frame_rate, attack_timer):
         attack_box = pygame.Rect(0, 0, 150, 50) # create a rect that has a width of 150, height of 50
         attack_box.y = self.rect.y
 
         if self.FacingRight():
             attack_box.x = self.rect.x
-
         elif self.FacingLeft():
             attack_box.x = self.rect.x - (150 - self.rect.width)
 
+        attack_timer = max(0, attack_timer - frame_rate)
         for enemy in enemies:
-            if attack_box.colliderect(enemy.rect):
+            if attack_box.colliderect(enemy.rect) and attack_timer:
                 enemy.TakeDamage(5) # Amount of damage will eventually be dependent on weapon and stats
 
     def Jump(self):
