@@ -9,7 +9,7 @@ class Enemy(PhysicsSprite.PhysicsSprite):
 
         self.idle_animation = json_data.GetAnimation(enemy_data[index]["idle animation"])
         self.walking_right_animation = json_data.GetAnimation(enemy_data[index]["walking right animation"])
-        self.walking_left_animation = json_data.GetAnimation(enemy_data[index]["walking left animation"])
+        self.walking_left_animation = self.walking_right_animation.GetMirrorAnimation()
         self.current_animation = self.idle_animation
         self.damage = int( enemy_data[index]["damage"] )
         self.maximum_health = int( enemy_data[index]["health"] )

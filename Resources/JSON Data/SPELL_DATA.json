@@ -4,6 +4,7 @@
     "name": "fire ball",
     "damage": "20",
     "image path": "Resources/SinglePhotos/Fireball.png",
+    "animation name": "fire_ball",
     "effect": "None"
   }
 

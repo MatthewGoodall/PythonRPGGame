@@ -208,6 +208,7 @@ class Game:
     def UpdateProjectiles(self):
         for projectile in self.projectiles:
             projectile.Update(self)
+            projectile.UpdateAnimation(pygame.time.get_ticks())
 
     def UpdateItemDrops(self):
         for item_drop in self.current_location.item_drops:
