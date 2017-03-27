@@ -25,6 +25,7 @@ class GUI:
         self.mana_bar = ManaBar(game)
         self.hud_elements = [self.health_bar, self.mana_bar]
 
+        self.mouse_image = pygame.image.load("Resources/SinglePhotos/MouseCursor.png")
         # Pause menu
         self.pause_menu_background = GUIImage("Resources/SinglePhotos/PauseMenuBackground.png", 0, 0)
         self.pause_menu_background.XCenter(game.screen_width)

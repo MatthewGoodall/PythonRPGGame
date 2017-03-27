@@ -33,8 +33,11 @@ class Player(PhysicsSprite.PhysicsSprite):
         self.idle_left_animation = json_data.GetAnimation("player_idle_left")
         self.walking_right_animation = json_data.GetAnimation("player_walking_right")
         self.walking_left_animation = json_data.GetAnimation("player_walking_left")
-        self.attacking_right_animation = json_data.GetAnimation("player_attacking_right")
+        self.attacking_left_animation = json_data.GetAnimation("player_attacking_left")
+        self.attacking_right_animation = self.attacking_left_animation.GetMirrorAnimation()
         self.current_animation = self.idle_right_animation
+        self.attacking = False
+        self.make_attack = False
 
 
         self.jump_pressed = False
@@ -52,7 +55,24 @@ class Player(PhysicsSprite.PhysicsSprite):
 
     def UpdateAnimation(self, time):
         if self.current_animation.NeedsUpdate(time):
+            if self.current_animation == self.attacking_right_animation:
+                if self.current_animation.current_frame == self.current_animation.number_of_frames - 1:
+                    self.attacking = False
+                    self.current_animation.current_frame = 0
+                    return  # Dont update animation
+            elif self.current_animation == self.attacking_left_animation:
+                if self.current_animation.current_frame == self.current_animation.number_of_frames - 1:
+                    self.attacking = False
+                    self.current_animation.current_frame = 0
+                    return  # Dont update animation
+
             self.image = self.current_animation.Update()
+
+    def UpdateAttacks(self, enemies):
+        if self.make_attack and self.attacking:
+            if self.current_animation.current_frame == 3:
+                self.MakeMeleeAttack(enemies)
+                self.make_attack = False
 
     def TakeDamge(self, amount_of_damage):
         self.current_health -= damage
@@ -73,7 +93,16 @@ class Player(PhysicsSprite.PhysicsSprite):
         projectile_list.append(spell_cast)
         self.current_mana -= 1
 
-    def MeleeAttack(self, enemies, frame_rate, attack_timer):
+    def MeleeAttack(self, enemies):
+        if not self.attacking:
+            self.attacking = True
+            self.make_attack = True
+            if self.FacingRight():
+                self.ChangeCurrentAnimation(self.attacking_right_animation)
+            elif self.FacingLeft():
+                self.ChangeCurrentAnimation(self.attacking_left_animation)
+
+    def MakeMeleeAttack(self, enemies):
         attack_box = pygame.Rect(0, 0, 150, 50) # create a rect that has a width of 150, height of 50
         attack_box.y = self.rect.y
 
@@ -82,9 +111,8 @@ class Player(PhysicsSprite.PhysicsSprite):
         elif self.FacingLeft():
             attack_box.x = self.rect.x - (150 - self.rect.width)
 
-        attack_timer = max(0, attack_timer - frame_rate)
         for enemy in enemies:
-            if attack_box.colliderect(enemy.rect) and attack_timer:
+            if attack_box.colliderect(enemy.rect):
                 enemy.TakeDamage(5) # Amount of damage will eventually be dependent on weapon and stats
 
     def Jump(self):
@@ -103,17 +131,19 @@ class Player(PhysicsSprite.PhysicsSprite):
             self.move_x -= self.movement_speed
 
         if self.move_x > 0.0:  # Moving right
-            self.ChangeCurrentAnimation(self.walking_right_animation)
+            if not self.attacking:
+                self.ChangeCurrentAnimation(self.walking_right_animation)
             self.UpdateXDirection("right")
 
         elif self.move_x < 0.0:  # Moving left
-            self.ChangeCurrentAnimation(self.walking_left_animation)
+            if not self.attacking:
+                self.ChangeCurrentAnimation(self.walking_left_animation)
             self.UpdateXDirection("left")
 
         elif self.move_x == 0.0:  # Standing still
-            if self.FacingRight():
+            if self.FacingRight() and not self.attacking:
                 self.ChangeCurrentAnimation(self.idle_right_animation)
-            elif self.FacingLeft():
+            elif self.FacingLeft() and not self.attacking:
                 self.ChangeCurrentAnimation(self.idle_left_animation)
 
         # Vertical Movement

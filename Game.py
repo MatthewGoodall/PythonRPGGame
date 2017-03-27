@@ -27,14 +27,12 @@ class Game:
         self.display_info = pygame.display.Info()
         self.draw_screen = pygame.display.set_mode((self.display_info.current_w, self.display_info.current_h), pygame.FULLSCREEN)
         self.screen = pygame.Surface((self.screen_width, self.screen_height))
+        pygame.mouse.set_visible(False)
         # Create Clock
         self.clock = pygame.time.Clock()
         self.dt = self.clock.tick(60)
         # Hold mouse position
         self.mouse_pos = []
-
-        self.attack_timer = 0
-        self.attack_duration = 1000 #milliseconds
 
         # Read and Gather JSON Data
         self.json_reader = JSONDataReader.JSONDataReader()
@@ -80,7 +78,7 @@ class Game:
 
     def GameLoop(self):
         while self.game_running:
-            if self.current_menu == None:
+            if self.current_menu == None and not self.GUI.message_box_shown:
                 self.GetInput()
                 self.UpdateSprites()
             self.HandleEvents()
@@ -114,8 +112,7 @@ class Game:
                     elif event.key == pygame.K_e:
                         self.PlayerInteract()
                     elif event.key == pygame.K_q:
-                        self.attack_timer += self.attack_duration
-                        self.player.MeleeAttack(self.current_enemies, self.dt, self.attack_timer)
+                        self.player.MeleeAttack(self.current_enemies)
 
                 if event.key == pygame.K_i:
                     if self.current_menu is None:
@@ -181,6 +178,7 @@ class Game:
         if self.player.alive:
             self.player.UpdateMovement(self.current_location)
             self.player.UpdateAnimation(pygame.time.get_ticks())
+            self.player.UpdateAttacks(self.current_location.enemies)
             if self.player.rect.x > self.current_location.map_rect.width - self.player.rect.width:
                 self.player.rect.x = self.current_location.map_rect.width - self.player.rect.width
             elif self.player.rect.x < 0:
@@ -260,9 +258,11 @@ class Game:
     def DrawPausedScreen(self):
         for gui_item in self.GUI.pause_menu_elements:
             self.screen.blit(gui_item.image, (gui_item.rect.x, gui_item.rect.y))
+        self.screen.blit(self.GUI.mouse_image, (self.mouse_pos[0], self.mouse_pos[1]))
 
     def DrawInventoryScreen(self):
         self.screen.blit(self.GUI.inventory_gui.image, (self.GUI.inventory_gui.rect.x, self.GUI.inventory_gui.rect.y))
+        self.screen.blit(self.GUI.mouse_image, (self.mouse_pos[0], self.mouse_pos[1]))
 
     def DisplayScreen(self):
         scaled_display = pygame.transform.scale(self.screen, (self.display_info.current_w,

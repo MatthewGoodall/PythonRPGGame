@@ -55,12 +55,12 @@
       "frame delay": "500",
       "scale": "4"
     },
-    "Player Attacking Right": {
-      "name": "player_attacking_right",
-      "spritesheet path": "Resources/SPritesheets/Henrey.png",
+    "Player Attacking Left": {
+      "name": "player_attacking_left",
+      "spritesheet path": "Resources/Spritesheets/Henrey.png",
       "start height": "0",
-      "number of frames": "2",
-      "frame delay": "500",
+      "number of frames": "6",
+      "frame delay": "250",
       "scale": "4"
     },
     "Health Bar": {
@@ -77,6 +77,14 @@
       "start height": "0",
       "number of frames": "11",
       "frame delay": "0",
+      "scale": "2"
+    },
+    "Fire Ball": {
+      "name": "fire_ball",
+      "spritesheet path": "Resources/Spritesheets/RedFireBall.png",
+      "start height": "0",
+      "number of frames": "4",
+      "frame delay": "125",
       "scale": "2"
     },
     "Settings Option": {
