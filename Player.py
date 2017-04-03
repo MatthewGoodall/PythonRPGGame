@@ -30,9 +30,9 @@ class Player(PhysicsSprite.PhysicsSprite):
         self.spell_1 = self.Spells[0]
 
         self.idle_right_animation = json_data.GetAnimation("player_idle_right")
-        self.idle_left_animation = json_data.GetAnimation("player_idle_left")
+        self.idle_left_animation = self.idle_right_animation.GetMirrorAnimation()
         self.walking_right_animation = json_data.GetAnimation("player_walking_right")
-        self.walking_left_animation = json_data.GetAnimation("player_walking_left")
+        self.walking_left_animation = self.walking_right_animation.GetMirrorAnimation()
         self.attacking_left_animation = json_data.GetAnimation("player_attacking_left")
         self.attacking_right_animation = self.attacking_left_animation.GetMirrorAnimation()
         self.current_animation = self.idle_right_animation

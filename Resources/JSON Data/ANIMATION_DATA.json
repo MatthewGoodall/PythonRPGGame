@@ -1,7 +1,7 @@
 {
     "Dragon Idle": {
       "name": "dragon_idle",
-      "spritesheet path": "Resources/Spritesheets/DreamDragon left.png",
+      "spritesheet path": "Resources/Spritesheets/Dragon.png",
       "start height": "0",
       "number of frames": "4",
       "frame delay": "1000",
@@ -9,15 +9,7 @@
     },
     "Dragon Walking Right": {
       "name": "dragon_walking_right",
-      "spritesheet path": "Resources/Spritesheets/DreamDragon right.png",
-      "start height": "0",
-      "number of frames": "4",
-      "frame delay": "250",
-      "scale": "4"
-    },
-    "Dragon Walking Left": {
-      "name": "dragon_walking_left",
-      "spritesheet path": "Resources/Spritesheets/DreamDragon left.png",
+      "spritesheet path": "Resources/Spritesheets/Dragon.png",
       "start height": "0",
       "number of frames": "4",
       "frame delay": "250",
@@ -31,25 +23,9 @@
       "frame delay": "125",
       "scale": "4"
     },
-    "Player Walking Left": {
-      "name": "player_walking_left",
-      "spritesheet path": "Resources/Spritesheets/PlayerWalkingLeft.png",
-      "start height": "0",
-      "number of frames": "4",
-      "frame delay": "125",
-      "scale": "4"
-    },
     "Player Idle Right": {
       "name": "player_idle_right",
       "spritesheet path": "Resources/Spritesheets/PlayerIdleRight.png",
-      "start height": "0",
-      "number of frames": "2",
-      "frame delay": "500",
-      "scale": "4"
-    },
-    "Player Idle Left": {
-      "name": "player_idle_left",
-      "spritesheet path": "Resources/Spritesheets/PlayerIdleLeft.png",
       "start height": "0",
       "number of frames": "2",
       "frame delay": "500",
