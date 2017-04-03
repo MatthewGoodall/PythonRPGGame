@@ -1,0 +1,29 @@
+{
+    "Mother": {
+      "name": "Mother The Baker",
+      "image path": "Resources/SinglePhotos/DragonEgg.png",
+      "closeup path": "Resources/SinglePhotos/DragonEggCloseUp.png",
+      "location": "town",
+      "x pos": "150",
+      "y pos": "1350",
+      "dialogue": "this isn't eggxactly what you were expecting, was it? i'm only yoking with you, i like to crack a yolk here and there."
+    },
+    "Bad Guy": {
+      "name": "Bad Guy McGee",
+      "image path": "Resources/SinglePhotos/Knight.png",
+      "closeup path": "Resources/SinglePhotos/KnightCloseUp.png",
+      "location": "town",
+      "x pos": "850",
+      "y pos": "750",
+      "dialogue": "luke, i am your father's sister's cousin's pet dog's best friend's owner's roommate"
+    },
+    "ShopKeeper": {
+      "name": "ShopKeeper",
+      "image path": "Resources/SinglePhotos/Wizard.png",
+      "closeup path": "Resources/SinglePhotos/WizardCloseUp.png",
+      "location": "town",
+      "x pos": "300",
+      "y pos": "1350",
+      "dialogue": "what you want?"
+    }
+}

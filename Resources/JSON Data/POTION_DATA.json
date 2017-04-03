@@ -1,0 +1,21 @@
+{
+  "HealingPotion":{
+    "name": "Healing Potion",
+    "image path": "Resources/Spritesheets/RedPot.png",
+    "gold value": "10",
+    "type": "Healing",
+    "healing value": "10",
+    "mana restore value": "10"
+
+  },
+  "ManaPot": {
+    "name": "Mana Potion",
+    "image path": "Resources/Spritesheets/BluePot.png",
+    "gold value": "10",
+    "type": "Mana",
+    "healing value": "0",
+    "mana restore value": "10"
+
+  }
+
+}

@@ -1,0 +1,16 @@
+{
+  "Dragon": {
+    "health": "10",
+    "damage": "5",
+    "location name": "town",
+    "spawn x": "900",
+    "spawn y": "1325",
+    "item drop name": "Staff2",
+    "idle animation": "dragon_idle",
+    "walking right animation": "dragon_walking_right",
+    "walking left animation": "dragon_walking_left",
+    "walkloop distance": "500",
+    "min gold drop": "5",
+    "max gold drop": "15"
+  }
+}

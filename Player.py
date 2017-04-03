@@ -1,115 +1,196 @@
 import pygame
+import PhysicsSprite
 import Animation
-from Enemy import *
+import CollisionObject
+import Location
+import Enemy
+import Inventory
+import Projectile
+import Camera
+import NPC
+import Item
+import copy
 
 pygame.mixer.init()
 pygame.display.init()
 
+class Player(PhysicsSprite.PhysicsSprite):
+    def __init__(self, json_data):
+        super().__init__(json_data.GetAnimation("player_idle_right").GetFirstFrame(), 300, 1200)
 
-class Player(pygame.sprite.Sprite):
-    def __init__(self):
-        super().__init__()
+        self.alive = True
+        self.maximum_health = 10
+        self.current_health = self.maximum_health
+        self.maximum_mana = 10
+        self.current_mana = self.maximum_mana
+        self.inventory = Inventory.Inventory()
+        self.npc_talking_to = None
 
-        self.current_health = 10
-        self.speed = 5.0
+        self.Spells = json_data.spells
+        self.spell_1 = self.Spells[0]
 
-        self.idle_right_animation = Animation.player_idle_right
-        self.idle_left_animation = Animation.player_idle_left
-        self.walking_right_animation = Animation.player_walking_right
-        self.walking_left_animation = Animation.player_walking_left
+        self.idle_right_animation = json_data.GetAnimation("player_idle_right")
+        self.idle_left_animation = self.idle_right_animation.GetMirrorAnimation()
+        self.walking_right_animation = json_data.GetAnimation("player_walking_right")
+        self.walking_left_animation = self.walking_right_animation.GetMirrorAnimation()
+        self.attacking_left_animation = json_data.GetAnimation("player_attacking_left")
+        self.attacking_right_animation = self.attacking_left_animation.GetMirrorAnimation()
         self.current_animation = self.idle_right_animation
+        self.attacking = False
+        self.make_attack = False
 
-        self.image = self.current_animation.get_first_frame()
 
-        self.rect = self.image.get_rect()
-        self.rect.x = 500
-        self.rect.y = 500
+        self.jump_pressed = False
+        self.up_pressed = False
+        self.right_pressed = False
+        self.down_pressed = False
+        self.left_pressed = False
 
-        self.moving_right = False
-        self.moving_left = False
-        self.touching_ground = True
-        self.jumping = False
-        self.can_jump = True
-        self.y_speed = 0.0
-        self.last_direction = "right"
+        self.can_jump = False
+        self.movement_speed = 5.0
 
-        self.world_shift = 0
-        self.level_limit = -1000
-        self.attack_damage = 5
+    def ChangeCurrentAnimation(self, new_animation):
+        if self.current_animation is not new_animation:
+            self.current_animation = new_animation
 
-    def TakeDamage(self, damage):
-        # Take Damage
+    def UpdateAnimation(self, time):
+        if self.current_animation.NeedsUpdate(time):
+            if self.current_animation == self.attacking_right_animation:
+                if self.current_animation.current_frame == self.current_animation.number_of_frames - 1:
+                    self.attacking = False
+                    self.current_animation.current_frame = 0
+                    return  # Dont update animation
+            elif self.current_animation == self.attacking_left_animation:
+                if self.current_animation.current_frame == self.current_animation.number_of_frames - 1:
+                    self.attacking = False
+                    self.current_animation.current_frame = 0
+                    return  # Dont update animation
+
+            self.image = self.current_animation.Update()
+
+    def UpdateAttacks(self, enemies):
+        if self.make_attack and self.attacking:
+            if self.current_animation.current_frame == 3:
+                self.MakeMeleeAttack(enemies)
+                self.make_attack = False
+
+    def TakeDamge(self, amount_of_damage):
         self.current_health -= damage
-
         if self.current_health <= 0:
-            # Player has died
             self.current_health = 0
             self.alive = False
 
-    def Attack(self, game_screen, enemy_list):
-        f = pygame.draw.rect(game_screen, (0, 0, 255), (self.rect.x - 50, self.rect.y, 100, 50))
-        for enemy in enemy_list:
-            if f.collidepoint(enemy.rect.x, enemy.rect.y):
-                enemy.TakeDamage(self.attack_damage)
+    def CastSpell(self, projectile_list):
+        spell_cast = Projectile.Projectile(self.spell_1, 0, 0)
+        spell_cast.rect.y = self.rect.centery - spell_cast.rect.height/2
+        if self.FacingLeft():
+            spell_cast.UpdateDirection("left")
+            spell_cast.rect.x = self.rect.left
+        elif self.FacingRight():
+            spell_cast.UpdateDirection("right")
+            spell_cast.rect.x = self.rect.right
 
-    def UpdateAnimation(self, time):
-        if self.current_animation.needsUpdate(time):
-            self.image = self.current_animation.update()
+        projectile_list.append(spell_cast)
+        self.current_mana -= 1
+
+    def MeleeAttack(self, enemies):
+        if not self.attacking:
+            self.attacking = True
+            self.make_attack = True
+            if self.FacingRight():
+                self.ChangeCurrentAnimation(self.attacking_right_animation)
+            elif self.FacingLeft():
+                self.ChangeCurrentAnimation(self.attacking_left_animation)
+
+    def MakeMeleeAttack(self, enemies):
+        attack_box = pygame.Rect(0, 0, 150, 50) # create a rect that has a width of 150, height of 50
+        attack_box.y = self.rect.y
+
+        if self.FacingRight():
+            attack_box.x = self.rect.x
+        elif self.FacingLeft():
+            attack_box.x = self.rect.x - (150 - self.rect.width)
+
+        for enemy in enemies:
+            if attack_box.colliderect(enemy.rect):
+                enemy.TakeDamage(5) # Amount of damage will eventually be dependent on weapon and stats
 
     def Jump(self):
-        upward_speed = -8.0
         if self.can_jump:
-            self.y_speed = upward_speed
+            upward_speed = -10.0
+            self.y_velocity = upward_speed
             self.can_jump = False
 
-    def UpdateMovement(self, collisions):
-        move_x, move_y = 0.0, self.y_speed
+    def UpdateMovement(self, current_location):
+        # Horizontal Movement
+        self.move_x = 0.0
 
-        if self.moving_right:
-            move_x += self.speed
-        if self.moving_left:
-            move_x -= self.speed
+        if self.right_pressed:
+            self.move_x += self.movement_speed
+        if self.left_pressed:
+            self.move_x -= self.movement_speed
 
-        if move_x > 0.0 and self.current_animation != self.walking_right_animation:
-            self.current_animation = self.walking_right_animation
-            self.last_direction = "right"
-        elif move_x < 0.0 and self.current_animation != self.walking_left_animation:
-            self.current_animation = self.walking_left_animation
-            self.last_direction = "left"
-        elif (move_x == 0.0) and (
-                        self.current_animation != self.idle_right_animation or self.current_animation != self.idle_left_animation):
-            if self.last_direction == "right":
-                self.current_animation = self.idle_right_animation
-            elif self.last_direction == "left":
-                self.current_animation = self.idle_left_animation
+        if self.move_x > 0.0:  # Moving right
+            if not self.attacking:
+                self.ChangeCurrentAnimation(self.walking_right_animation)
+            self.UpdateXDirection("right")
 
-        self.UpdateCollisions(move_x, move_y, collisions)
-        self.y_speed += 0.3
+        elif self.move_x < 0.0:  # Moving left
+            if not self.attacking:
+                self.ChangeCurrentAnimation(self.walking_left_animation)
+            self.UpdateXDirection("left")
 
-    def UpdateCollisions(self, x_movement, y_movement, collisions):
-        self.rect.x += x_movement
-        collision_list = pygame.sprite.spritecollide(self, collisions, False)
-        for collision_object in collision_list:
-            if x_movement > 0.0:
-                self.rect.right = collision_object.rect.left
-            elif x_movement < 0.0:
-                self.rect.left = collision_object.rect.right
+        elif self.move_x == 0.0:  # Standing still
+            if self.FacingRight() and not self.attacking:
+                self.ChangeCurrentAnimation(self.idle_right_animation)
+            elif self.FacingLeft() and not self.attacking:
+                self.ChangeCurrentAnimation(self.idle_left_animation)
 
-        self.rect.y += y_movement
-        collision_list = pygame.sprite.spritecollide(self, collisions, False)
-        for collision_object in collision_list:
-            if y_movement > 0.0:
-                self.rect.bottom = collision_object.rect.top
-                self.y_speed = 0
-                self.can_jump = True
-            elif y_movement < 0.0:
-                self.rect.top = collision_object.rect.bottom
-                self.y_speed = 0
+        # Vertical Movement
+        self.move_y = 0.0
+        if not self.CheckForLadderMovement(current_location):
+            self.ApplyGravity()
 
-    def Update(self, time, collisions_for_player):
-        if self.alive:
-            self.UpdateMovement(collisions_for_player)
-            self.UpdateAnimation(time)
+        # Check for leaving npc range
+        self.NPCCollision(current_location)
+        # Update collisions
+        self.ApplyCollisions(current_location)
 
+    def CheckForLadderMovement(self, current_location):
+        ladder_collisions = pygame.sprite.spritecollide(self, current_location.ladders, False)
+        if ladder_collisions:
+            for ladder in ladder_collisions:
+                if ladder.rect.bottom > self.rect.centery:
+                    self.y_velocity = 0.0
+                    self.move_y = 0.0
+                    if self.jump_pressed or self.up_pressed:
+                        self.move_y -= self.movement_speed/2
+                    if self.down_pressed:
+                        self.move_y += self.movement_speed/2
+                    return True
+        return False
 
-player = Player()
+    def HitGround(self):
+        super().HitGround()
+        self.can_jump = True
+
+    def NPCCollision(self, current_location):
+        interacts = pygame.sprite.spritecollide(self, current_location.NPCs, False)
+        for npc in interacts:
+            self.npc_talking_to = npc
+        if not interacts:
+            self.npc_talking_to = None
+
+    def GatewayCollision(self, current_location):
+        interacts = pygame.sprite.spritecollide(self, current_location.gateways, False)
+        for gateway in interacts:
+            return gateway
+
+    def ItemDropCollision(self, current_location):
+        interacts = pygame.sprite.spritecollide(self, current_location.item_drops, False)
+        for item_drop in interacts:
+            if isinstance(item_drop, Item.GoldDrop):
+                self.inventory.AddGold(item_drop.value)
+            else:
+                self.inventory.AddItem(item_drop.item)
+            current_location.item_drops.remove(item_drop)

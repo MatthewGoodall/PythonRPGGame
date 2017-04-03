@@ -1,30 +1,35 @@
 import pygame
 
-class Camera(pygame.sprite.Sprite):
-    def __init__(self, camera_func, width, height):
-        self.camera_func = camera_func
-        self.rect = pygame.Rect(0, 0, width, height)
 
-    def Apply(self, target):
-        return target.rect.move(self.rect.topleft)
+class Camera(pygame.sprite.Sprite):
+    def __init__(self, width_of_level, height_of_level, width_of_screen, height_of_screen):
+        self.rect = pygame.Rect(0, 0, width_of_level, height_of_level)
+        self.screen_width = width_of_screen
+        self.half_screen_width = self.screen_width / 2
+        self.screen_height = height_of_screen
+        self.half_screen_height = self.screen_height / 2
+
+    def ApplyToSprite(self, target_sprite):
+        return target_sprite.rect.move(self.rect.topleft)
+
+    def ApplyToRect(self, target_rect):
+        return target_rect.move(self.rect.topleft)
+
+    def ChangeLocationSize(self, new_width, new_height):
+        self.rect.width = new_width
+        self.rect.height = new_height
 
     def Update(self, target):
-        self.rect = self.camera_func(self.rect, target.rect)
+        self.rect = self.ApplyCamera(target.rect)
 
-def complex_camera(camera, target_rect):
-    width_of_screen = 1280
-    half_width_of_screen = 1280/2
-    height_of_screen = 720
-    half_height_of_screen = 720/2
-    
-    l, t, _, _ = target_rect
-    _, _, w, h = camera
-    l, t, _, _ = -l+half_width_of_screen, -t+half_height_of_screen, w, h
+    def ApplyCamera(self, target_rect):
 
-    l = min(0, l)
-    l = max(-(camera.width-width_of_screen), l)
-    t = max(-(camera.height-height_of_screen), t)
-    t= min(0, t)
-    return pygame.Rect(l, t, w, h)
+        l, t, _, _ = target_rect
+        _, _, w, h = self.rect
+        l, t, _, _ = -l + self.half_screen_width, -t + self.half_screen_height, w, h
 
-camera = Camera(complex_camera, 3000, 1000)
+        l = min(0, l)
+        l = max(-(self.rect.width - self.screen_width), l)
+        t = max(-(self.rect.height - self.screen_height), t)
+        t = min(0, t)
+        return pygame.Rect(l, t, w, h)

@@ -1,99 +1,99 @@
-import pygame
+import PhysicsSprite
 import Animation
-from Player import *
+import random
 
+class Enemy(PhysicsSprite.PhysicsSprite):
+    def __init__(self, json_data, enemy_data, index):
+        super().__init__(json_data.GetAnimation(enemy_data[index]["idle animation"]).GetFirstFrame(),
+                         int( enemy_data[index]["spawn x"]), int( enemy_data[index]["spawn y"] ))
 
-class Enemy(pygame.sprite.Sprite):
-    def __init__(self, health, damage, numberOfLoot, typeOfReward, spawnPos_X, spawnPos_Y, spawn_animation, walkLoop_start, walkLoop_end):
-        super().__init__()
-        self.damage = damage
-        self.health = health
-        self.damage = 1
-        self.spawning = True
-        self.numberOfLoot = numberOfLoot
-        self.typeOfReward = typeOfReward
-        self.spawn_animation = spawn_animation
-        self.idle_animation = None
-        self.current_animation = spawn_animation
-        self.image = self.current_animation.get_first_frame()
-        self.rect = self.image.get_rect()
-        self.rect.x = spawnPos_X
-        self.rect.y = spawnPos_Y
-        self.donePath = False
-        self.walkLoop_start = walkLoop_start
-        self.walkLoop_end = walkLoop_end
+        self.idle_animation = json_data.GetAnimation(enemy_data[index]["idle animation"])
+        self.walking_right_animation = json_data.GetAnimation(enemy_data[index]["walking right animation"])
+        self.walking_left_animation = self.walking_right_animation.GetMirrorAnimation()
+        self.current_animation = self.idle_animation
+        self.damage = int( enemy_data[index]["damage"] )
+        self.maximum_health = int( enemy_data[index]["health"] )
+        self.health = self.maximum_health
+        self.location = enemy_data[index]["location name"]
+        self.speed = 3.0
+        self.alive = True
 
-    def doDamage(self):
-        player.TakeDamage(self.damage)
-        return self.damage
+        self.spawn_x = self.rect.x
+        self.spawn_y = self.rect.y
+        self.walkloop_distance = int( enemy_data[index]["walkloop distance"] )
+        self.UpdateXDirection("right")
+
+        self.min_gold_drop = int( enemy_data[index]["min gold drop"] )
+        self.max_gold_drop = int( enemy_data[index]["max gold drop"] )
+        self.item_drop_name = enemy_data[index]["item drop name"]
+        self.item_drop = None
+
+    def ChangeCurrentAnimation(self, new_animation):
+        if self.current_animation is not new_animation:
+            self.current_animation = new_animation
+
+    def UpdateAnimation(self, time):
+        if self.move_x > 0:
+            self.ChangeCurrentAnimation(self.walking_right_animation)
+        elif self.move_x < 0:
+            self.ChangeCurrentAnimation(self.walking_left_animation)
+
+        if self.current_animation.NeedsUpdate(time):
+            self.image = self.current_animation.Update()
+
+    def RandomGoldDrop(self):
+        gold_drop = random.randrange(self.min_gold_drop, self.max_gold_drop)
+        return gold_drop
+
+    def RandomLootDrop(self):
+        roll = random.randrange(0, 100)
+        if roll >= 0:
+            return self.item_drop
+    def DoDamage(self):
+        pass
 
     def TakeDamage(self, damage):
         self.health -= damage
         if self.health <= 0:
             self.health = 0
             self.alive = False
-    def updateAnimation(self, time):
-        if self.current_animation.type == "spawning":
-            if self.current_animation.current_frame == self.current_animation.number_of_frames - 1:
-                self.current_animation.update()
-                self.current_animation = self.idle_animation
-                self.spawning = False
 
-        if self.current_animation.needsUpdate(time):
-            self.image = self.current_animation.update()
+    def Respawn(self):
+        self.alive = True
+        self.health = self.maximum_health
+        self.rect.x = self.spawn_x
+        self.rect.y = self.spawn_y
 
-    def chasePlayer(self, collisions, speed=1):
-        if not self.spawning:
-            move_x, move_y = 0, 0
-            # Movement along x direction
-            if self.rect.x > player.rect.x:
-                move_x -= speed
-            elif self.rect.x < player.rect.x:
-                move_x += speed
-            # Movement along y direction
-            if self.rect.y < player.rect.y:
-                move_y += speed
-            elif self.rect.y > player.rect.y:
-                move_y -= speed
+    def UpdateMovement(self, current_location, player):
+        if abs(player.rect.centerx - self.rect.centerx) < 300.0:
+            self.ChasePlayer(current_location, player)
+        else:
+            self.WalkPath(current_location)
 
-            self.rect.x += move_x
-            collision_list = pygame.sprite.spritecollide(self, collisions, False)
-            for collision_object in collision_list:
-                if move_x > 0:
-                    self.rect.right = collision_object.rect.left
-                    squid.doDamage()
-                    print(player.current_health)
+    def ChasePlayer(self, current_location, player):
+        self.move_x, self.move_y = 0, 0
+        # Movement along x direction
+        if self.rect.x > player.rect.x + 2:
+            self.move_x -= self.speed
+            self.UpdateXDirection("left")
+        elif self.rect.x < player.rect.x - 2:
+            self.move_x += self.speed
+            self.UpdateXDirection("right")
 
-                elif move_x < 0:
-                    self.rect.left = collision_object.rect.right
-
-            self.rect.y += move_y
-            collision_list = pygame.sprite.spritecollide(self, collisions, False)
-            for collision_object in collision_list:
-                if move_y > 0:
-                    self.rect.bottom = collision_object.rect.top
-                elif move_y < 0:
-                    self.rect.top = collision_object.rect.bottom
+        self.ApplyGravity()
+        self.ApplyCollisions(current_location)
 
 
-    def walkPath(self, speed=1):
-        if not self.spawning:
-            move_x, move_y = 0, 0
+    def WalkPath(self, current_location):
+        self.move_x, self.move_y = 0, 0
+        if self.rect.x < self.spawn_x:
+            self.UpdateXDirection("right")
+        elif self.rect.x > self.spawn_x + self.walkloop_distance:
+            self.UpdateXDirection("left")
 
-            if not self.donePath:
-                move_y -= speed
-                if self.rect.y <= self.walkLoop_start:
-                    self.donePath = True
-            elif self.donePath:
-                move_y += speed
-                if self.rect.y >= self.walkLoop_end:
-                    self.donePath = False
-            print(move_y)
-            self.rect.y += move_y
-            
-
-#health, damage, numberOfLoot, typeOfReward, spawnPos_X, spawnPos_Y, spawn_animation, walkLoop_start, walkLoop_end
-squid = Enemy(10, 5, 1, "Sword", 100, 650, Animation.squid_spawning, 0, 650)
-dragon_hatchling = Enemy(10, 1, 1, "Gold", 150, 650, Animation.dragon_spawning, 0, 650) 
-squid.idle_animation = Animation.squid_idle
-dragon_hatchling.idle_animation = Animation.dragon_idle
+        if self.FacingRight():
+            self.move_x += self.speed -1
+        elif self.FacingLeft():
+            self.move_x -= self.speed -1
+        self.ApplyGravity()
+        self.ApplyCollisions(current_location)

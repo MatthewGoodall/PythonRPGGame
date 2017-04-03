@@ -1,0 +1,34 @@
+{
+    "Town": {
+      "name": "town",
+      "tmx map path": "Resources/TileMaps/town.tmx"
+    },
+    "Town House 1": {
+      "name": "town_house_1_inside",
+      "tmx map path": "Resources/TileMaps/town_house_1.tmx"
+    },
+    "Town House 2": {
+      "name": "town_house_2",
+      "tmx map path": "Resources/TileMaps/town_house_2.tmx"
+    },
+    "Town House 3": {
+      "name": "town_house_3",
+      "tmx map path": "Resources/TileMaps/town_house_3.tmx"
+    },
+    "Town House 4": {
+      "name": "town_house_4",
+      "tmx map path": "Resources/TileMaps/town_house_4.tmx"
+    },
+    "Town House 5": {
+      "name": "town_house_5",
+      "tmx map path": "Resources/TileMaps/town_house_5.tmx"
+    },
+    "Town House 6": {
+      "name": "town_house_6",
+      "tmx map path": "Resources/TileMaps/town_house_6.tmx"
+    },
+    "Town House 7": {
+      "name": "town_house_7",
+      "tmx map path": "Resources/TileMaps/town_house_7.tmx"
+    }
+}

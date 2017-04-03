@@ -1,61 +1,55 @@
 import pygame
-
+import copy
 
 class Animation:
-    def __init__(self, sprite_sheet_path, frame_width, frame_height, number_of_frames, scale, height=0):
-        self.type = ""
+    def __init__(self, animation_data, index):
+        self.name = animation_data[index]["name"]
+
+        self.spritesheet = pygame.image.load(animation_data[index]["spritesheet path"]).convert_alpha()
+        scale = int( animation_data[index]["scale"] )
+        self.spritesheet = pygame.transform.scale(self.spritesheet, (self.spritesheet.get_width()*scale, self.spritesheet.get_height()*scale))
+
         self.current_frame = 0
         self.time_counter = 0.0
-        self.ms_delay = 500
-        self.frame_width = frame_width * scale
-        self.frame_height = frame_height * scale
-        self.frames = []
-        self.height = height
-        self.sprite_sheet = pygame.image.load(sprite_sheet_path)
-        if scale > 1:
-            self.sprite_sheet = pygame.transform.scale(self.sprite_sheet,
-                                                       (self.sprite_sheet.get_width() * scale, self.frame_height))
+        self.ms_delay = int( animation_data[index]["frame delay"] )
 
-        self.number_of_frames = number_of_frames
+        self.number_of_frames = int( animation_data[index]["number of frames"] )
+        self.frame_width = self.spritesheet.get_width() / self.number_of_frames
+        self.frame_height = self.spritesheet.get_height()
+
+        self.frames = []
+        self.start_height = int( animation_data[index]["start height"] )
+
         for i in range(self.number_of_frames):
-            new_image = self.sprite_sheet.subsurface(
-                (i * self.frame_width, self.height, self.frame_width, self.frame_height))
+            new_image = self.spritesheet.subsurface(
+                (i * self.frame_width, self.start_height, self.frame_width, self.frame_height))
             self.frames.append(new_image)
 
-    def get_first_frame(self):
-        frame_1 = self.sprite_sheet.subsurface((0, self.height, self.frame_width, self.frame_height))
-        return frame_1
-
-    def needsUpdate(self, current_time):
-        if current_time - self.time_counter > self.ms_delay:
-            self.time_counter = current_time
-            return True
-        else:
-            return False
-
-    def update(self):
+    def Update(self):
         self.current_frame += 1
         if self.current_frame > self.number_of_frames - 1:
             self.current_frame = 0
         image_to_return = self.frames[self.current_frame]
         return image_to_return
 
+    def GetMirrorAnimation(self):
+        new_animation = copy.copy(self)
+        new_frames = []
+        for frame in new_animation.frames:
+            mirror_frame = pygame.transform.flip(frame, True, False)
+            new_frames.append(mirror_frame)
+        new_animation.frames = new_frames
+        return new_animation
 
-# name_of_animation = Animation("File path", frame_w, frame_h, # of frames, (scale)
-# ms delay defaults to 500ms
-player_walking_right = Animation("Resources/Spritesheets/player_walking_right.png", 8, 16, 4, 4)
-player_walking_right.ms_delay = 125
-player_walking_left = Animation("Resources/Spritesheets/player_walking_left.png", 8, 16, 4, 4)
-player_walking_left.ms_delay = 125
-player_idle_right = Animation("Resources/Spritesheets/player_idle_right.png", 8, 16, 2, 4)
-player_idle_left = Animation("Resources/Spritesheets/player_idle_left.png", 8, 16, 2, 4)
+    def GetFirstFrame(self):
+        return self.frames[0]
 
-squid_spawning = Animation("Resources/Spritesheets/squid.png", 19, 23, 1, 1)
-squid_spawning.type = "spawning"
-squid_idle = Animation("Resources/Single photos/Squid.png", 19, 23, 1, 1)
+    def GetFrame(self, n):
+        return self.frames[n]
 
-dragon_idle = Animation("Resources/Spritesheets/dragon_left.png", 20, 20, 1, 8)
-dragon_spawning = Animation("Resources/Spritesheets/dragon_left.png", 20, 20, 1, 8)
-dragon_spawning.type = ("spawning")
-health_bar_anim = Animation("Resources/Spritesheets/health_bar.png", 66, 66, 2, 3)
-mana_bar_anim = Animation("Resources/Spritesheets/mana_bar.png", 66, 66, 1, 3)
+    def NeedsUpdate(self, current_time):
+        if current_time - self.time_counter > self.ms_delay:
+            self.time_counter = current_time
+            return True
+        else:
+            return False

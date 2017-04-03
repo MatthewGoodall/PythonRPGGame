@@ -1,0 +1,98 @@
+{
+    "Dragon Idle": {
+      "name": "dragon_idle",
+      "spritesheet path": "Resources/Spritesheets/Dragon.png",
+      "start height": "0",
+      "number of frames": "4",
+      "frame delay": "1000",
+      "scale": "4"
+    },
+    "Dragon Walking Right": {
+      "name": "dragon_walking_right",
+      "spritesheet path": "Resources/Spritesheets/Dragon.png",
+      "start height": "0",
+      "number of frames": "4",
+      "frame delay": "250",
+      "scale": "4"
+    },
+    "Player Walking Right": {
+      "name": "player_walking_right",
+      "spritesheet path": "Resources/Spritesheets/PlayerWalkingRight.png",
+      "start height": "0",
+      "number of frames": "4",
+      "frame delay": "125",
+      "scale": "4"
+    },
+    "Player Idle Right": {
+      "name": "player_idle_right",
+      "spritesheet path": "Resources/Spritesheets/PlayerIdleRight.png",
+      "start height": "0",
+      "number of frames": "2",
+      "frame delay": "500",
+      "scale": "4"
+    },
+    "Player Attacking Left": {
+      "name": "player_attacking_left",
+      "spritesheet path": "Resources/Spritesheets/Henrey.png",
+      "start height": "0",
+      "number of frames": "6",
+      "frame delay": "250",
+      "scale": "4"
+    },
+    "Health Bar": {
+      "name": "health_bar",
+      "spritesheet path": "Resources/Spritesheets/HealthBar.png",
+      "start height": "0",
+      "number of frames": "11",
+      "frame delay": "0",
+      "scale": "2"
+    },
+    "Mana Bar": {
+      "name": "mana_bar",
+      "spritesheet path": "Resources/Spritesheets/ManaBar.png",
+      "start height": "0",
+      "number of frames": "11",
+      "frame delay": "0",
+      "scale": "2"
+    },
+    "Fire Ball": {
+      "name": "fire_ball",
+      "spritesheet path": "Resources/Spritesheets/RedFireBall.png",
+      "start height": "0",
+      "number of frames": "4",
+      "frame delay": "125",
+      "scale": "2"
+    },
+    "Settings Option": {
+      "name": "settings_option",
+      "spritesheet path": "Resources/Spritesheets/SettingsOption.png",
+      "start height": "0",
+      "number of frames": "2",
+      "frame delay": "0",
+      "scale": "2"
+    },
+    "Continue Option": {
+      "name": "continue_option",
+      "spritesheet path": "Resources/Spritesheets/ContinueOption.png",
+      "start height": "0",
+      "number of frames": "2",
+      "frame delay": "0",
+      "scale": "2"
+    },
+    "Quit Option": {
+      "name": "quit_option",
+      "spritesheet path": "Resources/Spritesheets/QuitOption.png",
+      "start height": "0",
+      "number of frames": "2",
+      "frame delay": "0",
+      "scale": "2"
+    },
+    "Inventory Slot": {
+      "name": "inventory_slot",
+      "spritesheet path": "Resources/Spritesheets/InventorySlot.png",
+      "start height": "0",
+      "number of frames": "2",
+      "frame delay": "0",
+      "scale": "2"
+    }
+}
